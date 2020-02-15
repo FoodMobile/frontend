@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "foodmobile-frontend",
-    "slug": "foodmobile-frontend",
+    "name": "foodmobile",
+    "slug": "foodmobile",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
