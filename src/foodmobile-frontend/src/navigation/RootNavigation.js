@@ -13,10 +13,10 @@ const Drawer = createDrawerNavigator();
 import ThemeChangePage from '../pages/themeChange'
 import Test from '../pages/test'
 
+//Our root navigatior that adds the drawer
 export function RootNavigation() {
     const theme = useTheme();
     const navigationTheme = theme.dark ? DarkTheme : DefaultTheme;
-    console.log(theme.dark)
     return (
         <NavigationContainer theme={navigationTheme}>
             <Drawer.Navigator>

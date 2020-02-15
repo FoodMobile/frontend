@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Text, View, Dimensions } from 'react-native';
+import {  View, Dimensions } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { Button } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 function DetailsScreen(props) {
@@ -28,10 +28,20 @@ function NotSharedPage(props) {
 }
 
 function HomeScreen({ navigation }) {
+  const {toggleTheme } = React.useContext(
+      PreferencesContext
+  );
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Home screen</Text>
      
+
+      <Button 
+      icon="camera" 
+      mode="contained" onPress={() => {toggleTheme()}}>
+          Press me
+      </Button>
+    
       <Button   onPress={() => navigation.navigate('Details',{
             page:'Home'
         })}>
@@ -105,7 +115,8 @@ function SettingsStackScreen() {
 
 const Tab = createMaterialBottomTabNavigator();
 
-export default function TabApp3() {
+//Big test tab that....has lots of stuff.
+export default function TabApp3(props) {
   return (
     // <NavigationContainer>
       <Tab.Navigator

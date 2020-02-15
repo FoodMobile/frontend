@@ -8,12 +8,10 @@ import { AppearanceProvider } from 'react-native-appearance';
 
 import Main from './src/Main'
 
+//The app it self.
 export default function App() {
   return (
     <AppearanceProvider>
-       {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Homew!</Text>
-        </View> */}
         <Main/>
     </AppearanceProvider>
   );

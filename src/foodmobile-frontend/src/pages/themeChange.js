@@ -7,20 +7,9 @@ import PreferencesContext from '../context/context';
 
 import TestTab from '../navigation/test/TestTab'
 
+//Simple page that adds a tab that allows to change theme
 export default function ThemeChangePage(props) {
-    const {toggleTheme } = React.useContext(
-        PreferencesContext
-    );
-
     return (
         <TestTab/>
-        // <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        //     <Text>Home!</Text>
-        //     <Button 
-        //     icon="camera" 
-        //     mode="contained" onPress={() => {toggleTheme()}}>
-        //         Press me
-        //     </Button>
-        // </View>
     )
 }

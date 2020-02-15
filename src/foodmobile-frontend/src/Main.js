@@ -1,22 +1,20 @@
 import * as React from 'react';
 
 import {
-  NavigationContainer,
-  DefaultTheme as NavigationDefaultTheme,//default light theme.
-  DarkTheme as NavigationDarkTheme,// React native dark theme.
-} from '@react-navigation/native';
-import {
   DarkTheme as PaperDarkTheme, // Papers dark theme.
   DefaultTheme as PaperDefaultTheme,// Papers light theme.
   Provider as PaperProvider,
 } from 'react-native-paper';
 
-
+//Used to get the phones perfered theme
 import { useColorScheme } from 'react-native-appearance';
 
 import {RootNavigation} from './navigation/RootNavigation'
 import PreferencesContext from './context/context'
 
+//This function provides the theme of the app
+//And sets up a context that allows all
+//Sub components to use it.
 export default function Main(){
     const colorScheme = useColorScheme();
 
