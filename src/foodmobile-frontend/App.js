@@ -1,10 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View,Text } from 'react-native';
+/*
+  From https://github.com/expo/react-native-appearance
+  Basicly allowed to get preferred theme.
+*/
+import { AppearanceProvider } from 'react-native-appearance';
 
-import Main from './src/components/main'
+import Main from './src/Main'
 
 export default function App() {
   return (
-    <Main/>
+    <AppearanceProvider>
+       {/* <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text>Homew!</Text>
+        </View> */}
+        <Main/>
+    </AppearanceProvider>
   );
 }

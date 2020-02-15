@@ -1,13 +1,10 @@
 import React from 'react';
 
 
-const PreferencesContext = React.createContext({
+export default PreferencesContext = React.createContext({
   rtl: 'left',
   theme: 'light',
   toggleTheme: () => {},
   toggleRTL: () => {},
 });
 
-export {
-    PreferencesContext
-}
