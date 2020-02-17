@@ -10,18 +10,16 @@ import { useTheme } from 'react-native-paper';
 const Drawer = createDrawerNavigator();
 
 //Pages
-import ThemeChangePage from '../pages/themeChange'
-import Test from '../pages/test'
-
+import StackPage from '../navigation/test/stack'
+import DrawerContentTest from '../components/drawerContent'
 //Our root navigatior that adds the drawer
 export function RootNavigation() {
     const theme = useTheme();
     const navigationTheme = theme.dark ? DarkTheme : DefaultTheme;
     return (
         <NavigationContainer theme={navigationTheme}>
-            <Drawer.Navigator>
-                <Drawer.Screen name="Home" component={ThemeChangePage} />
-                <Drawer.Screen name="Test" component={Test} />
+            <Drawer.Navigator  drawerContent={props => <DrawerContentTest {...props} />}>
+                <Drawer.Screen name="HomeDrawer" component={StackPage} />
             </Drawer.Navigator>
         </NavigationContainer>
     );
