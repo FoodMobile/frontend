@@ -1,17 +1,17 @@
 import * as React from 'react';
-import { Button, View, Text, TouchableOpacity  } from 'react-native';
+import { Button, View, Text, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Appbar, Avatar, useTheme } from 'react-native-paper';
-import HomeTab from '../tab/homeTab'
+import profileTab from '../tab/profileTab'
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 const Stack = createStackNavigator();
 
-export default function HomeTabStack() {
+export default function ProfileTabStack() {
   const theme = useTheme();
   return (
-    <Stack.Navigator initialRouteName="HomeBar" headerMode = "screen"
+    <Stack.Navigator initialRouteName="ProfileStack"
       screenOptions={{
         header: ({ scene, previous, navigation }) => {
           const { options } = scene.descriptor;
@@ -71,11 +71,10 @@ export default function HomeTabStack() {
           );
         },
       }}
-    
     >
-      <Stack.Screen name="HomeBar" component={HomeTab}  
+      <Stack.Screen name="ProfileStack" component={profileTab} 
         options ={{
-          headerTitle:"Home"
+          headerTitle:"My Profile"
         }}
       />
     </Stack.Navigator>

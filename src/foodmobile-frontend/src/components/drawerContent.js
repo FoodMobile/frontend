@@ -27,10 +27,10 @@ export default function DrawerContentTest(props) {
         inputRange: [0, 0.5, 0.7, 0.8, 1],
         outputRange: [-100, -85, -70, -45, 0],
       });
+   
     return (
         <DrawerContentScrollView {...props}>
-            <Animated.View
-               
+            <Animated.View    
                 style={[
                 styles.drawerContent,
                 {
@@ -38,7 +38,40 @@ export default function DrawerContentTest(props) {
                     transform: [{ translateX }],
                 },
                 ]}
-            >
+            >   
+                <View style={styles.userInfoSection}>
+                  <TouchableOpacity
+                    style={{ marginLeft: 10 }}
+                    onPress={() => {
+                      props.navigation.toggleDrawer();
+                    }}
+                  >
+                    <Avatar.Image
+                      source={{
+                        uri:
+                          'https://i.kym-cdn.com/entries/icons/original/000/000/091/TrollFace.jpg',
+                      }}
+                      size={50}
+                    />
+                  </TouchableOpacity>
+                  <Title style={styles.title}>Bob Marley</Title>
+                  <Caption style={styles.caption}>@weed420</Caption>
+                  <View style={styles.row}>
+                    {/* <View style={styles.section}>
+                      <Paragraph style={[styles.paragraph, styles.caption]}>
+                        202
+                      </Paragraph>
+                      <Caption style={styles.caption}>Obserwuje</Caption>
+                    </View>
+                    <View style={styles.section}>
+                      <Paragraph style={[styles.paragraph, styles.caption]}>
+                        159
+                      </Paragraph>
+                      <Caption style={styles.caption}>Obserwujący</Caption>
+                    </View> */}
+                  </View>
+                </View>
+
                  <Drawer.Section style={styles.drawerSection}>
                     <DrawerItem
                         icon={({ color, size }) => (
@@ -48,12 +81,24 @@ export default function DrawerContentTest(props) {
                             size={size}
                         />
                         )}
-                        label="Profile"
-                        onPress={() => {}}
+                        label="Home"
+                        onPress={() => {props.navigation.navigate('HomeDrawer')}}
                     />
-                   
                 </Drawer.Section>
 
+                <Drawer.Section style={styles.drawerSection}>
+                    <DrawerItem
+                        icon={({ color, size }) => (
+                        <MaterialCommunityIcons
+                            name="account-outline"
+                            color={color}
+                            size={size}
+                        />
+                        )}
+                        label="Profile"
+                        onPress={() => {props.navigation.navigate('ProfileDrawer')}}
+                    />
+                </Drawer.Section>
             </Animated.View>
         </DrawerContentScrollView>
     )
