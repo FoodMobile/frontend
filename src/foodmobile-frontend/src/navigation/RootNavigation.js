@@ -10,8 +10,7 @@ import { useTheme } from 'react-native-paper';
 const Drawer = createDrawerNavigator();
 
 //Pages
-import HomeTabStack from '../navigation/test/stack'
-import ProfileTabStack from '../navigation/test/ProfileStack'
+import HomeTabStack from './stack/homeStack'
 
 import DrawerContentTest from '../components/drawerContent'
 
@@ -23,7 +22,7 @@ export function RootNavigation() {
         <NavigationContainer theme={navigationTheme}>
             <Drawer.Navigator  drawerContent={props => <DrawerContentTest {...props} />}>
                 <Drawer.Screen name="HomeDrawer" component={HomeTabStack} />
-                <Drawer.Screen name="ProfileDrawer" component={ProfileTabStack} />
+                {/* <Drawer.Screen name="ProfileDrawer" component={ProfileTabStack} /> */}
             </Drawer.Navigator>
         </NavigationContainer>
     );
