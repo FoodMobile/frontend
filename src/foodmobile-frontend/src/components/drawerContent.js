@@ -85,7 +85,7 @@ export default function DrawerContent(props) {
                         />
                         )}
                         label="Home"
-                        onPress={() => {props.navigation.navigate('HomeDrawer')}}
+                        onPress={() => {props.navigation.navigate('HomeStack')}}
                     />
                 </Drawer.Section>
 
@@ -99,7 +99,7 @@ export default function DrawerContent(props) {
                         />
                         )}
                         label="Profile"
-                        onPress={() => {}}
+                        onPress={() => {props.navigation.navigate('ProfileStack')}}
                        
                     />
                 </Drawer.Section>

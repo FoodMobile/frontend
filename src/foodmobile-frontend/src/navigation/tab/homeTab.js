@@ -28,7 +28,6 @@ export default function HomeTab({ navigation }) {
                 !focused && <MaterialCommunityIcons name="food" color={color}  size = {24}/> ||
                 focused && <MaterialCommunityIcons name="food" color={"gold"} size = {24} />
               ),
-              headerTitle:'wow'
             }}
           />
 

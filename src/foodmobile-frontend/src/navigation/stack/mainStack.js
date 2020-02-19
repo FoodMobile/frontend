@@ -4,14 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Appbar, Avatar, useTheme } from 'react-native-paper';
 import HomeTab from '../tab/homeTab'
+import ProfileTab from '../tab/profileTab'
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 const Stack = createStackNavigator();
 
-export default function HomeStack() {
+export default function MainStack() {
   const theme = useTheme();
   return (
-    <Stack.Navigator initialRouteName="HomeBar" headerMode = "screen"
+    <Stack.Navigator initialRouteName="HomeStack" headerMode = "screen"
       screenOptions={{
         header: ({ scene, previous, navigation }) => {
           const { options } = scene.descriptor;
@@ -73,9 +74,14 @@ export default function HomeStack() {
       }}
     
     >
-      <Stack.Screen name="HomeBar" component={HomeTab}  
+      <Stack.Screen name="HomeStack" component={HomeTab}  
         options ={{
           headerTitle:"Home"
+        }}
+      />
+      <Stack.Screen name="ProfileStack" component={ProfileTab}  
+        options ={{
+          headerTitle:"My Profile"
         }}
       />
     </Stack.Navigator>
