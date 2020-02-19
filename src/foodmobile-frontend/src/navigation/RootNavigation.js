@@ -10,9 +10,9 @@ import { useTheme } from 'react-native-paper';
 const Drawer = createDrawerNavigator();
 
 //Pages
-import HomeTabStack from './stack/homeStack'
+import HomeStack from './stack/homeStack'
 
-import DrawerContentTest from '../components/drawerContent'
+import DrawerContent from '../components/drawerContent'
 
 //Our root navigatior that adds the drawer
 export function RootNavigation() {
@@ -20,8 +20,8 @@ export function RootNavigation() {
     const navigationTheme = theme.dark ? DarkTheme : DefaultTheme;
     return (
         <NavigationContainer theme={navigationTheme}>
-            <Drawer.Navigator  drawerContent={props => <DrawerContentTest {...props} />}>
-                <Drawer.Screen name="HomeDrawer" component={HomeTabStack} />
+            <Drawer.Navigator  drawerContent={props => <DrawerContent {...props} />}>
+                <Drawer.Screen name="HomeDrawer" component={HomeStack} />
                 {/* <Drawer.Screen name="ProfileDrawer" component={ProfileTabStack} /> */}
             </Drawer.Navigator>
         </NavigationContainer>

@@ -25,7 +25,7 @@ export default function HomeTab({ navigation }) {
             options  = {{
               tabBarColor: "#93ad4f",
               tabBarIcon: ({ color, focused }) => (
-                !focused && <MaterialCommunityIcons name="food" color={color}  /> ||
+                !focused && <MaterialCommunityIcons name="food" color={color}  size = {24}/> ||
                 focused && <MaterialCommunityIcons name="food" color={"gold"} size = {24} />
               ),
               headerTitle:'wow'

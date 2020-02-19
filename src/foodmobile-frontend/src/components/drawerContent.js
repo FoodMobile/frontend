@@ -21,7 +21,7 @@ import {
 import Animated from 'react-native-reanimated';
 
 
-export default function DrawerContentTest(props) {
+export default function DrawerContent(props) {
     const paperTheme = useTheme();
     const translateX = Animated.interpolate(props.progress, {
         inputRange: [0, 0.5, 0.7, 0.8, 1],
@@ -29,7 +29,8 @@ export default function DrawerContentTest(props) {
       });
    
     return (
-        <DrawerContentScrollView {...props}>
+        <DrawerContentScrollView {...props} >
+            {/* This is fancy animation */}
             <Animated.View    
                 style={[
                 styles.drawerContent,
@@ -39,9 +40,11 @@ export default function DrawerContentTest(props) {
                 },
                 ]}
             >   
+              {/* This is the username and avatar twitter style */}
                 <View style={styles.userInfoSection}>
                   <TouchableOpacity
-                    style={{ marginLeft: 10 }}
+                    style={{ marginLeft: 10
+                    }}
                     onPress={() => {
                       props.navigation.toggleDrawer();
                     }}
@@ -96,9 +99,66 @@ export default function DrawerContentTest(props) {
                         />
                         )}
                         label="Profile"
-                        onPress={() => {props.navigation.navigate('ProfileDrawer')}}
+                        onPress={() => {}}
+                       
                     />
                 </Drawer.Section>
+
+                <Drawer.Section style={styles.drawerSection}>
+                    <DrawerItem
+                        icon={({ color, size }) => (
+                        <MaterialCommunityIcons
+                            name="wrench"
+                            color={color}
+                            size={size}
+                        />
+                        )}
+                        label="Settings"
+                        onPress={() => {}}
+                    />
+                </Drawer.Section>
+
+                <Drawer.Section style={styles.drawerSection}>
+                    <DrawerItem
+                        icon={({ color, size }) => (
+                        <MaterialCommunityIcons
+                            name="cash-usd"
+                            color={color}
+                            size={size}
+                        />
+                        )}
+                        label="Wallet"
+                        onPress={() => {}}
+                    />
+                </Drawer.Section>
+                
+                {/* <TouchableOpacity 
+                onPress={() => {this.logout()}}
+                style={{ bottom: 0, position: 'absolute', width: '100%' }}>
+
+                </TouchableOpacity> */}
+                <Drawer.Section style={styles.drawerSectionLogout}>
+                    <DrawerItem
+                        icon={({ color, size }) => (
+                        <MaterialCommunityIcons
+                            name="logout-variant"
+                            color="red"
+                            size={size}
+                        />
+                        )}
+                        label={({ focused, color }) => 
+                          <Text style={{ color:"red" }}>{focused ? 'Focused text' : "Logout"}</Text>
+                        }
+                        onPress={() => {alert('F')}}
+                        style={{
+                          color:"red",
+                          // bottom: 0,
+                          // width: "100%",
+                          // position: "absolute"
+                        }}
+                    />
+                </Drawer.Section>
+            
             </Animated.View>
         </DrawerContentScrollView>
     )
@@ -136,6 +196,11 @@ const styles = StyleSheet.create({
     drawerSection: {
       marginTop: 15,
     },
+    drawerSectionLogout: {
+      marginTop: 15,
+      color:"red",
+    },
+ 
     preference: {
       flexDirection: 'row',
       justifyContent: 'space-between',

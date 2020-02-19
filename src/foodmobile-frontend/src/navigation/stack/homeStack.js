@@ -8,7 +8,7 @@ import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 const Stack = createStackNavigator();
 
-export default function HomeTabStack() {
+export default function HomeStack() {
   const theme = useTheme();
   return (
     <Stack.Navigator initialRouteName="HomeBar" headerMode = "screen"
