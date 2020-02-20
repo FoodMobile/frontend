@@ -20,9 +20,12 @@ export function RootNavigation() {
     const navigationTheme = theme.dark ? DarkTheme : DefaultTheme;
     return (
         <NavigationContainer theme={navigationTheme}>
-            <Drawer.Navigator  drawerContent={props => <DrawerContent {...props} />}  edgeWidth = {3000} minSwipeDistance = {0}>
-                <Drawer.Screen name="HomeDrawer" component={MainStack} />
-                {/* <Drawer.Screen name="ProfileDrawer" component={ProfileTabStack} /> */}
+            <Drawer.Navigator  
+                drawerContent={props => <DrawerContent {...props} />}  
+                edgeWidth = {3000} 
+                minSwipeDistance = {0}
+            >
+                <Drawer.Screen name="MainDrawer" component={MainStack} />
             </Drawer.Navigator>
         </NavigationContainer>
     );
