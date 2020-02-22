@@ -66,6 +66,7 @@ export default class SettingsPage extends React.Component {
                     options ={{
                         title:mySettings.title
                     }}
+                  
                 />
             </Stack.Navigator>
         );

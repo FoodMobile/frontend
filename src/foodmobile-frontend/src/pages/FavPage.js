@@ -29,6 +29,7 @@ export default function FavPage({ navigation }) {
               options ={{
                   title:myFavorites.title
               }}
+             
           />
         </Stack.Navigator>
     
