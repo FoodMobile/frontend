@@ -2,6 +2,8 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
+import ScreenNames from '../../screenNames'
+
 //pages
 import FavPage from '../../pages/FavPage'
 import MyOrdersPage from '../../pages/MyOrdersPage'
@@ -12,62 +14,79 @@ const Tab = createMaterialBottomTabNavigator();
 
 
 export default function MainTab(props) {
+    const {mainTabs} = ScreenNames
+    const {myOrders,map,myFavorites,mySettings} = mainTabs.pages
     return (
         <Tab.Navigator 
-            initialRouteName="Map"
-            activeColor="white"
-            inactiveColor="grey"
-            barStyle={{ backgroundColor: '#694fad' }}
+            initialRouteName={map.screenName}
+            activeColor={mainTabs.activeColor}
+            inactiveColor={mainTabs.inactiveColor}
+            barStyle={{ backgroundColor: mainTabs.tabColor }}
             screenOptions = {{
-                tabBarColor: "#694fad"
+                tabBarColor: mainTabs.tabColor 
             }}
     
             shifting = {true}
         >
             <Tab.Screen 
-                name="MyOrders" 
+                name={myOrders.screenName}
                 component={MyOrdersPage} 
                 options  = {{
-                    tabBarColor: "#93ad4f",
+                    title:myOrders.title,
+                    tabBarColor: myOrders.tabColor,
                     tabBarIcon: ({ color, focused }) => (
-                        <MaterialCommunityIcons name="food" color={focused? 'gold':color} size = {focused? 26: 20}/>
+                        <MaterialCommunityIcons 
+                            name={myOrders.icon.focused} 
+                            color={focused? myOrders.color.focused:color} 
+                            size = {focused? myOrders.size.focused: myOrders.size.unfocused}
+                        />
                     ),
                 }}
             />
             <Tab.Screen 
-                name="Map" 
+                name={map.screenName}
                 component={MapPage} 
                 options  = {{
+                    title:map.title,
+                    tabBarColor: map.tabColor,
                     tabBarIcon: ({ color, focused }) => (
-                        <MaterialCommunityIcons name="google-maps" color={focused? 'dodgerblue':color} size = {focused? 26: 20}/>
+                        <MaterialCommunityIcons 
+                            name= {map.icon.focused}
+                            color= {focused? map.color.focused:color} 
+                            size = {focused? map.size.focused: map.size.unfocused}
+                        />
                     ),
                 }}
             />
-            <Tab.Screen 
-                name="Fav" 
+            <Tab.Screen          
+                name={myFavorites.screenName}
                 component={FavPage} 
                 options  = {{
-                    tabBarColor: "#4f64ad",
-                    tabBarIcon: ({ color,focused }) => (
+                    title:myFavorites.title,
+                    tabBarColor: myFavorites.tabColor,
+                    tabBarIcon: ({ color, focused }) => (
                         <MaterialCommunityIcons 
-                            name={focused? "heart":"heart-outline"} 
-                            color={focused? "red": color}  
-                            size = {focused? 26: 20}/>
+                            name= {focused? myFavorites.icon.focused: myFavorites.icon.unfocused}
+                            color= {focused? myFavorites.color.focused:color} 
+                            size = {focused? myFavorites.size.focused: myFavorites.size.unfocused}
+                        />
                     ),
-                }}    
+                }}     
             />
             <Tab.Screen 
-                name="Settings" 
+                name={mySettings.screenName}
                 component={SettingsPage} 
                 options  = {{
-                    tabBarColor: "#4f64ad",
-                    tabBarIcon: ({ color,focused }) => (
+                    title:mySettings.title,
+                    tabBarColor: mySettings.tabColor,
+                    tabBarIcon: ({ color, focused }) => (
                         <MaterialCommunityIcons 
-                            name="wrench"
-                            color={color} 
-                            size ={focused? 26: 20}/>
+                            name= {mySettings.icon.focused}
+                            color= {focused? mySettings.color.focused:color} 
+                            size = {focused? mySettings.size.focused: mySettings.size.unfocused}
+                        />
                     ),
-                }}    
+                }}     
 
             />
         </Tab.Navigator>

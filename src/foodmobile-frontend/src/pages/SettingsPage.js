@@ -1,19 +1,23 @@
 import * as React from 'react';
 import {useState } from 'react'
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
-import { List, Checkbox } from 'react-native-paper';
+import { List } from 'react-native-paper';
+import { Switch } from 'react-native-paper';
 import PreferencesContext from '../context/context'
 import { RadioButton } from 'react-native-paper';
 import AppbarWrapper from '../components/appBar/appBarWrapper'
+
+import ScreenNames from '../screenNames'
+
 const Stack = createStackNavigator();
 
 function setHome({navigation}) {
     const {toggleTheme,theme} = React.useContext(
         PreferencesContext
     );
-
+    
     return (
         <List.Section title="General Settings">
             <List.Accordion
@@ -25,20 +29,19 @@ function setHome({navigation}) {
                     title={`Toggle off ${theme} mode`}
                     description="Toggle the theme of the app"
                     onPress={() => {toggleTheme()}}
-                    left={
+                    right={
                         props =>  
-                        <RadioButton.Group value={theme} {...props}>
-                            <View>
-                                <RadioButton.Item value="light" onPress={() => {toggleTheme()}}/>
+                        <View style={styles.preference}>
+                            <View pointerEvents="none">
+                                <Switch value={theme === 'dark'} />
                             </View>
-                        </RadioButton.Group>
+                        </View>
                     }
                 />
             </List.Accordion>
         </List.Section>
     );
 }
-
 
 export default class SettingsPage extends React.Component {
     state = {
@@ -51,14 +54,31 @@ export default class SettingsPage extends React.Component {
     });
     
     render() {
+        const {mySettings} = ScreenNames.stackPages
         return (  
             <Stack.Navigator 
                 screenOptions={AppbarWrapper()}
+                initialRouteName= {mySettings.screenName}
             >
-                <Stack.Screen name="SetHome" component={setHome} />
+                <Stack.Screen 
+                    name={mySettings.screenName}
+                    component={setHome} 
+                    options ={{
+                        title:mySettings.title
+                    }}
+                />
             </Stack.Navigator>
         );
     }
     
     
 }
+
+const styles = StyleSheet.create({
+    preference: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+    },
+})
