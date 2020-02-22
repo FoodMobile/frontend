@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { List, Checkbox } from 'react-native-paper';
 import PreferencesContext from '../context/context'
 import { RadioButton } from 'react-native-paper';
-
+import AppbarWrapper from '../components/appBar/appBarWrapper'
 const Stack = createStackNavigator();
 
 function setHome({navigation}) {
@@ -14,13 +14,12 @@ function setHome({navigation}) {
         PreferencesContext
     );
 
-    
     return (
         <List.Section title="General Settings">
             <List.Accordion
             title="Apperance"
-            // description = "General app settings"
-            // left={props => <List.Icon {...props} icon="folder" />}
+            description = "Change how the app looks"
+            left={props => <List.Icon {...props} icon="cogs" />}
             >
                 <List.Item
                     title={`Toggle off ${theme} mode`}
@@ -28,25 +27,15 @@ function setHome({navigation}) {
                     onPress={() => {toggleTheme()}}
                     left={
                         props =>  
-                        <RadioButton.Group value={theme}>
+                        <RadioButton.Group value={theme} {...props}>
                             <View>
                                 <RadioButton.Item value="light" onPress={() => {toggleTheme()}}/>
                             </View>
                         </RadioButton.Group>
                     }
                 />
-              
-
             </List.Accordion>
         </List.Section>
-    );
-}
-
-function set1() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>set1</Text>
-      </View>
     );
 }
 
@@ -63,7 +52,9 @@ export default class SettingsPage extends React.Component {
     
     render() {
         return (  
-            <Stack.Navigator>
+            <Stack.Navigator 
+                screenOptions={AppbarWrapper()}
+            >
                 <Stack.Screen name="SetHome" component={setHome} />
             </Stack.Navigator>
         );
