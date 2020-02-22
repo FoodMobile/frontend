@@ -3,9 +3,9 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
 //pages
-import MapPage from '../../pages/homeTab/MapPage'
-import FavPage from '../../pages/homeTab/FavPage'
-import MyOrdersPage from '../../pages/homeTab/MyOrdersPage'
+import MapPage from '../../pages/MapPage'
+import FavPage from '../../pages/FavPage'
+import MyOrdersPage from './MyOrdersPage'
 const Tab = createMaterialBottomTabNavigator();
 
 export default function HomeTab({ navigation }) {

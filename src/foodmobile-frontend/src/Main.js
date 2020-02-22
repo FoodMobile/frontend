@@ -31,7 +31,7 @@ export default function Main(){
     //Set context
     const preferences = React.useMemo(
         () => ({
-        toggleTheme
+        toggleTheme,theme
         })
     );
     
