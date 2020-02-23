@@ -12,7 +12,7 @@ import Main from './src/Main'
 export default function App() {
   return (
     <AppearanceProvider>
-        <Main/>
+      <Main/>
     </AppearanceProvider>
   );
 }

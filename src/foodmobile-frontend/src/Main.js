@@ -5,7 +5,7 @@ import {
   DefaultTheme as PaperDefaultTheme,// Papers light theme.
   Provider as PaperProvider,
 } from 'react-native-paper';
-import { DefaultTheme, DarkTheme } from '@react-navigation/native';
+// import { DefaultTheme, DarkTheme } from '@react-navigation/native';
 
 //Used to get the phones perfered theme
 import { useColorScheme } from 'react-native-appearance';

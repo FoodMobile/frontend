@@ -11,7 +11,7 @@ const Stack = createStackNavigator();
 function showMap(props){
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Favoritez page!</Text>
+      <Text>My map page!</Text>
     </View>
   )
 }

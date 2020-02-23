@@ -89,6 +89,7 @@ const mySettingsStackPage = new stackScreenData('MySettingsStack', 'My Settings'
 const myFavoritesStackPage = new stackScreenData('MyFavoritesStack', 'Favorites');
 const mapStackPage = new stackScreenData('MapStackPage', 'Truck Map');
 const myOrdersStackPage = new stackScreenData('MyOrdersStackPage', 'My Orders');
+const myFoodPreferncesPage = new stackScreenData('MyFoodPreferences', 'My Food Preferences');
 
 const ScreenNames = {
     mainTabs: {
@@ -107,7 +108,8 @@ const ScreenNames = {
         mySettings:mySettingsStackPage,
         myFavorites:myFavoritesStackPage,
         map:mapStackPage,
-        myOrders:myOrdersStackPage
+        myOrders:myOrdersStackPage,
+        myFoodPrefernces:myFoodPreferncesPage
     }
     
 };

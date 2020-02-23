@@ -10,51 +10,25 @@ import { RadioButton } from 'react-native-paper';
 import AppbarWrapper from '../components/appBar/appBarWrapper'
 
 import ScreenNames from '../screenNames'
+import GeneralSettings from './settings/generalSettings'
+import PrivacySettings from './settings/privacySettings'
+import FoodPreferences from './settings/foodPreferences'
 
 const Stack = createStackNavigator();
 
-function setHome({navigation}) {
-    const {toggleTheme,theme} = React.useContext(
-        PreferencesContext
-    );
-    
+function settings(props) {
+
     return (
-        <List.Section title="General Settings">
-            <List.Accordion
-            title="Apperance"
-            description = "Change how the app looks"
-            left={props => <List.Icon {...props} icon="cogs" />}
-            >
-                <List.Item
-                    title={`Toggle off ${theme} mode`}
-                    description="Toggle the theme of the app"
-                    onPress={() => {toggleTheme()}}
-                    right={
-                        props =>  
-                        <View style={styles.preference}>
-                            <View pointerEvents="none">
-                                <Switch value={theme === 'dark'} />
-                            </View>
-                        </View>
-                    }
-                />
-            </List.Accordion>
-        </List.Section>
+        <>
+            <GeneralSettings {...props} styles={styles}/>
+            <PrivacySettings {...props} styles={styles}/>
+        </>
     );
 }
 
 export default class SettingsPage extends React.Component {
-    state = {
-        expanded: true
-    }
-    
-    _handlePress = () =>
-        this.setState({
-        expanded: !this.state.expanded
-    });
-    
     render() {
-        const {mySettings} = ScreenNames.stackPages
+        const {mySettings,myFoodPrefernces} = ScreenNames.stackPages
         return (  
             <Stack.Navigator 
                 screenOptions={AppbarWrapper()}
@@ -62,9 +36,17 @@ export default class SettingsPage extends React.Component {
             >
                 <Stack.Screen 
                     name={mySettings.screenName}
-                    component={setHome} 
+                    component={settings} 
                     options ={{
                         title:mySettings.title
+                    }}
+                  
+                />
+                <Stack.Screen 
+                    name={myFoodPrefernces.screenName}
+                    component={FoodPreferences} 
+                    options ={{
+                        title:myFoodPrefernces.title
                     }}
                   
                 />
@@ -75,11 +57,12 @@ export default class SettingsPage extends React.Component {
     
 }
 
+const preferenceStyle = {
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+}
+
 const styles = StyleSheet.create({
-    preference: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingVertical: 12,
-        paddingHorizontal: 16,
-    },
+    preference: preferenceStyle,
 })

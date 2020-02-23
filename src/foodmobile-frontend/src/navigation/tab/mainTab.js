@@ -2,6 +2,7 @@ import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 
+//constants with screen names
 import ScreenNames from '../../screenNames'
 
 //pages
@@ -28,6 +29,7 @@ export default function MainTab(props) {
     
             shifting = {true}
         >
+            {/* My orders tab */}
             <Tab.Screen 
                 name={myOrders.screenName}
                 component={MyOrdersPage} 
@@ -43,6 +45,8 @@ export default function MainTab(props) {
                     ),
                 }}
             />
+
+            {/* Map tab */}
             <Tab.Screen 
                 name={map.screenName}
                 component={MapPage} 
@@ -58,6 +62,8 @@ export default function MainTab(props) {
                     ),
                 }}
             />
+
+            {/* My favorites tab */}
             <Tab.Screen          
                 name={myFavorites.screenName}
                 component={FavPage} 
@@ -73,6 +79,8 @@ export default function MainTab(props) {
                     ),
                 }}     
             />
+
+            {/* my settings tab */}
             <Tab.Screen 
                 name={mySettings.screenName}
                 component={SettingsPage} 
