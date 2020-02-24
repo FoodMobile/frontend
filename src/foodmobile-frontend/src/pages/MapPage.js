@@ -9,8 +9,8 @@ import ScreenNames from '../screenNames'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 const Tab = createMaterialTopTabNavigator();
-import GetCameraPage from './testCameraPage' 
-import GetMapPage from './testMapPage'
+// import GetCameraPage from './testCameraPage' 
+// import GetMapPage from './testMapPage'
 function mapHome() {
   return(
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -20,25 +20,25 @@ function mapHome() {
   )
 }
 
-function mapCam() {
-  return(
-    <GetCameraPage/>
-  )
-}
+// function mapCam() {
+//   return(
+//     <GetCameraPage/>
+//   )
+// }
 
-function mapLoc() {
-  return(
-    <GetMapPage/>
-  )
-}
+// function mapLoc() {
+//   return(
+//     <GetMapPage/>
+//   )
+// }
 
 export default function MapPage({ navigation }) {
     const {map} =  ScreenNames.stackPages
     return (
       <Tab.Navigator>
         <Tab.Screen name="Map Home" component={mapHome} />
-        <Tab.Screen name="Map Cam" component={mapCam} />
-        <Tab.Screen name="Map Loc" component={mapLoc} />
+        {/* <Tab.Screen name="Map Cam" component={mapCam} /> */}
+        {/* <Tab.Screen name="Map Loc" component={mapLoc} /> */}
       </Tab.Navigator>
        
     
