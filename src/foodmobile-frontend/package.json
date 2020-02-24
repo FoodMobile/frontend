@@ -6,16 +6,21 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "expoBuildA":"expo build:android"
+    "expoBuildA": "expo build:android"
   },
   "dependencies": {
+    "@mdi/js": "^4.9.95",
     "@react-native-community/masked-view": "^0.1.6",
     "@react-navigation/bottom-tabs": "^5.0.1",
     "@react-navigation/drawer": "^5.0.1",
     "@react-navigation/material-bottom-tabs": "^5.0.1",
+    "@react-navigation/material-top-tabs": "^5.0.7",
     "@react-navigation/native": "^5.0.1",
     "@react-navigation/stack": "^5.0.1",
     "expo": "~36.0.0",
+    "expo-camera": "~8.0.0",
+    "expo-image-picker": "~8.0.1",
+    "expo-permissions": "~8.0.0",
     "install": "^0.13.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
@@ -26,7 +31,10 @@
     "react-native-reanimated": "^1.7.0",
     "react-native-safe-area-context": "^0.7.2",
     "react-native-screens": "^2.0.0-beta.2",
-    "react-native-web": "~0.11.7"
+    "react-native-tab-view": "^2.13.0",
+    "react-native-web": "~0.11.7",
+    "react-native-maps": "0.26.1",
+    "expo-location": "~8.0.0"
   },
   "devDependencies": {
     "babel-preset-expo": "~8.0.0",
