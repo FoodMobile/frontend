@@ -16,7 +16,7 @@ export default function PrivacySettings(props) {
     );
     
     const {navigation,styles } = props
-    const {myFoodPrefernces} = ScreenNames.stackPages
+    const {myFoodPrefernces,myWallet} = ScreenNames.stackPages
     return (
         <List.Section title="Privacy" >
             <List.Accordion
@@ -38,7 +38,7 @@ export default function PrivacySettings(props) {
                 style={styles.preference}
                 title="Wallet"
                 description="Transaction methods"
-                onPress={() => {navigation.navigate(myFoodPrefernces.screenName)}}
+                onPress={() => {navigation.navigate(myWallet.screenName)}}
                 
                 left={props => <List.Icon{...props} color = {Colors.green500} icon="cash-usd" />}
             />

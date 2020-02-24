@@ -21,12 +21,14 @@ const Stack = createStackNavigator();
 import ScreenNames from '../screenNames'
 
 import FoodPreferences from '../pages/settings/foodPreferencesPage'
+import myWallets from '../pages/settings/myWalletsPage'
+import EditWallet from '../pages/settings/editWallet'
 
 //Our root navigatior that adds the drawer
 export function RootNavigation() {
     const theme = useTheme();
     const navigationTheme = theme.dark ? PaperDarkTheme : PaperDefaultTheme;
-    const {mySettings,myFoodPrefernces} = ScreenNames.stackPages
+    const {myWallet,myFoodPrefernces,editWallet} = ScreenNames.stackPages
     return (
         <NavigationContainer theme={navigationTheme}>
             {/* <MainTab/> */}
@@ -51,6 +53,20 @@ export function RootNavigation() {
                     component={FoodPreferences} 
                     options ={{
                         title:myFoodPrefernces.title
+                    }}  
+                />
+                <Stack.Screen 
+                    name={myWallet.screenName}
+                    component={myWallets} 
+                    options ={{
+                        title:myWallet.title
+                    }}  
+                />
+                <Stack.Screen 
+                    name={editWallet.screenName}
+                    component={EditWallet} 
+                    options ={{
+                        title:editWallet.title
                     }}  
                 />
             </Stack.Navigator>
