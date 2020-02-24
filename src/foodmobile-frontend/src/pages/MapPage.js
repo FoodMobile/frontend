@@ -11,6 +11,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 const Tab = createMaterialTopTabNavigator();
 // import GetCameraPage from './testCameraPage' 
 // import GetMapPage from './testMapPage'
+import ShowLocation from './testShowLoc'
 function mapHome() {
   return(
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -37,6 +38,7 @@ export default function MapPage({ navigation }) {
     return (
       <Tab.Navigator>
         <Tab.Screen name="Map Home" component={mapHome} />
+        <Tab.Screen name="Map Location" component={ShowLocation} />
         {/* <Tab.Screen name="Map Cam" component={mapCam} /> */}
         {/* <Tab.Screen name="Map Loc" component={mapLoc} /> */}
       </Tab.Navigator>

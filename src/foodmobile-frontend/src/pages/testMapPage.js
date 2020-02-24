@@ -236,9 +236,28 @@ const MapStyle=[
 
 export default class GetMapPage extends React.Component {
   render() {
+    console.log(this.props.location)
+    const myLocation = this.props?.location?.coords || {
+      latitude:36,
+      longitude:36,
+      latitudeDelta: 0.00922,
+      longitudeDelta: 0.00421,
+    }
     return (
       <View style={styles.container}>
-        <MapView style={styles.mapStyle} customMapStyle={MapStyle} showsUserLocation={true}/>
+        <MapView style={styles.mapStyle} 
+          customMapStyle={MapStyle} 
+          showsUserLocation={true}
+          userLocationUpdateInterval={50}
+          followsUserLocation={true}
+          showsMyLocationButton={true}
+          initialRegion={{
+            latitude: myLocation.latitude,
+            longitude: myLocation.longitude,
+            latitudeDelta: 0.00922,
+            longitudeDelta: 0.00421,
+          }}
+        />
       </View>
     );
   }

@@ -10,7 +10,7 @@ import FavPage from '../../pages/FavPage'
 import MyOrdersPage from '../../pages/MyOrdersPage'
 import MapPage from '../../pages/MapPage'
 import SettingsPage from '../../pages/SettingsPage'
-import GetCameraPage from '../../pages/testCameraPage'
+// import GetCameraPage from '../../pages/testCameraPage'
 
 const Tab = createMaterialBottomTabNavigator();
 
