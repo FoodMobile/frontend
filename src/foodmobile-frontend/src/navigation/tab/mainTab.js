@@ -10,6 +10,7 @@ import FavPage from '../../pages/FavPage'
 import MyOrdersPage from '../../pages/MyOrdersPage'
 import MapPage from '../../pages/MapPage'
 import SettingsPage from '../../pages/SettingsPage'
+import GetCameraPage from '../../pages/testCameraPage'
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -49,7 +50,7 @@ export default function MainTab(props) {
             {/* Map tab */}
             <Tab.Screen 
                 name={map.screenName}
-                component={MapPage} 
+                component={MapPage } //MapPage GetCameraPage
                 options  = {{
                     title:map.title,
                     tabBarColor: map.tabColor,
