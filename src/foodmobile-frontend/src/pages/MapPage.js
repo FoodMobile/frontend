@@ -19,18 +19,21 @@ function showMap(props){
 export default function MapPage({ navigation }) {
     const {map} =  ScreenNames.stackPages
     return (
-        <Stack.Navigator 
-            screenOptions={AppbarWrapper()}
-            initialRouteName= {map.screenName}
-        >
-          <Stack.Screen 
-              name={map.screenName}
-              component={showMap} 
-              options ={{
-                  title:map.title
-              }}
-          />
-        </Stack.Navigator>
+        // <Stack.Navigator 
+        //     // screenOptions={AppbarWrapper()}
+        //     initialRouteName= {map.screenName}
+        // >
+        //   <Stack.Screen 
+        //       name={map.screenName}
+        //       component={showMap} 
+        //       options ={{
+        //           title:map.title
+        //       }}
+        //   />
+        // </Stack.Navigator>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>My map page!</Text>
+        </View>
     
     );
 }

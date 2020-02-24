@@ -19,19 +19,22 @@ function showFavs(props){
 export default function FavPage({ navigation }) {
     const {myFavorites} =  ScreenNames.stackPages
     return (
-        <Stack.Navigator 
-            screenOptions={AppbarWrapper()}
-            initialRouteName= {myFavorites.screenName}
-        >
-          <Stack.Screen 
-              name={myFavorites.screenName}
-              component={showFavs} 
-              options ={{
-                  title:myFavorites.title
-              }}
+        // <Stack.Navigator 
+        //     // screenOptions={AppbarWrapper()}
+        //     initialRouteName= {myFavorites.screenName}
+        // >
+        //   <Stack.Screen 
+        //       name={myFavorites.screenName}
+        //       component={showFavs} 
+        //       options ={{
+        //           title:myFavorites.title
+        //       }}
              
-          />
-        </Stack.Navigator>
+        //   />
+        // </Stack.Navigator>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text>Favoritez page!</Text>
+        </View>
     
     );
 }

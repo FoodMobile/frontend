@@ -10,7 +10,7 @@ export default function MainAppbar(props) {
     
     return (
         <Appbar.Header
-            theme={{ colors: { primary: theme.colors.surface } }}
+        theme={{ colors: { primary: theme.colors.surface } }}
         >
             {previous ? (
                 <Appbar.BackAction
@@ -24,7 +24,7 @@ export default function MainAppbar(props) {
                     // ((navigation) ).openDrawer();
                     // }}
                 >
-                     {/* <Avatar.Image
+                    {/* <Avatar.Image
                     size={40}
                     source={{
                         uri:
@@ -44,6 +44,7 @@ export default function MainAppbar(props) {
                 color: theme.colors.primary,
             }}
             />
-        </Appbar.Header>
+        </Appbar.Header>    
     )
 }
+
