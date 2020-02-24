@@ -37,8 +37,8 @@ export default function MapPage({ navigation }) {
     return (
       <Tab.Navigator>
         <Tab.Screen name="Map Home" component={mapHome} />
-        <Tab.Screen name="Map Cam" component={mapLoc} />
-        <Tab.Screen name="Map Loc" component={mapHome} />
+        <Tab.Screen name="Map Cam" component={mapCam} />
+        <Tab.Screen name="Map Loc" component={mapLoc} />
       </Tab.Navigator>
        
     

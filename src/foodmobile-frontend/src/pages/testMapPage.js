@@ -1,106 +1,270 @@
 import React from 'react';
-import { StyleSheet, Text, View ,TouchableOpacity,Platform, } from 'react-native';
-import { Camera } from 'expo-camera';
-import * as Permissions from 'expo-permissions';
-import { FontAwesome, Ionicons,MaterialCommunityIcons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
+import MapView from 'react-native-maps';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import Constants from 'expo-constants';
 
+// export default class GetMapPage extends React.Component {
+//   state = {
+//     location: null,
+//     errorMessage: null,
+//   };
 
-export default class GetMapPage extends React.Component{
-  state = {
-    hasPermission: null,
-    cameraType: Camera.Constants.Type.back,
-  }
+//   componentWillMount() {
+//     if (Platform.OS === 'android' && !Constants.isDevice) {
+//       this.setState({
+//         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
+//       });
+//     } else {
+//       this._getLocationAsync();
+//     }
+//   }
 
-  async componentDidMount() {
-    this.getPermissionAsync()
-  }
+//   _getLocationAsync = async () => {
+//     let { status } = await Permissions.askAsync(Permissions.LOCATION);
+//     if (status !== 'granted') {
+//       this.setState({
+//         errorMessage: 'Permission to access location was denied',
+//       });
+//     }
 
-  getPermissionAsync = async () => {
-    // Camera roll Permission 
-    if (Platform.OS === 'ios') {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
+//     let location = await Location.getCurrentPositionAsync({});
+//     this.setState({ location });
+//   };
+
+//   render() {
+//     let text = 'Waiting..';
+//     if (this.state.errorMessage) {
+//       text = this.state.errorMessage;
+//     } else if (this.state.location) {
+//       text = JSON.stringify(this.state.location);
+//     }
+
+//     return (
+//       <View style={styles.containerLocation}>
+//         <Text style={styles.paragraph}>{text}</Text>
+//       </View>
+//     );
+//   }
+// }
+
+const MapStyle=[
+  {
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#212121"
       }
-    }
-    // Camera Permission
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasPermission: status === 'granted' });
+    ]
+  },
+  {
+    "elementType": "labels.icon",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#212121"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.country",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#9e9e9e"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.land_parcel",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+  {
+    "featureType": "administrative.locality",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#bdbdbd"
+      }
+    ]
+  },
+  {
+    "featureType": "poi",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#181818"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#616161"
+      }
+    ]
+  },
+  {
+    "featureType": "poi.park",
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#1b1b1b"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#2c2c2c"
+      }
+    ]
+  },
+  {
+    "featureType": "road",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#8a8a8a"
+      }
+    ]
+  },
+  {
+    "featureType": "road.arterial",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#373737"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#3c3c3c"
+      }
+    ]
+  },
+  {
+    "featureType": "road.highway.controlled_access",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#4e4e4e"
+      }
+    ]
+  },
+  {
+    "featureType": "road.local",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#616161"
+      }
+    ]
+  },
+  {
+    "featureType": "transit",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#757575"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "color": "#000000"
+      }
+    ]
+  },
+  {
+    "featureType": "water",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#3d3d3d"
+      }
+    ]
   }
+]
 
-  handleCameraType=()=>{
-    const { cameraType } = this.state
-
-    this.setState({cameraType:
-      cameraType === Camera.Constants.Type.back
-      ? Camera.Constants.Type.front
-      : Camera.Constants.Type.back
-    })
-  }
-
-  takePicture = async () => {
-    if (this.camera) {
-      let photo = await this.camera.takePictureAsync();
-
-    }
-  }
-
-  pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images
-    });
-  }
-
+export default class GetMapPage extends React.Component {
   render() {
-
     return (
-       
-      <View style={{ flex: 1 }}>
-      <Camera style={{ flex: 1 }} type={this.state.cameraType}  ref={ref => {this.camera = ref}}>
-        <View style={{flex:1, flexDirection:"row",justifyContent:"space-between",margin:30}}>
-          <TouchableOpacity
-            style={{
-              alignSelf: 'flex-end',
-              alignItems: 'center',
-              backgroundColor: 'transparent'                 
-            }}
-            onPress={()=>this.pickImage()}>
-            <Ionicons
-                name="ios-photos"
-                style={{ color: "#fff", fontSize: 40}}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              alignSelf: 'flex-end',
-              alignItems: 'center',
-              backgroundColor: 'transparent',
-            }}
-            onPress={()=>this.takePicture()}
-            >
-            <FontAwesome
-                name="camera"
-                style={{ color: "#fff", fontSize: 40}}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              alignSelf: 'flex-end',
-              alignItems: 'center',
-              backgroundColor: 'transparent',
-            }}
-            onPress={()=>this.handleCameraType()}
-            >
-            <MaterialCommunityIcons
-                name="camera-switch"
-                style={{ color: "#fff", fontSize: 40}}
-            />
-          </TouchableOpacity>
-        </View>
-      </Camera>
-  </View>
-    
+      <View style={styles.container}>
+        <MapView style={styles.mapStyle} customMapStyle={MapStyle} showsUserLocation={true}/>
+      </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  mapStyle: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+  containerLocation: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    //paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#ecf0f1',
+  },
+  paragraph: {
+    margin: 24,
+    fontSize: 18,
+    textAlign: 'center',
+  },
+});
