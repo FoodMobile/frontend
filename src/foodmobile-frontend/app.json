@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "foodmobile",
+    "description": "Foodtruck app that shows trucks that give food that you can then using your hands consume for energy.",
     "slug": "foodmobile",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -25,11 +26,16 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "hax.yeetmachine.memeboi1",
+      "bundleIdentifier": "foodmobile.app.build",
       "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "hax.yeetmachine.memeboi1",
+      "package": "foodmobile.app.build",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCNeu2nE3Dz7d3U8Zl9hWcgb0BnNZQWzMA"
+        }
+      },
       "versionCode": 1
     }
   }

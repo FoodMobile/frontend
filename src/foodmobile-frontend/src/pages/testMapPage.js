@@ -257,6 +257,7 @@ export default class GetMapPage extends React.Component {
             latitudeDelta: 0.00922,
             longitudeDelta: 0.00421,
           }}
+          provider="google"
         />
       </View>
     );
