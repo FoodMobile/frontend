@@ -15,8 +15,11 @@ export default function App() {
     <SafeAreaProvider>
       <AppearanceProvider>
         <Main/>
+        {/* vhjskahfldjalfdsja */}
       </AppearanceProvider>
     </SafeAreaProvider>
 
   );
 }
+
+// hjlh
