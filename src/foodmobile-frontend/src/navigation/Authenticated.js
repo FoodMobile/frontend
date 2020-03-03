@@ -1,33 +1,46 @@
 import React from 'react';
+//Create the stack navigator
+import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
+
 // import { Text } from 'react-native';
 
+//These are possible other pages we can go to from the inital landing page.
 import FoodPreferences from '../pages/settings/foodPreferencesPage'
 import myWallets from '../pages/settings/myWalletsPage'
 import EditWallet from '../pages/settings/editWallet'
 
+//Load the names of our pages
 import ScreenNames from '../screenNames'
+//Custom header
 import AppbarWrapper from '../components/appBar/appBarWrapper'
+//Load the main tab that shows at bottom
 import MainTab from './tab/mainTab'
 
 export default function AuthenticatedStack(props) {
 
-    const {Stack} = props
-    const {myWallet,myFoodPrefernces,editWallet} = ScreenNames.stackPages
-  
+    const {
+        myWallet,
+        myFoodPrefernces,
+        editWallet
+    } = ScreenNames.stackPages
+    const {
+        mainTabs
+    } = ScreenNames
     return (
         <Stack.Navigator
             screenOptions={AppbarWrapper()}   
         >
             <Stack.Screen
-                name="Main Tab"
+                name={mainTabs.name}
                 component={MainTab}
                 options={({ route }) => {
                     
                     const routeName = route.state
-                        ? route.state.routes[route.state.index].name
-                        : 'Feed';
-                    console.log('!@# options',routeName);
-                    return { headerTitle: routeName };
+                        ? route.state.routes[route.state.index]
+                        : '';
+                    console.log('--- Loading',routeName, 'page');
+                    return { headerTitle: routeName.name };
                 }}
             />
         

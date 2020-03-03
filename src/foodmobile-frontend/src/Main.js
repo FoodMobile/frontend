@@ -19,7 +19,11 @@ import PreferencesContext from './context/context'
 export default function Main(){
     const colorScheme = useColorScheme();
 
-    const [state, dispatch] = React.useReducer(
+    //This is like react state,but changes 
+    //a json object given an action, basicly 
+    //good when changing objects rather then using
+    // useState
+    const [state, updateLoginToken] = React.useReducer(
         (prevState, action) => {
           switch (action.type) {
             case 'RESTORE_TOKEN':
@@ -53,32 +57,40 @@ export default function Main(){
     const [theme, setTheme] = React.useState(
         colorScheme === 'dark' ? 'dark' : 'light'
     );
+
+    const [user, setUser] = React.useState(
+      {}
+    );
     
     //Make func to set theme
     function toggleTheme() {
         setTheme(theme => (theme === 'light' ? 'dark' : 'light'));
     }
     
-    //Set context
+    //Set context,these are like global states that can be
+    //accessed in the children components
     const preferences = React.useMemo(
         () => ({
-            toggleTheme,theme,
+            user,
+            toggleTheme,
+            theme,
             signIn: async data => {
                 // In a production app, we need to send some data (usually username, password) to server and get a token
                 // We will also need to handle errors if sign in failed
                 // After getting token, we need to persist the token using `AsyncStorage`
                 // In the example, we'll use a dummy token
-        
-                dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+                console.log(data)
+                setUser(data)
+                updateLoginToken({ type: 'SIGN_IN', token: 'dummy-auth-token' });
             },
-            signOut: () => dispatch({ type: 'SIGN_OUT' }),
+            signOut: () => updateLoginToken({ type: 'SIGN_OUT' }),
             signUp: async data => {
                 // In a production app, we need to send user data to server and get a token
                 // We will also need to handle errors if sign up failed
                 // After getting token, we need to persist the token using `AsyncStorage`
                 // In the example, we'll use a dummy token
         
-                dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+                updateLoginToken({ type: 'SIGN_IN', token: 'dummy-auth-token' });
             },
         })
     );

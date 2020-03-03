@@ -10,7 +10,7 @@ class tabScreenData {
 }
 
 const myOrdersPage = new tabScreenData(
-    'MyOrders',
+    'My Orders',
     'My Orders',
     '#93ad4f',
     {
@@ -44,7 +44,7 @@ const mapPage = new tabScreenData(
 )
 
 const myFavoritesPage = new tabScreenData(
-    'MyFavorites',
+    'My Favorites',
     'Favorites',
     '#4f64ad',
     {
@@ -61,7 +61,7 @@ const myFavoritesPage = new tabScreenData(
 )
 
 const mySettingsPage = new tabScreenData(
-    'MySettings',
+    'My Settings',
     'Settings',
     '#ad4f64',
     {
@@ -85,13 +85,13 @@ class stackScreenData {
     }
 }
 
-const mySettingsStackPage = new stackScreenData('MySettingsStack', 'My Settings');
-const myFavoritesStackPage = new stackScreenData('MyFavoritesStack', 'Favorites');
-const mapStackPage = new stackScreenData('MapStackPage', 'Truck Map');
-const myOrdersStackPage = new stackScreenData('MyOrdersStackPage', 'My Orders');
-const myFoodPreferncesPage = new stackScreenData('MyFoodPreferences', 'My Food Preferences');
-const myWalletsPage = new stackScreenData('MyWallets', 'My Wallets');
-const EditWalletPage = new stackScreenData('EditWallet', 'Edit Wallet');
+const mySettingsStackPage = new stackScreenData('My Settings', 'My Settings');
+const myFavoritesStackPage = new stackScreenData('My Favorites', 'Favorites');
+const mapStackPage = new stackScreenData('Map', 'Truck Map');
+const myOrdersStackPage = new stackScreenData('My Orders', 'My Orders');
+const myFoodPreferncesPage = new stackScreenData('My Food Preferences', 'My Food Preferences');
+const myWalletsPage = new stackScreenData('My Wallets', 'My Wallets');
+const EditWalletPage = new stackScreenData('Edit Wallet', 'Edit Wallet');
 
 const LoginPage = new stackScreenData('Login', 'Login');
 const CreateAccountPage = new stackScreenData('CreateAccount', 'Create Account');
@@ -102,6 +102,7 @@ const ScreenNames = {
         activeColor:"white",
         inactiveColor:"grey",
         tabColor:'#694fad',
+        name:"MainTab",
         pages:{
             myOrders:myOrdersPage,
             map:mapPage,

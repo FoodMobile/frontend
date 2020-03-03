@@ -9,7 +9,7 @@ import PreferencesContext from '../context/context'
 
 export default function SettingsPage(props) {
    
-    const {signOut}  = React.useContext(
+    const {signOut,user}  = React.useContext(
         PreferencesContext
     );
 
@@ -17,9 +17,10 @@ export default function SettingsPage(props) {
         <>
             <GeneralSettings {...props} styles={styles}/>
             <PrivacySettings {...props} styles={styles}/>
-            <Button onPress={()=>signOut()}>
+            <Button onPress={()=>signOut()} mode="contained">
                 <Text>Logout</Text>
             </Button>
+    <Text>{JSON.stringify(user)}</Text>
         </>   
     );
 
