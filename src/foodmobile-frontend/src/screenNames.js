@@ -93,6 +93,10 @@ const myFoodPreferncesPage = new stackScreenData('MyFoodPreferences', 'My Food P
 const myWalletsPage = new stackScreenData('MyWallets', 'My Wallets');
 const EditWalletPage = new stackScreenData('EditWallet', 'Edit Wallet');
 
+const LoginPage = new stackScreenData('Login', 'Login');
+const CreateAccountPage = new stackScreenData('CreateAccount', 'Create Account');
+const ResetPasswordPage = new stackScreenData('ResetPassword', 'Reset Password');
+
 const ScreenNames = {
     mainTabs: {
         activeColor:"white",
@@ -113,7 +117,10 @@ const ScreenNames = {
         myOrders:myOrdersStackPage,
         myFoodPrefernces:myFoodPreferncesPage,
         myWallet:myWalletsPage,
-        editWallet:EditWalletPage
+        editWallet:EditWalletPage,
+        login:LoginPage,
+        createAccount:CreateAccountPage,
+        resetPassword:ResetPasswordPage
     }
     
 };

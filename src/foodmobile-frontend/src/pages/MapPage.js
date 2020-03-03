@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, AsyncStorage,RefreshControl,ScrollView } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Permissions from 'expo-permissions';
@@ -13,10 +13,10 @@ const Tab = createMaterialTopTabNavigator();
 // import GetMapPage from './testMapPage'
 import ShowLocation from './testShowLoc'
 function mapHome() {
+
   return(
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>My map page!</Text>
-      
     </View>
   )
 }

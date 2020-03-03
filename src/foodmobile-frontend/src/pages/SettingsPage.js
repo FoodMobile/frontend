@@ -4,18 +4,25 @@ import { createStackNavigator } from '@react-navigation/stack';
 import GeneralSettings from './settings/generalSettings'
 import PrivacySettings from './settings/privacySettings'
 
+import { Button,Text } from 'react-native-paper';
+import PreferencesContext from '../context/context'
 
-export default class SettingsPage extends React.Component {
-    render() {
-        return (  
-            <>
-                <GeneralSettings {...this.props} styles={styles}/>
-                <PrivacySettings {...this.props} styles={styles}/>
-            </>   
-        );
-    }
-    
-    
+export default function SettingsPage(props) {
+   
+    const {signOut}  = React.useContext(
+        PreferencesContext
+    );
+
+    return (  
+        <>
+            <GeneralSettings {...props} styles={styles}/>
+            <PrivacySettings {...props} styles={styles}/>
+            <Button onPress={()=>signOut()}>
+                <Text>Logout</Text>
+            </Button>
+        </>   
+    );
+
 }
 
 const preferenceStyle = {

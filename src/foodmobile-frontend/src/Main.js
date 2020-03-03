@@ -19,6 +19,36 @@ import PreferencesContext from './context/context'
 export default function Main(){
     const colorScheme = useColorScheme();
 
+    const [state, dispatch] = React.useReducer(
+        (prevState, action) => {
+          switch (action.type) {
+            case 'RESTORE_TOKEN':
+              return {
+                ...prevState,
+                userToken: action.token,
+                isLoading: false,
+              };
+            case 'SIGN_IN':
+              return {
+                ...prevState,
+                isSignout: false,
+                userToken: action.token,
+              };
+            case 'SIGN_OUT':
+              return {
+                ...prevState,
+                isSignout: true,
+                userToken: null,
+              };
+          }
+        },
+        {
+          isLoading: true,
+          isSignout: false,
+          userToken: null,
+        }
+    );
+
     //Make state for theme
     const [theme, setTheme] = React.useState(
         colorScheme === 'dark' ? 'dark' : 'light'
@@ -32,7 +62,24 @@ export default function Main(){
     //Set context
     const preferences = React.useMemo(
         () => ({
-        toggleTheme,theme
+            toggleTheme,theme,
+            signIn: async data => {
+                // In a production app, we need to send some data (usually username, password) to server and get a token
+                // We will also need to handle errors if sign in failed
+                // After getting token, we need to persist the token using `AsyncStorage`
+                // In the example, we'll use a dummy token
+        
+                dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+            },
+            signOut: () => dispatch({ type: 'SIGN_OUT' }),
+            signUp: async data => {
+                // In a production app, we need to send user data to server and get a token
+                // We will also need to handle errors if sign up failed
+                // After getting token, we need to persist the token using `AsyncStorage`
+                // In the example, we'll use a dummy token
+        
+                dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+            },
         })
     );
     
@@ -53,7 +100,7 @@ export default function Main(){
                     }
                 }
             >
-               <RootNavigation/>
+               <RootNavigation state={state}/>
             </PaperProvider>
         </PreferencesContext.Provider>
      

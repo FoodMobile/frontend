@@ -6,5 +6,7 @@ export default PreferencesContext = React.createContext({
   theme: 'light',
   toggleTheme: () => {},
   toggleRTL: () => {},
+  signIn: () => {},
+  signOut: () => {}
 });
 
