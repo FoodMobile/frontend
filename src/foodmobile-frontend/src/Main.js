@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+import {getData,storeData} from './components/asyncStorage'
+
 import {
   DarkTheme as PaperDarkTheme, // Papers dark theme.
   DefaultTheme as PaperDefaultTheme,// Papers light theme.
@@ -18,6 +20,8 @@ import PreferencesContext from './context/context'
 //Sub components to use it.
 export default function Main(){
     const colorScheme = useColorScheme();
+    
+    const [pageLoaded,setPageLoaded ] = React.useState(false)
 
     //This is like react state,but changes 
     //a json object given an action, basicly 
@@ -52,7 +56,7 @@ export default function Main(){
           userToken: null,
         }
     );
-
+    
     //Make state for theme
     const [theme, setTheme] = React.useState(
         colorScheme === 'dark' ? 'dark' : 'light'
@@ -79,22 +83,52 @@ export default function Main(){
                 // We will also need to handle errors if sign in failed
                 // After getting token, we need to persist the token using `AsyncStorage`
                 // In the example, we'll use a dummy token
-                console.log(data)
-                setUser(data)
-                updateLoginToken({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+                setUser({
+                    ...data,
+                    token: JSON.stringify(data) 
+                })
+                storeData(JSON.stringify(data),'token')
+                updateLoginToken({ 
+                    type: 'SIGN_IN', token: JSON.stringify(data) 
+                });
             },
-            signOut: () => updateLoginToken({ type: 'SIGN_OUT' }),
+            signOut: () => {
+                storeData(undefined,'token')
+                updateLoginToken({ type: 'SIGN_OUT' })
+            },
             signUp: async data => {
                 // In a production app, we need to send user data to server and get a token
                 // We will also need to handle errors if sign up failed
                 // After getting token, we need to persist the token using `AsyncStorage`
                 // In the example, we'll use a dummy token
-        
+                
                 updateLoginToken({ type: 'SIGN_IN', token: 'dummy-auth-token' });
             },
         })
     );
-    
+
+    React.useEffect(()=>{
+        async function getToken() {
+            
+            const token = await getData('token',undefined)
+            console.log('got token = ',token)
+            updateLoginToken({ 
+                type: 'RESTORE_TOKEN', token: 'already-signed-in-token' 
+            })
+
+            setUser({
+                ...user,
+                token: 'already-signed-in-token' 
+            })
+            setPageLoaded(true)
+           
+        }
+        if(!pageLoaded) {
+            getToken()
+        }
+        
+    })
+
     return (
         //Pass context
         <PreferencesContext.Provider value = {preferences}>

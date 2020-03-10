@@ -4,6 +4,7 @@ import { Button, Text, TextInput, IconButton, Colors   } from 'react-native-pape
 
 import PreferencesContext from '../context/context'
 import ScreenNames from '../screenNames'
+import {getData,storeData} from '../components/asyncStorage'
 
 export default function LoginPage({ navigation }) {
     // const {login} =  ScreenNames.stackPages
@@ -58,6 +59,8 @@ export default function LoginPage({ navigation }) {
           password: null,
         }
     );
+
+  
 
     function handleSignin() {
       const {userName,password}=userNamePasswordValues
@@ -146,6 +149,8 @@ export default function LoginPage({ navigation }) {
 
           <Text>{inputError.userName}</Text>
           <Text>{inputError.password}</Text>
+
+          
       </>
     
     );

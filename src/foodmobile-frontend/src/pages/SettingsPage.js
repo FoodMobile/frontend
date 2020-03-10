@@ -6,12 +6,16 @@ import PrivacySettings from './settings/privacySettings'
 
 import { Button,Text } from 'react-native-paper';
 import PreferencesContext from '../context/context'
+import {getData,storeData} from '../components/asyncStorage'
+
 
 export default function SettingsPage(props) {
    
     const {signOut,user}  = React.useContext(
         PreferencesContext
     );
+    
+ 
 
     return (  
         <>
@@ -20,7 +24,7 @@ export default function SettingsPage(props) {
             <Button onPress={()=>signOut()} mode="contained">
                 <Text>Logout</Text>
             </Button>
-    <Text>{JSON.stringify(user)}</Text>
+            <Text>{JSON.stringify(user)}</Text>
         </>   
     );
 
