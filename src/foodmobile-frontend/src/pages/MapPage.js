@@ -12,7 +12,7 @@ const Tab = createMaterialTopTabNavigator();
 // import GetCameraPage from './testCameraPage' 
 // import GetMapPage from './testMapPage'
 import ShowLocation from './testShowLoc'
-function mapHome() {
+function MapHome() {
 
   return(
     <View style={styles.container}>
@@ -43,12 +43,12 @@ export default function MapPage({ navigation }) {
     const {map} =  ScreenNames.stackPages
     return (
       // <Tab.Navigator>
-      //   <Tab.Screen name="Map Home" component={mapHome} />
-      //   <Tab.Screen name="Map Location" component={ShowLocation} />
-      //   <Tab.Screen name="Map Cam" component={mapCam} />
-      //   <Tab.Screen name="Map Loc" component={mapLoc} />
+      //    <Tab.Screen name="Map Home" component={mapHome}/>
+      //    <Tab.Screen name="Map Location" component={ShowLocation}/>
+      //    <Tab.Screen name="Map Cam" component={mapCam}/>
+      //    <Tab.Screen name="Map Loc" component={mapLoc}/>
       // </Tab.Navigator>
-      <mapHome/>
+      <ShowLocation/>
     );
 }
 
