@@ -19,12 +19,11 @@ import SigninStack from './Login'
 
 //Our root navigatior that adds the drawer
 export function RootNavigation(props) {
-    const userToken = props?.state?.userToken || null
+    const userToken = props?.userState?.userToken || null
     const theme = useTheme();
 
     //Find out which theam to use
     const navigationTheme = theme.dark ? PaperDarkTheme : PaperDefaultTheme;
-    console.log(userToken)
     return (
         <NavigationContainer theme={navigationTheme}>
             {/* If no user token,that means user needs to log in */}

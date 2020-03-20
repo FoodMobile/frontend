@@ -14,46 +14,53 @@ import { useColorScheme } from 'react-native-appearance';
 
 import {RootNavigation} from './navigation/RootNavigation'
 import PreferencesContext from './context/context'
+import { set } from 'react-native-reanimated';
 
 //This function provides the theme of the app
 //And sets up a context that allows all
 //Sub components to use it.
 export default function Main(){
     const colorScheme = useColorScheme();
-    
-    const [pageLoaded,setPageLoaded ] = React.useState(false)
 
     //This is like react state,but changes 
     //a json object given an action, basicly 
     //good when changing objects rather then using
     // useState
-    const [state, updateLoginToken] = React.useReducer(
+    const [userState, updateLoginToken] = React.useReducer(
         (prevState, action) => {
           switch (action.type) {
             case 'RESTORE_TOKEN':
-              return {
-                ...prevState,
-                userToken: action.token,
-                isLoading: false,
-              };
+                return {
+                    ...prevState,
+                    userToken: action.token,
+                    isLoading: false,
+                };
             case 'SIGN_IN':
-              return {
-                ...prevState,
-                isSignout: false,
-                userToken: action.token,
-              };
+                return {
+                    ...prevState,
+                    isSignout: false,
+                    userToken: action.token,
+                    user: action.user
+                };
             case 'SIGN_OUT':
-              return {
-                ...prevState,
-                isSignout: true,
-                userToken: null,
-              };
+                return {
+                    ...prevState,
+                    isSignout: true,
+                    userToken: null,
+                    user: {}
+                };
+            case 'UPDATE_USER':
+                return {
+                    ...prevState,
+                    user: action.user
+                };
           }
         },
         {
           isLoading: true,
           isSignout: false,
           userToken: null,
+          user:{}
         }
     );
     
@@ -61,21 +68,19 @@ export default function Main(){
     const [theme, setTheme] = React.useState(
         colorScheme === 'dark' ? 'dark' : 'light'
     );
-
-    const [user, setUser] = React.useState(
-      {}
-    );
+    
     
     //Make func to set theme
     function toggleTheme() {
         setTheme(theme => (theme === 'light' ? 'dark' : 'light'));
     }
     
+    storeData(JSON.stringify(Date.now()),'testData')
     //Set context,these are like global states that can be
     //accessed in the children components
     const preferences = React.useMemo(
         () => ({
-            user,
+            userState,
             toggleTheme,
             theme,
             signIn: async data => {
@@ -83,18 +88,26 @@ export default function Main(){
                 // We will also need to handle errors if sign in failed
                 // After getting token, we need to persist the token using `AsyncStorage`
                 // In the example, we'll use a dummy token
-                setUser({
-                    ...data,
-                    token: JSON.stringify(data) 
-                })
+
+                const token = `${data.userName}-${data.password}-${Date.now()}`
+
+                //Store the token
                 storeData(JSON.stringify(data),'token')
+
+                //Update state
                 updateLoginToken({ 
-                    type: 'SIGN_IN', token: JSON.stringify(data) 
+                    type: 'SIGN_IN', 
+                    token: token, 
+                    user: {
+                        ...data
+                    }
                 });
             },
-            signOut: () => {
-                storeData(undefined,'token')
-                updateLoginToken({ type: 'SIGN_OUT' })
+            signOut: async () => {
+                //remove saved token
+                await storeData(JSON.stringify({}),'token')
+                //Update state
+                updateLoginToken({ type: 'SIGN_OUT',user:{} })
             },
             signUp: async data => {
                 // In a production app, we need to send user data to server and get a token
@@ -107,27 +120,27 @@ export default function Main(){
         })
     );
 
-    React.useEffect(()=>{
-        async function getToken() {
+    // React.useEffect(()=>{
+    //     async function getToken() {
             
-            const token = await getData('token',undefined)
-            console.log('got token = ',token)
-            updateLoginToken({ 
-                type: 'RESTORE_TOKEN', token: 'already-signed-in-token' 
-            })
+    //         const token = await getData('token',undefined)
+    //         console.log('got token = ',token)
+    //         updateLoginToken({ 
+    //             type: 'RESTORE_TOKEN', token: 'already-signed-in-token' 
+    //         })
 
-            setUser({
-                ...user,
-                token: 'already-signed-in-token' 
-            })
-            setPageLoaded(true)
+    //         setUser({
+    //             ...user,
+    //             token: 'already-signed-in-token' 
+    //         })
+    //         setPageLoaded(true)
            
-        }
-        if(!pageLoaded) {
-            getToken()
-        }
+    //     }
+    //     if(!pageLoaded) {
+    //         getToken()
+    //     }
         
-    })
+    // })
 
     return (
         //Pass context
@@ -146,7 +159,7 @@ export default function Main(){
                     }
                 }
             >
-               <RootNavigation state={state}/>
+               <RootNavigation userState={userState}/>
             </PaperProvider>
         </PreferencesContext.Provider>
      

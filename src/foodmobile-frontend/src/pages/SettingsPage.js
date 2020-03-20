@@ -11,12 +11,10 @@ import {getData,storeData} from '../components/asyncStorage'
 
 export default function SettingsPage(props) {
    
-    const {signOut,user}  = React.useContext(
+    const {signOut,userState}  = React.useContext(
         PreferencesContext
     );
     
- 
-
     return (  
         <>
             <GeneralSettings {...props} styles={styles}/>
@@ -24,7 +22,7 @@ export default function SettingsPage(props) {
             <Button onPress={()=>signOut()} mode="contained">
                 <Text>Logout</Text>
             </Button>
-            <Text>{JSON.stringify(user)}</Text>
+            <Text>{JSON.stringify(userState.userToken)}</Text>
         </>   
     );
 
