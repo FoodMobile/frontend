@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, AsyncStorage,RefreshControl,ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, View, AsyncStorage,RefreshControl,ScrollView } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as Permissions from 'expo-permissions';
@@ -15,8 +15,14 @@ import ShowLocation from './testShowLoc'
 function mapHome() {
 
   return(
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>My map page!</Text>
+    <View style={styles.container}>
+      {/* { flex: 1, alignItems: 'center', justifyContent: 'center' } */} 
+      <View style={styles.mapContainer}>
+        <Text>The actual map should go here</Text> 
+      </View>
+      <View style={styles.truckListContainer}>
+        <Text>this is where the list of trucks will go</Text> 
+      </View>
     </View>
   )
 }
@@ -42,8 +48,27 @@ export default function MapPage({ navigation }) {
         {/* <Tab.Screen name="Map Cam" component={mapCam} /> */}
         {/* <Tab.Screen name="Map Loc" component={mapLoc} /> */}
       </Tab.Navigator>
-       
-    
     );
 }
-  
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#000',
+  },
+  mapContainer: {
+    flex: 3,
+    // flexWrap: 'wrap',
+    backgroundColor: '#ffab00', // orange
+    alignItems: 'center',
+    justifyContent:'center',
+  },
+  truckListContainer: {
+    flex: 1,
+    // flexWrap: 'wrap',
+    backgroundColor: '#adbab5', //greyish color
+  },
+});
+
+

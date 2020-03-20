@@ -12,7 +12,7 @@ export default function MainAppbar(props) {
         <Appbar.Header
         theme={{ colors: { primary: theme.colors.surface } }}
         >
-            {previous ? (
+            {/* {previous ? (
                 <Appbar.BackAction
                     onPress={navigation.goBack}
                     color={theme.colors.primary}
@@ -24,16 +24,16 @@ export default function MainAppbar(props) {
                     // ((navigation) ).openDrawer();
                     // }}
                 >
-                    {/* <Avatar.Image
+                    <Avatar.Image
                     size={40}
                     source={{
                         uri:
                         'https://pbs.twimg.com/profile_images/952545910990495744/b59hSXUd_400x400.jpg',
                     }}
-                    /> */}
+                    />
                     <MaterialCommunityIcons name="menu" size = {30}  />
                 </TouchableOpacity>
-            )}
+            )} */}
             <Appbar.Content
             title={
                 title
