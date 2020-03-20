@@ -42,12 +42,13 @@ function mapHome() {
 export default function MapPage({ navigation }) {
     const {map} =  ScreenNames.stackPages
     return (
-      <Tab.Navigator>
-        <Tab.Screen name="Map Home" component={mapHome} />
-        <Tab.Screen name="Map Location" component={ShowLocation} />
-        {/* <Tab.Screen name="Map Cam" component={mapCam} /> */}
-        {/* <Tab.Screen name="Map Loc" component={mapLoc} /> */}
-      </Tab.Navigator>
+      // <Tab.Navigator>
+      //   <Tab.Screen name="Map Home" component={mapHome} />
+      //   <Tab.Screen name="Map Location" component={ShowLocation} />
+      //   <Tab.Screen name="Map Cam" component={mapCam} />
+      //   <Tab.Screen name="Map Loc" component={mapLoc} />
+      // </Tab.Navigator>
+      <mapHome/>
     );
 }
 
