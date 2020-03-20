@@ -259,6 +259,10 @@ export default class GetMapPage extends React.Component {
           }}
           provider="google"
         />
+        {/* list of trucks displayed on the map */}
+        <View style={styles.truckListContainer}>
+          <Text>this is where the list of trucks will go</Text> 
+        </View>
       </View>
     );
   }
@@ -266,14 +270,17 @@ export default class GetMapPage extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    // flex: 1,
+    height: Dimensions.get('window').height,
+    backgroundColor: '#000',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'column',
   },
   mapStyle: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    // height: Dimensions.get('window').height,
+    flex: 3,
   },
   containerLocation: {
     flex: 1,
@@ -286,5 +293,11 @@ const styles = StyleSheet.create({
     margin: 24,
     fontSize: 18,
     textAlign: 'center',
+  },
+  truckListContainer: {
+    flex: 1,
+    // flexWrap: 'wrap',
+    width: Dimensions.get('window').width,
+    backgroundColor: '#adbab5', //greyish color
   },
 });
