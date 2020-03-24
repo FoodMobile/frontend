@@ -236,15 +236,57 @@ const MapStyle=[
   }
 ]
 
-export default class GetMapPage extends React.Component {
-  render() {
-    console.log(this.props.location)
-    const myLocation = this.props?.location?.coords || {
-      latitude:36,
-      longitude:36,
-      latitudeDelta: 0.00922,
-      longitudeDelta: 0.00421,
-    }
+import PreferencesContext from '../context/context'
+export default function GetMapPage(props)  {
+  
+
+  const {style,theme} = React.useContext(
+    PreferencesContext
+  );
+ 
+
+  const styles = StyleSheet.create({
+    container: {
+      // flex: 1,
+      height: Dimensions.get('window').height,
+      backgroundColor: '#000',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+    },
+    mapStyle: {
+      width: Dimensions.get('window').width,
+      // height: Dimensions.get('window').height,
+      flex: 3,
+    },
+    containerLocation: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      //paddingTop: Constants.statusBarHeight,
+      backgroundColor: '#ecf0f1',
+    },
+    paragraph: {
+      margin: 24,
+      fontSize: 18,
+      textAlign: 'center',
+    },
+    truckListContainer: {
+      flex: 1,
+      flexWrap: 'wrap',
+      width: Dimensions.get('window').width,
+      backgroundColor: '#adbab5', //greyish color
+    },
+    ...style(theme)
+  });
+  const myLocation = props?.location?.coords || {
+    latitude:36,
+    longitude:36,
+    latitudeDelta: 0.00922,
+    longitudeDelta: 0.00421,
+  }
+  
+    
     return (
       <View style={styles.container}>
         <MapView style={styles.mapStyle} 
@@ -262,47 +304,14 @@ export default class GetMapPage extends React.Component {
           provider="google"
         />
         {/* list of trucks displayed on the map */}
-        <View style={styles.nineHecks}>
+        <View style={styles.testingStyle}>
           <Text>this is where the list of trucks will go</Text> 
         </View>
       </View>
     );
-  }
+  
 }
 
-const styles = StyleSheet.create({
-  container: {
-    // flex: 1,
-    height: Dimensions.get('window').height,
-    backgroundColor: '#000',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-  },
-  mapStyle: {
-    width: Dimensions.get('window').width,
-    // height: Dimensions.get('window').height,
-    flex: 3,
-  },
-  containerLocation: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    //paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    textAlign: 'center',
-  },
-  truckListContainer: {
-    flex: 1,
-    flexWrap: 'wrap',
-    width: Dimensions.get('window').width,
-    backgroundColor: '#adbab5', //greyish color
-  },
-  ...genTheme()
-});
+
 
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {getData,storeData} from './components/asyncStorage'
-
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import {
   DarkTheme as PaperDarkTheme, // Papers dark theme.
   DefaultTheme as PaperDefaultTheme,// Papers light theme.
@@ -104,6 +104,20 @@ export default function Main(){
                 
                 updateLoginToken({ type: 'SIGN_IN', token: 'dummy-auth-token' });
             },
+            style: theme => {
+                const primary = theme==='light'? '#b4eeb4' : '#BB00BB'
+                const secondary = theme==='light'? '#908cff' : '#f9901c' 
+                const tertiary = theme==='light'? '#11114e' : '#b438fb'
+
+                return {
+                    testingStyle: {
+                        flex: 1,
+                        flexWrap: 'wrap',
+                        width: Dimensions.get('window').width,
+                        backgroundColor: secondary, //greyish color
+                    },
+                }
+            }
         })
     );
 
