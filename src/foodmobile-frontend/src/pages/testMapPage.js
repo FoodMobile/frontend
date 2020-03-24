@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   },
   truckListContainer: {
     flex: 1,
-    // flexWrap: 'wrap',
+    flexWrap: 'wrap',
     width: Dimensions.get('window').width,
     backgroundColor: '#adbab5', //greyish color
   },

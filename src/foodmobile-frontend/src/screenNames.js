@@ -102,7 +102,7 @@ const ScreenNames = {
         activeColor:"white",
         inactiveColor:"grey",
         tabColor:'#694fad',
-        name:"MainTab",
+        name:mapPage.title,
         pages:{
             myOrders:myOrdersPage,
             map:mapPage,
