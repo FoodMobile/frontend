@@ -10,7 +10,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 const Tab = createMaterialTopTabNavigator();
 // import GetCameraPage from './testCameraPage' 
-// import GetMapPage from './testMapPage'
+// import GetMapPage from './getMap'
 import ShowLocation from './testShowLoc'
 function MapHome() {
 
@@ -22,7 +22,7 @@ function MapHome() {
       </View>
       <View style={styles.truckListContainer}>
         <Text>this is where the list of trucks will go!!!2222222</Text>
-        <Text> fdkslajfdlsajfldsjal</Text> 
+        <Text>fdkslajfdlsajfldsjal</Text> 
       </View>
     </View>
   )
