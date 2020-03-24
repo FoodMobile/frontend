@@ -3,6 +3,8 @@ import MapView from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 
+import {genTheme} from '../context/styles'
+
 // export default class GetMapPage extends React.Component {
 //   state = {
 //     location: null,
@@ -260,7 +262,7 @@ export default class GetMapPage extends React.Component {
           provider="google"
         />
         {/* list of trucks displayed on the map */}
-        <View style={styles.truckListContainer}>
+        <View style={styles.nineHecks}>
           <Text>this is where the list of trucks will go</Text> 
         </View>
       </View>
@@ -300,4 +302,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     backgroundColor: '#adbab5', //greyish color
   },
+  ...genTheme()
 });
+
+
