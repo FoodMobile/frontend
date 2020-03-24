@@ -10,9 +10,9 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 const Tab = createMaterialTopTabNavigator();
 // import GetCameraPage from './testCameraPage' 
-// import GetMapPage from './testMapPage'
+// import GetMapPage from './getMap'
 import ShowLocation from './testShowLoc'
-function mapHome() {
+function MapHome() {
 
   return(
     <View style={styles.container}>
@@ -21,7 +21,8 @@ function mapHome() {
         <Text>The actual map should go here</Text> 
       </View>
       <View style={styles.truckListContainer}>
-        <Text>this is where the list of trucks will go</Text> 
+        <Text>this is where the list of trucks will go!!!2222222</Text>
+        <Text>fdkslajfdlsajfldsjal</Text> 
       </View>
     </View>
   )
@@ -42,33 +43,34 @@ function mapHome() {
 export default function MapPage({ navigation }) {
     const {map} =  ScreenNames.stackPages
     return (
-      <Tab.Navigator>
-        <Tab.Screen name="Map Home" component={mapHome} />
-        <Tab.Screen name="Map Location" component={ShowLocation} />
-        {/* <Tab.Screen name="Map Cam" component={mapCam} /> */}
-        {/* <Tab.Screen name="Map Loc" component={mapLoc} /> */}
-      </Tab.Navigator>
+      // <Tab.Navigator>
+      //    <Tab.Screen name="Map Home" component={mapHome}/>
+      //    <Tab.Screen name="Map Location" component={ShowLocation}/>
+      //    <Tab.Screen name="Map Cam" component={mapCam}/>
+      //    <Tab.Screen name="Map Loc" component={mapLoc}/>
+      // </Tab.Navigator>
+      <ShowLocation/>
     );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#000',
-  },
-  mapContainer: {
-    flex: 3,
-    // flexWrap: 'wrap',
-    backgroundColor: '#ffab00', // orange
-    alignItems: 'center',
-    justifyContent:'center',
-  },
-  truckListContainer: {
-    flex: 1,
-    // flexWrap: 'wrap',
-    backgroundColor: '#adbab5', //greyish color
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     backgroundColor: '#000',
+//   },
+//   mapContainer: {
+//     flex: 3,
+//     // flexWrap: 'wrap',
+//     backgroundColor: '#ffab00', // orange
+//     alignItems: 'center',
+//     justifyContent:'center',
+//   },
+//   truckListContainer: {
+//     flex: 1,
+//     flexWrap: 'wrap',
+//     backgroundColor: '#adbab5', //greyish color
+//   },
+// });
 
 
