@@ -8,6 +8,6 @@ export default PreferencesContext = React.createContext({
   toggleRTL: () => {},
   signIn: () => {},
   signOut: () => {},
-  user:{}
+  token:undefined
 });
 

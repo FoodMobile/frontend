@@ -12,11 +12,11 @@ export default function GeneralSettings(props) {
         PreferencesContext
     );
     const {navigation,styles} = props
-
+        
     return (
         <List.Section title="General">
             <List.Accordion
-            title="Apperance"
+            title={`Apperance: ${theme}`}
             description = "Change how the app looks"
             left={props => <List.Icon {...props} icon="cogs" />}
             >
