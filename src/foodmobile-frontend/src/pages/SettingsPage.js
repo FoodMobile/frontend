@@ -4,16 +4,18 @@ import { createStackNavigator } from '@react-navigation/stack';
 import GeneralSettings from './settings/generalSettings'
 import PrivacySettings from './settings/privacySettings'
 
-import { Button,Text } from 'react-native-paper';
+
+import { Button,Text,Card,Title, DarkTheme,Provider,DefaultTheme } from 'react-native-paper';
 import PreferencesContext from '../context/context'
 import {getData,storeData} from '../components/asyncStorage'
 
 
 export default function SettingsPage(props) {
    
-    const {signOut,userState}  = React.useContext(
+    const {signOut,userState,theme}  = React.useContext(
         PreferencesContext
     );
+ 
     
     return (  
         <>
@@ -22,7 +24,17 @@ export default function SettingsPage(props) {
             <Button onPress={()=>signOut()} mode="contained">
                 <Text>Logout</Text>
             </Button>
-            <Text>{JSON.stringify(userState.userToken)}</Text>
+
+            <Provider  theme = {theme=='light'? DarkTheme:DefaultTheme} >
+                <Card style={{margin:15,padding:5}} theme={DarkTheme} elevation={115}>
+                
+                    <Title>Saved token data</Title>
+                    <Card.Content>
+                        <Text>User token: {JSON.stringify(userState)}</Text>
+                    </Card.Content>
+                </Card>
+            </Provider>
+            
         </>   
     );
 

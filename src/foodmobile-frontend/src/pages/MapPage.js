@@ -49,7 +49,7 @@ export default function MapPage({ navigation }) {
       //    <Tab.Screen name="Map Cam" component={mapCam}/>
       //    <Tab.Screen name="Map Loc" component={mapLoc}/>
       // </Tab.Navigator>
-      <MapHome/>
+      <ShowLocation/>
     );
 }
 

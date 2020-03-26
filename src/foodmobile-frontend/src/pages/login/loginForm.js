@@ -147,7 +147,7 @@ export default function LoginForm(props) {
             size={40}
             onPress={() => console.log('Pressed')}
           />
-          <Text>{JSON.stringify(userState)}</Text>
+          {/* <Text>User state: {JSON.stringify(userState)}</Text> */}
       </>
     
     );

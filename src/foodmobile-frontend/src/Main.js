@@ -33,6 +33,7 @@ export default function Main(){
                 return {
                     ...prevState,
                     isSignout: false,
+                    isLoading:false,
                     token: action.token
                 };
             case 'SIGN_IN':
@@ -47,12 +48,21 @@ export default function Main(){
                     isSignout: true,
                     token: {}
                 };
+            case 'IS_LOADING':
+                return {
+                    ...prevState,
+                    isLoading:action.isLoading
+                };
           }
         },
         {
           isLoading: true,
           isSignout: false,
-          token:undefined
+          token:{
+              value:undefined,
+              expDate:undefined,
+              assingDate:undefined
+          }
         }
     );
 
@@ -62,10 +72,11 @@ export default function Main(){
     const [theme, setTheme] = React.useState(
         colorScheme === 'dark' ? 'dark' : 'light'
     );
-
+        
     //Make func to set theme
-    function toggleTheme() {
-        setTheme(theme => (theme === 'light' ? 'dark' : 'light'));
+    async function toggleTheme(newTheme = theme === 'light' ? 'dark' : 'light') {
+        setTheme(newTheme);
+        const x = await storeData(newTheme,'theme')
     }
 
     //Set context,these are like global states that can be
@@ -73,6 +84,7 @@ export default function Main(){
     const preferences = React.useMemo(
         () => ({
             userState,
+            updateUserState,
             toggleTheme,
             theme,
             signIn: async data => {
@@ -82,15 +94,19 @@ export default function Main(){
                 // we need to persist the token using `AsyncStorage` In the
                 // example, we'll use a dummy token
                 
-                const token = `${data.userName}-${data.password}-${Date.now()}`
+                const token = {
+                    value:`${data.userName}-${data.password}-token`,
+                    expDate:Date.now(),
+                    assingDate:Date.now()
+                }
                 
                 //Store the token
-                await storeData(JSON.stringify(data),'token')
+                await storeData(JSON.stringify(token),'token')
 
                 //Update state
                 await updateUserState({ 
                     type: 'SIGN_IN', 
-                    token: data
+                    token: token
                 });
             },
             signOut: async () => {
@@ -121,29 +137,17 @@ export default function Main(){
                     },
                 }
             }
-        }),
-        [userState]
+        })
     );
         
     React.useEffect(()=>{
-        async function getToken() {
-            
-            const token = JSON.parse(await getData('token',undefined))
-
-            console.log('got token = ',token)
-            updateUserState({ 
-                type: 'RESTORE_TOKEN', token: token 
-            })
-
-            setPageLoaded(true)
-           
+        async function getTheme() {
+            let theme = await getData('theme','light')
+            //console.log(theme)
+            setTheme(theme)  
         }
-        if(!pageLoaded) {
-            getToken()
-        }
-        
-        
-        
+        getTheme()
+        console.log('a')
     }, []) // maybe put user Id in here?
 
     const determineTheme = theme => {
@@ -159,7 +163,7 @@ export default function Main(){
             }
         }
     }
-
+    
     return (
         //Pass context
         <PreferencesContext.Provider value = {preferences}>
