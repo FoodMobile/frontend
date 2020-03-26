@@ -1,5 +1,6 @@
 import React,{useState} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import PreferencesContext from '../context/context'
 // import { Text,AsyncStorage, View } from 'react-native';
 // import PreferencesContext from '../context/context'
 
@@ -18,24 +19,25 @@ import AuthenticatedStack from './Authenticated'
 import SigninStack from './Login'
 
 //Our root navigatior that adds the drawer
-export function RootNavigation(props) {
-    const userToken = props?.userState?.userToken || null
-    const theme = useTheme();
+export class  RootNavigation extends React.Component {
+    render() {
 
-    //Find out which theam to use
-    const navigationTheme = theme.dark ? PaperDarkTheme : PaperDefaultTheme;
-    return (
-        <NavigationContainer theme={navigationTheme}>
-            {/* If no user token,that means user needs to log in */}
-            {userToken == null ? (
+        // const theme = useTheme();
+        // //Find out which theam to use
+        // const navigationTheme = theme.dark ? PaperDarkTheme : PaperDefaultTheme;
+        let token = this.context?.userState?.token
+        //console.log('token = ',token)
+        return (
+            <NavigationContainer theme={this.props.theme}>
+                {/* If no user token,that means user needs to log in */}
                 <SigninStack/>
-            ) : (
-            // If there is a token,that means they logged in
-                <AuthenticatedStack/>
-            )}
-        </NavigationContainer>
-    );
+            </NavigationContainer>
+        );
+    }
+
 }
+
+RootNavigation.contextType = PreferencesContext;
 
 
 

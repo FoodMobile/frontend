@@ -49,28 +49,28 @@ export default function MapPage({ navigation }) {
       //    <Tab.Screen name="Map Cam" component={mapCam}/>
       //    <Tab.Screen name="Map Loc" component={mapLoc}/>
       // </Tab.Navigator>
-      <ShowLocation/>
+      <MapHome/>
     );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     flexDirection: 'column',
-//     backgroundColor: '#000',
-//   },
-//   mapContainer: {
-//     flex: 3,
-//     // flexWrap: 'wrap',
-//     backgroundColor: '#ffab00', // orange
-//     alignItems: 'center',
-//     justifyContent:'center',
-//   },
-//   truckListContainer: {
-//     flex: 1,
-//     flexWrap: 'wrap',
-//     backgroundColor: '#adbab5', //greyish color
-//   },
-// });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: '#000',
+  },
+  mapContainer: {
+    flex: 3,
+    // flexWrap: 'wrap',
+    backgroundColor: '#ffab00', // orange
+    alignItems: 'center',
+    justifyContent:'center',
+  },
+  truckListContainer: {
+    flex: 1,
+    flexWrap: 'wrap',
+    backgroundColor: '#adbab5', //greyish color
+  },
+});
 
 

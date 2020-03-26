@@ -12,7 +12,7 @@ export default function LoginForm(props) {
     //Get the signin method default with the context value
     //And see if its been changed in Main.js
     const { navigation } = props
-    const {signIn} = React.useContext(
+    const {signIn,userState} = React.useContext(
         PreferencesContext
     );
     
@@ -73,6 +73,7 @@ export default function LoginForm(props) {
           userName:userNamePasswordValues.userName,
           password:userNamePasswordValues.password
         })
+        //console.log(userState,'----------')
       }
       else {
         
@@ -146,7 +147,7 @@ export default function LoginForm(props) {
             size={40}
             onPress={() => console.log('Pressed')}
           />
-          <Text>Token:{props.testData}</Text>
+          <Text>{JSON.stringify(userState)}</Text>
       </>
     
     );

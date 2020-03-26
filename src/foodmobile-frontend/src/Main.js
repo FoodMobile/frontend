@@ -26,56 +26,48 @@ export default function Main(){
     //a json object given an action, basicly 
     //good when changing objects rather then using
     // useState
-    const [userState, updateLoginToken] = React.useReducer(
+    const [userState, updateUserState] = React.useReducer(
         (prevState, action) => {
           switch (action.type) {
             case 'RESTORE_TOKEN':
                 return {
                     ...prevState,
-                    userToken: action.token,
-                    isLoading: false,
+                    isSignout: false,
+                    token: action.token
                 };
             case 'SIGN_IN':
                 return {
                     ...prevState,
                     isSignout: false,
-                    userToken: action.token,
-                    user: action.user
+                    token: action.token
                 };
             case 'SIGN_OUT':
                 return {
                     ...prevState,
                     isSignout: true,
-                    userToken: null,
-                    user: {}
-                };
-            case 'UPDATE_USER':
-                return {
-                    ...prevState,
-                    user: action.user
+                    token: {}
                 };
           }
         },
         {
           isLoading: true,
           isSignout: false,
-          userToken: null,
-          user:{}
+          token:undefined
         }
     );
-    
+
+    const [pageLoaded,setPageLoaded] = React.useState(false)
+
     //Make state for theme
     const [theme, setTheme] = React.useState(
         colorScheme === 'dark' ? 'dark' : 'light'
     );
-    
-    
+
     //Make func to set theme
     function toggleTheme() {
         setTheme(theme => (theme === 'light' ? 'dark' : 'light'));
     }
-    
-    storeData(JSON.stringify(Date.now()),'testData')
+
     //Set context,these are like global states that can be
     //accessed in the children components
     const preferences = React.useMemo(
@@ -84,30 +76,28 @@ export default function Main(){
             toggleTheme,
             theme,
             signIn: async data => {
-                // In a production app, we need to send some data (usually username, password) to server and get a token
-                // We will also need to handle errors if sign in failed
-                // After getting token, we need to persist the token using `AsyncStorage`
-                // In the example, we'll use a dummy token
-
+                // In a production app, we need to send some data (usually
+                // username, password) to server and get a token We will also
+                // need to handle errors if sign in failed After getting token,
+                // we need to persist the token using `AsyncStorage` In the
+                // example, we'll use a dummy token
+                
                 const token = `${data.userName}-${data.password}-${Date.now()}`
-
+                
                 //Store the token
-                storeData(JSON.stringify(data),'token')
+                await storeData(JSON.stringify(data),'token')
 
                 //Update state
-                updateLoginToken({ 
+                await updateUserState({ 
                     type: 'SIGN_IN', 
-                    token: token, 
-                    user: {
-                        ...data
-                    }
+                    token: data
                 });
             },
             signOut: async () => {
                 //remove saved token
                 await storeData(JSON.stringify({}),'token')
                 //Update state
-                updateLoginToken({ type: 'SIGN_OUT',user:{} })
+                updateUserState({ type: 'SIGN_OUT'})
             },
             signUp: async data => {
                 // In a production app, we need to send user data to server and get a token
@@ -115,7 +105,7 @@ export default function Main(){
                 // After getting token, we need to persist the token using `AsyncStorage`
                 // In the example, we'll use a dummy token
                 
-                updateLoginToken({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+                updateUserState({ type: 'SIGN_IN', token: 'dummy-auth-token' });
             },
             style: theme => {
                 const primary = theme==='light'? '#b4eeb4' : '#BB00BB'
@@ -131,30 +121,44 @@ export default function Main(){
                     },
                 }
             }
-        })
+        }),
+        [userState]
     );
-
-    // React.useEffect(()=>{
-    //     async function getToken() {
-            
-    //         const token = await getData('token',undefined)
-    //         console.log('got token = ',token)
-    //         updateLoginToken({ 
-    //             type: 'RESTORE_TOKEN', token: 'already-signed-in-token' 
-    //         })
-
-    //         setUser({
-    //             ...user,
-    //             token: 'already-signed-in-token' 
-    //         })
-    //         setPageLoaded(true)
-           
-    //     }
-    //     if(!pageLoaded) {
-    //         getToken()
-    //     }
         
-    // })
+    React.useEffect(()=>{
+        async function getToken() {
+            
+            const token = JSON.parse(await getData('token',undefined))
+
+            console.log('got token = ',token)
+            updateUserState({ 
+                type: 'RESTORE_TOKEN', token: token 
+            })
+
+            setPageLoaded(true)
+           
+        }
+        if(!pageLoaded) {
+            getToken()
+        }
+        
+        
+        
+    }, []) // maybe put user Id in here?
+
+    const determineTheme = theme => {
+        if(theme === 'light') {
+            return {
+                ...PaperDefaultTheme,
+                colors: { ...PaperDefaultTheme.colors, primary: '#1ba1f2' },
+            }
+        } else {
+            return {
+                ...PaperDarkTheme,
+                colors: { ...PaperDarkTheme.colors, primary: '#1ba1f2' },
+            }
+        }
+    }
 
     return (
         //Pass context
@@ -162,18 +166,10 @@ export default function Main(){
             <PaperProvider
                 //Base off theme
                 theme={
-                theme === 'light'
-                    ? {
-                        ...PaperDefaultTheme,
-                        colors: { ...PaperDefaultTheme.colors, primary: '#1ba1f2' },
-                    }
-                    : {
-                        ...PaperDarkTheme,
-                        colors: { ...PaperDarkTheme.colors, primary: '#1ba1f2' },
-                    }
+                    determineTheme(theme)
                 }
             >
-               <RootNavigation userState={userState}/>
+               <RootNavigation theme={ determineTheme(theme)}/>
             </PaperProvider>
         </PreferencesContext.Provider>
      
