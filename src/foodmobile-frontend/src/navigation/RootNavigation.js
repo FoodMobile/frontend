@@ -62,7 +62,7 @@ function determineStack(userState) {
 export class  RootNavigation extends React.Component {
     
     async componentDidMount() {    
-        const token = JSON.parse(await getData('token',undefined))
+        const token = JSON.parse(await getData('token','{}'))
 
         // //console.log('got token = ',token,Object.keys(token),token.userName)
         this.context.updateUserState({ 
