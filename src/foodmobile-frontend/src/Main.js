@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {getData,storeData} from './components/asyncStorage'
-
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import {
   DarkTheme as PaperDarkTheme, // Papers dark theme.
   DefaultTheme as PaperDefaultTheme,// Papers light theme.
@@ -14,87 +14,106 @@ import { useColorScheme } from 'react-native-appearance';
 
 import {RootNavigation} from './navigation/RootNavigation'
 import PreferencesContext from './context/context'
+import { set } from 'react-native-reanimated';
 
 //This function provides the theme of the app
 //And sets up a context that allows all
 //Sub components to use it.
 export default function Main(){
     const colorScheme = useColorScheme();
-    
-    const [pageLoaded,setPageLoaded ] = React.useState(false)
 
     //This is like react state,but changes 
     //a json object given an action, basicly 
     //good when changing objects rather then using
     // useState
-    const [state, updateLoginToken] = React.useReducer(
+    const [userState, updateUserState] = React.useReducer(
         (prevState, action) => {
           switch (action.type) {
             case 'RESTORE_TOKEN':
-              return {
-                ...prevState,
-                userToken: action.token,
-                isLoading: false,
-              };
+                return {
+                    ...prevState,
+                    isSignout: false,
+                    isLoading:false,
+                    token: action.token
+                };
             case 'SIGN_IN':
-              return {
-                ...prevState,
-                isSignout: false,
-                userToken: action.token,
-              };
+                return {
+                    ...prevState,
+                    isSignout: false,
+                    token: action.token
+                };
             case 'SIGN_OUT':
-              return {
-                ...prevState,
-                isSignout: true,
-                userToken: null,
-              };
+                return {
+                    ...prevState,
+                    isSignout: true,
+                    token: {}
+                };
+            case 'IS_LOADING':
+                return {
+                    ...prevState,
+                    isLoading:action.isLoading
+                };
           }
         },
         {
           isLoading: true,
           isSignout: false,
-          userToken: null,
+          token:{
+              value:undefined,
+              expDate:undefined,
+              assingDate:undefined
+          }
         }
     );
-    
+
+    const [pageLoaded,setPageLoaded] = React.useState(false)
+
     //Make state for theme
     const [theme, setTheme] = React.useState(
         colorScheme === 'dark' ? 'dark' : 'light'
     );
-
-    const [user, setUser] = React.useState(
-      {}
-    );
-    
+        
     //Make func to set theme
-    function toggleTheme() {
-        setTheme(theme => (theme === 'light' ? 'dark' : 'light'));
+    async function toggleTheme(newTheme = theme === 'light' ? 'dark' : 'light') {
+        setTheme(newTheme);
+        const x = await storeData(newTheme,'theme')
     }
-    
+
     //Set context,these are like global states that can be
     //accessed in the children components
     const preferences = React.useMemo(
         () => ({
-            user,
+            userState,
+            updateUserState,
             toggleTheme,
             theme,
             signIn: async data => {
-                // In a production app, we need to send some data (usually username, password) to server and get a token
-                // We will also need to handle errors if sign in failed
-                // After getting token, we need to persist the token using `AsyncStorage`
-                // In the example, we'll use a dummy token
-                setUser({
-                    ...data,
-                    token: JSON.stringify(data) 
-                })
-                storeData(JSON.stringify(data),'token')
-                updateLoginToken({ 
-                    type: 'SIGN_IN', token: JSON.stringify(data) 
+                // In a production app, we need to send some data (usually
+                // username, password) to server and get a token We will also
+                // need to handle errors if sign in failed After getting token,
+                // we need to persist the token using `AsyncStorage` In the
+                // example, we'll use a dummy token
+                
+                const token = {
+                    value:`${data.userName}-${data.password}-token`,
+                    expDate:Date.now(),
+                    assingDate:Date.now()
+                }
+                
+                //Store the token
+                await storeData(JSON.stringify(token),'token')
+
+                //Update state
+                await updateUserState({ 
+                    type: 'SIGN_IN', 
+                    token: token
                 });
             },
-            signOut: () => {
-                storeData(undefined,'token')
-                updateLoginToken({ type: 'SIGN_OUT' })
+            signOut: async () => {
+                //remove saved token
+                await storeData(JSON.stringify({}),'token')
+                //Update state
+                updateUserState({ type: 'SIGN_OUT'})
             },
             signUp: async data => {
                 // In a production app, we need to send user data to server and get a token
@@ -102,51 +121,59 @@ export default function Main(){
                 // After getting token, we need to persist the token using `AsyncStorage`
                 // In the example, we'll use a dummy token
                 
-                updateLoginToken({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+                updateUserState({ type: 'SIGN_IN', token: 'dummy-auth-token' });
             },
+            style: theme => {
+                const primary = theme==='light'? '#b4eeb4' : '#BB00BB'
+                const secondary = theme==='light'? '#908cff' : '#f9901c' 
+                const tertiary = theme==='light'? '#11114e' : '#b438fb'
+
+                return {
+                    testingStyle: {
+                        flex: 1,
+                        flexWrap: 'wrap',
+                        width: Dimensions.get('window').width,
+                        backgroundColor: secondary, //greyish color
+                    },
+                }
+            }
         })
     );
-
-    React.useEffect(()=>{
-        async function getToken() {
-            
-            const token = await getData('token',undefined)
-            console.log('got token = ',token)
-            updateLoginToken({ 
-                type: 'RESTORE_TOKEN', token: 'already-signed-in-token' 
-            })
-
-            setUser({
-                ...user,
-                token: 'already-signed-in-token' 
-            })
-            setPageLoaded(true)
-           
-        }
-        if(!pageLoaded) {
-            getToken()
-        }
         
-    })
+    React.useEffect(()=>{
+        async function getTheme() {
+            let theme = await getData('theme','light')
+            //console.log(theme)
+            setTheme(theme)  
+        }
+        getTheme()
+        console.log('a')
+    }, []) // maybe put user Id in here?
 
+    const determineTheme = theme => {
+        if(theme === 'light') {
+            return {
+                ...PaperDefaultTheme,
+                colors: { ...PaperDefaultTheme.colors, primary: '#1ba1f2' },
+            }
+        } else {
+            return {
+                ...PaperDarkTheme,
+                colors: { ...PaperDarkTheme.colors, primary: '#1ba1f2' },
+            }
+        }
+    }
+    
     return (
         //Pass context
         <PreferencesContext.Provider value = {preferences}>
             <PaperProvider
                 //Base off theme
                 theme={
-                theme === 'light'
-                    ? {
-                        ...PaperDefaultTheme,
-                        colors: { ...PaperDefaultTheme.colors, primary: '#1ba1f2' },
-                    }
-                    : {
-                        ...PaperDarkTheme,
-                        colors: { ...PaperDarkTheme.colors, primary: '#1ba1f2' },
-                    }
+                    determineTheme(theme)
                 }
             >
-               <RootNavigation state={state}/>
+               <RootNavigation theme={ determineTheme(theme)}/>
             </PaperProvider>
         </PreferencesContext.Provider>
      
