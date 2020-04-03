@@ -5,7 +5,7 @@ import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
 
-import GetMapPage from './testMapPage'
+import GetMapPage from './getMap'
 
 
 export default class ShowLocation extends Component {

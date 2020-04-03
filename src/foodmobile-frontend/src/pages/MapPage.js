@@ -10,7 +10,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 const Tab = createMaterialTopTabNavigator();
 // import GetCameraPage from './testCameraPage' 
-// import GetMapPage from './getMap'
+// import GetMapPage from './testMapPage'
 import ShowLocation from './testShowLoc'
 function MapHome() {
 

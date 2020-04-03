@@ -2,6 +2,7 @@ import React from 'react';
 import MapView from 'react-native-maps';
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
+import { ScrollView } from 'react-native-gesture-handler';
 
 // export default class GetMapPage extends React.Component {
 //   state = {
@@ -261,6 +262,7 @@ export default class GetMapPage extends React.Component {
         />
         {/* list of trucks displayed on the map */}
         <View style={styles.truckListContainer}>
+          {/* <ScrollView style={}></ScrollView> */}
           <Text>this is where the list of trucks will go</Text> 
         </View>
       </View>

@@ -6,7 +6,7 @@ function genTheme(theme) {
     const tertiary = theme==='light'? '#11114e' : '#b438fb'
 
     return {
-        nineHecks: {
+        truckListContainer: {
             flex: 1,
             flexWrap: 'wrap',
             width: Dimensions.get('window').width,
@@ -14,8 +14,6 @@ function genTheme(theme) {
         },
     }
 }
-
-
 
 export {
     genTheme
