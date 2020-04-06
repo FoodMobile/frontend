@@ -13,7 +13,6 @@ const Tab = createMaterialTopTabNavigator();
 // import GetMapPage from './testMapPage'
 import ShowLocation from './testShowLoc'
 function MapHome() {
-
   return(
     <View style={styles.container}>
       {/* { flex: 1, alignItems: 'center', justifyContent: 'center' } */} 

@@ -4,6 +4,8 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
 
+import {getThene} from '../context/styles'
+
 // export default class GetMapPage extends React.Component {
 //   state = {
 //     location: null,
@@ -263,7 +265,7 @@ export default class GetMapPage extends React.Component {
         {/* list of trucks displayed on the map */}
         <View style={styles.truckListContainer}>
           {/* <ScrollView style={}></ScrollView> */}
-          <Text>this is where the list of trucks will go</Text> 
+          <Text>TRUCK LIST HERE</Text> 
         </View>
       </View>
     );
