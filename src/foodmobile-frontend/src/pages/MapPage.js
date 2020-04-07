@@ -16,13 +16,13 @@ function MapHome() {
   return(
     <View style={styles.container}>
       {/* { flex: 1, alignItems: 'center', justifyContent: 'center' } */} 
-      <View style={styles.mapContainer}>
+      {/* <View style={styles.mapContainer}>
         <Text>The actual map should go here</Text> 
       </View>
       <View style={styles.truckListContainer}>
         <Text>this is where the list of trucks will go!!!2222222</Text>
         <Text>fdkslajfdlsajfldsjal</Text> 
-      </View>
+      </View> */}
     </View>
   )
 }
@@ -52,24 +52,24 @@ export default function MapPage({ navigation }) {
     );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#000',
-  },
-  mapContainer: {
-    flex: 3,
-    // flexWrap: 'wrap',
-    backgroundColor: '#ffab00', // orange
-    alignItems: 'center',
-    justifyContent:'center',
-  },
-  truckListContainer: {
-    flex: 1,
-    flexWrap: 'wrap',
-    backgroundColor: '#adbab5', //greyish color
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     flexDirection: 'column',
+//     backgroundColor: '#000',
+//   },
+//   mapContainer: {
+//     flex: 3,
+//     // flexWrap: 'wrap',
+//     backgroundColor: '#ffab00', // orange
+//     alignItems: 'center',
+//     justifyContent:'center',
+//   },
+//   truckListContainer: {
+//     flex: 1,
+//     flexWrap: 'wrap',
+//     backgroundColor: '#ffab00', //greyish color
+//   },
+// });
 
 
