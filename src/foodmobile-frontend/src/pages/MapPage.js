@@ -15,14 +15,6 @@ import ShowLocation from './testShowLoc'
 function MapHome() {
   return(
     <View style={styles.container}>
-      {/* { flex: 1, alignItems: 'center', justifyContent: 'center' } */} 
-      {/* <View style={styles.mapContainer}>
-        <Text>The actual map should go here</Text> 
-      </View>
-      <View style={styles.truckListContainer}>
-        <Text>this is where the list of trucks will go!!!2222222</Text>
-        <Text>fdkslajfdlsajfldsjal</Text> 
-      </View> */}
     </View>
   )
 }

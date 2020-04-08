@@ -293,19 +293,19 @@ export default class GetMapPage extends React.Component {
 
 myFoodTrucks = [
   {
-    'name': 'Buoy Bowls',
-    'description': 'Smoothies and more',
-    'icon': "https://randomuser.me/api/portraits/men/4.jpg",
+    name: 'Buoy Bowls',
+    description: 'Smoothies and more',
+    icon: "https://randomuser.me/api/portraits/men/4.jpg",
   },
   {
-    'name': 'Filafel Frenzy',
-    'description': 'Mediteranean food',
-    'icon': "https://randomuser.me/api/portraits/men/47.jpg",
+    name: 'Filafel Frenzy',
+    description: 'Mediteranean food',
+    icon: "https://randomuser.me/api/portraits/men/47.jpg",
   },
   {
-    'name': 'Rolling Thunder',
-    'description': 'Boston Lobster Rolls',
-    'icon': "https://randomuser.me/api/portraits/men/13.jpg",
+    name: 'Rolling Thunder',
+    description: 'Boston Lobster Rolls',
+    icon: "https://randomuser.me/api/portraits/men/13.jpg",
   },
 ];
 
