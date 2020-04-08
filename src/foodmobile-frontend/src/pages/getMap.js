@@ -275,7 +275,7 @@ export default class GetMapPage extends React.Component {
                     style = {styles.icon}
                     source = {{uri: item.icon}}
                   />
-                  <View style = {{flex: 1, flexDirection: 'col',}}>
+                  <View style = {{flex: 1, flexDirection: 'column',}}>
                     <Text style = {styles.truckNameText}>{item.name}</Text>
                     <Text style = {styles.text}>{item.description}</Text>
                   </View> 
