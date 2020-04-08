@@ -1,9 +1,9 @@
 import React from 'react';
 import MapView from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import { Text } from 'react-native-paper';
 import {getThene} from '../context/styles'
 
 // export default class GetMapPage extends React.Component {
