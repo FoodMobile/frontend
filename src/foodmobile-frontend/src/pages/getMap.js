@@ -1,7 +1,10 @@
 import React from 'react';
 import MapView from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
 import Constants from 'expo-constants';
+import { ScrollView } from 'react-native-gesture-handler';
+
+import {getThene} from '../context/styles'
 
 // export default class GetMapPage extends React.Component {
 //   state = {
@@ -243,6 +246,7 @@ export default class GetMapPage extends React.Component {
       latitudeDelta: 0.00922,
       longitudeDelta: 0.00421,
     }
+
     return (
       <View style={styles.container}>
         <MapView style={styles.mapStyle} 
@@ -259,32 +263,109 @@ export default class GetMapPage extends React.Component {
           }}
           provider="google"
         />
+        {/* list of trucks displayed on the map */}
+        <View style={styles.truckListContainer}>
+           <ScrollView style={styles.scrollStyle}>
+              {myFoodTrucks.map((item, index) => (
+                <View>
+                <View
+                  key = {item.name}
+                  style = {styles.truckItemContainer}>
+                  <Image 
+                    style = {styles.icon}
+                    source = {{uri: item.icon}}
+                  />
+                  <View style = {{flex: 1, flexDirection: 'column',}}>
+                    <Text style = {styles.truckNameText}>{item.name}</Text>
+                    <Text style = {styles.text}>{item.description}</Text>
+                  </View> 
+                </View>
+                <View style = {styles.separator} />
+                </View>
+              ))}
+           </ScrollView>
+        </View>
       </View>
     );
   }
 }
 
+
+myFoodTrucks = [
+  {
+    name: 'Buoy Bowls',
+    description: 'Smoothies and more',
+    icon: "https://randomuser.me/api/portraits/men/4.jpg",
+  },
+  {
+    name: 'Filafel Frenzy',
+    description: 'Mediteranean food',
+    icon: "https://randomuser.me/api/portraits/men/47.jpg",
+  },
+  {
+    name: 'Rolling Thunder',
+    description: 'Boston Lobster Rolls',
+    icon: "https://randomuser.me/api/portraits/men/13.jpg",
+  },
+];
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
+    height: Dimensions.get('window').height,
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'column',
   },
   mapStyle: {
     width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    // height: Dimensions.get('window').height,
+    flex: 2.5,
   },
   containerLocation: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     //paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
+    // backgroundColor: '#ecf0f1',
   },
-  paragraph: {
-    margin: 24,
+  scrollStyle: {
+    backgroundColor: '#ffe373', //YELLOW
+    width: Dimensions.get('window').width,
+    marginBottom: 98, // might need to change if the components get bigger?
+  },
+  truckListContainer: {
+    flex: 1,
+    flexWrap: 'wrap',
+    width: Dimensions.get('window').width,
+  },
+  truckItemContainer: {
+    padding: 10,
+    // marginTop: 3,
+    backgroundColor: '#d9f9b1', // lime green
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+ },
+  separator: {
+    height: 3,
+    backgroundColor: '#fff',
+    width: '100%',
+  },
+  text: {
+    fontSize: 15,
+    color: '#606070',
+    //padding: 10,
+  },
+  truckNameText: {
     fontSize: 18,
-    textAlign: 'center',
+    color: '#606070',
+    // padding: 4,
+  },
+  icon: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    alignSelf: 'center',
+    marginRight: 10,
   },
 });

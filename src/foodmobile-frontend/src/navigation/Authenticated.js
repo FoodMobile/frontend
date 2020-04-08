@@ -34,12 +34,13 @@ export default function AuthenticatedStack(props) {
             <Stack.Screen
                 name={mainTabs.name}
                 component={MainTab}
+                //Creates route names
                 options={({ route }) => {
                     
                     const routeName = route.state
                         ? route.state.routes[route.state.index]
                         : '';
-                    console.log('--- Loading',routeName, 'page');
+                    //console.log('--- Loading',routeName, 'page');
                     return { headerTitle: routeName.name };
                 }}
             />
