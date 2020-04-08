@@ -1,9 +1,9 @@
 import React from 'react';
 import MapView from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import { Divider, Text,Card  } from 'react-native-paper';
 import {getThene} from '../context/styles'
 
 // export default class GetMapPage extends React.Component {
@@ -266,23 +266,28 @@ export default class GetMapPage extends React.Component {
         {/* list of trucks displayed on the map */}
         <View style={styles.truckListContainer}>
            <ScrollView style={styles.scrollStyle}>
+
               {myFoodTrucks.map((item, index) => (
-                <View>
-                <View
-                  key = {item.name}
-                  style = {styles.truckItemContainer}>
-                  <Image 
-                    style = {styles.icon}
-                    source = {{uri: item.icon}}
-                  />
-                  <View style = {{flex: 1, flexDirection: 'column',}}>
-                    <Text style = {styles.truckNameText}>{item.name}</Text>
-                    <Text style = {styles.text}>{item.description}</Text>
-                  </View> 
-                </View>
-                <View style = {styles.separator} />
-                </View>
+                <>
+                  <View
+                    key = {item.name}
+                    style = {styles.truckItemContainer}
+                  >
+                    <Image 
+                      style = {styles.icon}
+                      source = {{uri: item.icon}}
+                    />
+                    <Card.Content>
+                      <Text style = {styles.truckNameText}>{item.name}</Text>
+                      <Text style = {styles.text}>{item.description}</Text>
+                    </Card.Content>
+                      
+                   
+                  </View>
+                  <Divider style = {styles.separator}/>
+                </>
               ))}
+
            </ScrollView>
         </View>
       </View>
