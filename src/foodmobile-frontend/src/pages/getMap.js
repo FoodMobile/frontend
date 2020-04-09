@@ -4,10 +4,10 @@ import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Text } from 'react-native-paper';
-import {getThene} from '../context/styles'
+//import {getThene} from '../context/styles'
 
 import MapStyle from '../components/mapStyle'
-
+import myFoodTrucks from '../components/data/myFoodTrucks'
 
 export default class GetMapPage extends React.Component {
   render() {
@@ -20,6 +20,7 @@ export default class GetMapPage extends React.Component {
     }
 
     return (
+      <ScrollView style={styles.truckListContainer}>
       <View style={styles.container}>
         <MapView style={styles.mapStyle} 
           customMapStyle={MapStyle} 
@@ -36,12 +37,12 @@ export default class GetMapPage extends React.Component {
           provider="google"
         />
         {/* list of trucks displayed on the map */}
-        <ScrollView style={styles.truckListContainer}>
+        
               {myFoodTrucks.map((item, index) => ( 
                 <View
                   key = {item.name}
                   style = {styles.truckItemContainer} 
-                  >
+                >
                   <Image style = {styles.icon} source = {{uri: item.icon}} />
                   <View style = {{flex: 1, flexDirection: 'column',}}>
                     <Text style = {styles.truckNameText}>{item.name}</Text>
@@ -49,30 +50,12 @@ export default class GetMapPage extends React.Component {
                   </View> 
                 </View>
             ))}
-        </ScrollView>
+ 
       </View>
+      </ScrollView>
     );
   }
 }
-
-
-myFoodTrucks = [
-  {
-    name: 'Buoy Bowls',
-    description: 'Smoothies and more',
-    icon: "https://randomuser.me/api/portraits/men/4.jpg",
-  },
-  {
-    name: 'Filafel Frenzy',
-    description: 'Mediteranean food',
-    icon: "https://randomuser.me/api/portraits/men/47.jpg",
-  },
-  {
-    name: 'Rolling Thunder',
-    description: 'Boston Lobster Rolls',
-    icon: "https://randomuser.me/api/portraits/men/13.jpg",
-  },
-];
 
 const styles = StyleSheet.create({
   container: {
@@ -94,7 +77,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#ecf0f1',
   },
   truckListContainer: {
-    flex: 1,
+    flex: 2,
     // flexWrap: 'wrap',
     width: Dimensions.get('window').width,
     // backgroundColor: '#ffe373', //YELLOW
