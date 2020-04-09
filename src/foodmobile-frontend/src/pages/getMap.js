@@ -3,7 +3,7 @@ import MapView from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Text } from 'react-native-paper';
+import { Text,List,Checkbox } from 'react-native-paper';
 //import {getThene} from '../context/styles'
 
 import MapStyle from '../components/mapStyle'
@@ -20,8 +20,8 @@ export default class GetMapPage extends React.Component {
     }
 
     return (
-      <ScrollView style={styles.truckListContainer}>
-      <View style={styles.container}>
+
+      <React.Fragment>
         <MapView style={styles.mapStyle} 
           customMapStyle={MapStyle} 
           showsUserLocation={true}
@@ -36,8 +36,9 @@ export default class GetMapPage extends React.Component {
           }}
           provider="google"
         />
-        {/* list of trucks displayed on the map */}
         
+        {/* list of trucks displayed on the map */}
+        <ScrollView style={styles.scrollViewContainer}>
               {myFoodTrucks.map((item, index) => ( 
                 <View
                   key = {item.name}
@@ -50,9 +51,9 @@ export default class GetMapPage extends React.Component {
                   </View> 
                 </View>
             ))}
- 
-      </View>
-      </ScrollView>
+        </ScrollView>
+      </React.Fragment>
+    
     );
   }
 }
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   mapStyle: {
     width: Dimensions.get('window').width,
     // height: Dimensions.get('window').height,
-    flex: 2.5,
+    flex: 2,
   },
   containerLocation: {
     flex: 1,
@@ -83,6 +84,15 @@ const styles = StyleSheet.create({
     // backgroundColor: '#ffe373', //YELLOW
     backgroundColor: '#b5acae',
     marginBottom: 30,
+  },
+
+  scrollViewContainer: {
+    flex: 1,
+    // flexWrap: 'wrap',
+    width: Dimensions.get('window').width,
+    // backgroundColor: '#ffe373', //YELLOW
+    backgroundColor: '#b5acae',
+    marginBottom: 10,
   },
   truckItemContainer: {
     padding: 10,

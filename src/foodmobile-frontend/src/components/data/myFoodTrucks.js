@@ -29,4 +29,5 @@ export default myFoodTrucks = [
         description: 'Boston Lobster Rolls',
         icon: "https://randomuser.me/api/portraits/men/13.jpg",
     },
+    
   ];
