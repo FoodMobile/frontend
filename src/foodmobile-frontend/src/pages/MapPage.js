@@ -55,7 +55,7 @@ export default class MapPage extends Component {
           </Button>
           <Text style={styles.paragraph}>{this.state.isGetting}</Text> */}
           {(this.state.isGetting == 'done') && <GetMapPage location = {this.state.location}/>}
-          <Button onPress={()=>{this._getLocationAsync()}}>
+          <Button mode="contained" color="#aaaa00"onPress={()=>{this._getLocationAsync()}}>
               Update:{this.state.isGetting}
           </Button>
         </View>
@@ -66,9 +66,9 @@ export default class MapPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    paddingTop: 5,//Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
   },
   paragraph: {
