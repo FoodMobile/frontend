@@ -3,7 +3,7 @@ import MapView from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Text,List,Checkbox } from 'react-native-paper';
+import { Text,List,Checkbox,  Avatar, Button, Card, IconButton, Colors,Title, Paragraph  } from 'react-native-paper';
 //import {getThene} from '../context/styles'
 
 import MapStyle from '../components/mapStyle'
@@ -40,16 +40,36 @@ export default class GetMapPage extends React.Component {
         {/* list of trucks displayed on the map */}
         <ScrollView style={styles.scrollViewContainer}>
               {myFoodTrucks.map((item, index) => ( 
-                <View
-                  key = {item.name}
-                  style = {styles.truckItemContainer} 
-                >
-                  <Image style = {styles.icon} source = {{uri: item.icon}} />
-                  <View style = {{flex: 1, flexDirection: 'column',}}>
-                    <Text style = {styles.truckNameText}>{item.name}</Text>
-                    <Text style = {styles.text}>{item.description}</Text>
-                  </View> 
-                </View>
+              
+                <Card style = {styles.truckItemContainer} >
+                  <Card.Title 
+                    title={item.name}
+                    subtitle={item.description} 
+                    key = {item.name}
+                    icon = {item.icon}
+                    left={
+                      (props) => 
+                      <Avatar.Image 
+                        {...props} 
+                        size={41} 
+                        source={{ uri: item.icon }} 
+                      />}
+                  />
+                  <Card.Content>
+                    {/* <Title>Card title</Title> */}
+                    <Paragraph>{item.distance} miles away</Paragraph>
+                  </Card.Content>
+                  {/* <Card.Cover source={{ uri: 'https://picsum.photos/700' }} /> */}
+                  <Card.Actions>
+                    <IconButton
+                      icon={ index%2 ==0? "heart-outline": "heart"}
+                      color={Colors.yellow600}
+                      size={25}
+                      onPress={() => console.log('Pressed')}
+                    />
+                    <Button onPress={()=> alert('press')}>View</Button>
+                  </Card.Actions>
+                </Card>
             ))}
         </ScrollView>
       </React.Fragment>
@@ -95,12 +115,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   truckItemContainer: {
-    padding: 10,
+    //padding: 10,
     marginBottom: 1,
     backgroundColor: '#d9f9b1', // lime green
-    flex: 1,
+    //flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    //alignItems: 'center',
  },
   separator: {
     height: 3,
