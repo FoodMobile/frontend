@@ -16,7 +16,7 @@ import {
 import { useTheme,Button, Text } from 'react-native-paper';
 
 //This is what we show if user is logged in
-import AuthenticatedStack from './Authenticated'
+import CustomerStack from './CustomerStack'
 //This is what we show if user is not logged in
 import SigninStack from './Login'
 import Loading from '../../assets/loading.png'
@@ -49,7 +49,7 @@ function determineStack(userState) {
     if(userState?.token) {
         
         if(userState?.token?.value) {
-            return <AuthenticatedStack/>
+            return <CustomerStack/>
         } else {
             return <SigninStack/>
         }
