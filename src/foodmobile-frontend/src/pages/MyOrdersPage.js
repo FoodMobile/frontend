@@ -5,35 +5,86 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import AppbarWrapper from '../components/appBar/appBarWrapper'
 import ScreenNames from '../screenNames'
+import Order from './MyOrders/Order'
+// import OrdersList from './MyOrders/OrdersList'
+// import ORDERS from './MyOrders/Order'
 
 const Stack = createStackNavigator();
 
-function showOrders(props){
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>My orders page!</Text>
-    </View>
-  )
-}
+let ORDERS = [
+  {
+      customerName: 'Sophie',
+      orderNumber: 1,
+      truckName: "Tapioca Time",
+      orderItems: [
+          {
+              name: "BubbleTea",
+              price: 2.99,
+              quantity: 1,
+              notes: "",
+          },
+          {
+              name: "Brown Sugar Bubble Tea",
+              price: 4.99,
+              quantity: 1,
+              notes: "",
+          },
+      ],
+  },  
+  {
+      customerName: 'Shah',
+      orderNumber: 2,
+      truckName: "Tapioca Time",
+      orderItems: [
+          {
+              name: "Royal Milk Tea",
+              price: 2.99,
+              quantity: 1,
+              notes: "add tapioca",
+          },
+      ],
+  },  
+  {
+      customerName: 'John',
+      orderNumber: 3,
+      truckName: "Tapioca Time",
+      orderItems: [
+          {
+              name: "Royal Milk Tea",
+              price: 2.99,
+              quantity: 2,
+              notes: "",
+          },
+          {
+              name: "Classic Bubble Tea",
+              price: 4.99,
+              quantity: 1,
+              notes: "extra ",
+          },
+          {
+              name: "BubbleTea",
+              price: 2.99,
+              quantity: 1,
+          },
+          {
+              name: "Brown Sugar Bubble Tea",
+              price: 4.99,
+              quantity: 1,
+          },
+      ],
+  }
+]
 
 export default function MyOrdersPage({ navigation }) {
     const {myOrders} =  ScreenNames.stackPages
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      {/* <ScrollView style={styles.container}>
-              {Orders.map((order, index) => ( 
-                <View
-                  key = {order.name}
-                  >
-                  <View style = {{flex: 1, flexDirection: 'column',}}>
-                  <Text>texting</Text>
-                    {/* <Text style = {styles.orderName}>{item.order}</Text>
-                    <Text style = {styles.text}>{item.description}</Text> */}
-                  {/* </View> 
-                </View>
-            ))} */}
-        {/* </ScrollView> */} 
-      </View>
+      <ScrollView>
+        {ORDERS.map((order, index) => (
+          <View>
+            <Text>{order.truckName}</Text>
+          </View>
+        ))}
+      </ScrollView>
     );
 }
   
