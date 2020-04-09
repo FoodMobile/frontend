@@ -20,20 +20,19 @@ export default function MyOrdersPage({ navigation }) {
     const {myOrders} =  ScreenNames.stackPages
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <ScrollView style={styles.container}>
+      {/* <ScrollView style={styles.container}>
               {Orders.map((order, index) => ( 
                 <View
                   key = {order.name}
-                  style = {}
                   >
                   <View style = {{flex: 1, flexDirection: 'column',}}>
                   <Text>texting</Text>
                     {/* <Text style = {styles.orderName}>{item.order}</Text>
                     <Text style = {styles.text}>{item.description}</Text> */}
-                  </View> 
+                  {/* </View> 
                 </View>
-            ))}
-        </ScrollView>
+            ))} */}
+        {/* </ScrollView> */} 
       </View>
     );
 }
