@@ -17,7 +17,7 @@ import AppbarWrapper from '../components/appBar/appBarWrapper'
 //Load the main tab that shows at bottom
 import MainTab from './tab/mainTab'
 
-export default function AuthenticatedStack(props) {
+export default function CustomerStack(props) {
 
     const {
         myWallet,
