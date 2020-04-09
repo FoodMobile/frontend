@@ -19,21 +19,17 @@ function showOrders(props){
 export default function MyOrdersPage({ navigation }) {
     const {myOrders} =  ScreenNames.stackPages
     return (
-        // <Stack.Navigator 
-        //     // screenOptions={AppbarWrapper()}
-        //     initialRouteName= {myOrders.screenName}
-        // >
-        //   <Stack.Screen 
-        //       name={myOrders.screenName}
-        //       component={showOrders} 
-        //       options ={{
-        //           title:myOrders.title
-        //       }}
-        //   />
-        // </Stack.Navigator>
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>My orders page!</Text>
     </View>
     );
 }
   
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  },
+  row: {
+    
+  },
+)}

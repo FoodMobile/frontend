@@ -286,7 +286,7 @@ export default class GetMapPage extends React.Component {
 
 myFoodTrucks = [
   {
-    name: 'Buoy Bowls',
+    name: 'Tasty Bowls',
     description: 'Smoothies and more',
     icon: "https://randomuser.me/api/portraits/men/4.jpg",
   },
