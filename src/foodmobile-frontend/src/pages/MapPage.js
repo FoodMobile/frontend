@@ -49,7 +49,7 @@ export default class MapPage extends Component {
   
       return (
         <View style={styles.container}>
-          {(this.state.isGetting == 'done') && <GetMapPage location = {this.state.location}/>}
+          {(this.state.isGetting == 'done') && <GetMapPage location = {this.state.location} {...this.props}/>}
           <Button mode="contained" color="#aaaa00"onPress={()=>{this._getLocationAsync()}}>
               Update:{this.state.isGetting}
           </Button>

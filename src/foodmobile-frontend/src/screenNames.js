@@ -92,6 +92,7 @@ const myOrdersStackPage = new stackScreenData('My Orders', 'My Orders');
 const myFoodPreferncesPage = new stackScreenData('My Food Preferences', 'My Food Preferences');
 const myWalletsPage = new stackScreenData('My Wallets', 'My Wallets');
 const EditWalletPage = new stackScreenData('Edit Wallet', 'Edit Wallet');
+const ViewMapTruckPage = new stackScreenData('View Map Truck', 'Truck');
 
 const LoginPage = new stackScreenData('Login', 'Login');
 const CreateAccountPage = new stackScreenData('CreateAccount', 'Create Account');
@@ -121,7 +122,8 @@ const ScreenNames = {
         editWallet:EditWalletPage,
         login:LoginPage,
         createAccount:CreateAccountPage,
-        resetPassword:ResetPasswordPage
+        resetPassword:ResetPasswordPage,
+        viewMapTruck:ViewMapTruckPage
     }
     
 };

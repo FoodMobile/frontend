@@ -5,22 +5,31 @@ import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Text,List,Checkbox,  Avatar, Button, Card, IconButton, Colors,Title, Paragraph  } from 'react-native-paper';
 //import {getThene} from '../context/styles'
-
+import PreferencesContext from '../context/context'
 import MapStyle from '../components/mapStyle'
 import myFoodTrucks from '../components/data/myFoodTrucks'
+import ViewMapTruck from './viewTruck/viewMapTruck'
+
+import ScreenNames from '../screenNames'
 
 export default class GetMapPage extends React.Component {
   render() {
-    console.log(this.props.location)
+    
     const myLocation = this.props?.location?.coords || {
       latitude:36,
       longitude:36,
       latitudeDelta: 0.00922,
       longitudeDelta: 0.00421,
     }
-
+    function showMapTruck(navigation,truckId,viewMapTruck) {
+      //props.navigation.navigate(viewMapTruck.screenName)
+      console.log(navigation.navigate('View Map Truck',{truckId:truckId}))
+    }
+    const {
+        viewMapTruck
+    } = ScreenNames.stackPages
     return (
-
+    
       <React.Fragment>
         <MapView style={styles.mapStyle} 
           customMapStyle={MapStyle} 
@@ -41,7 +50,7 @@ export default class GetMapPage extends React.Component {
         <ScrollView style={styles.scrollViewContainer}>
               {myFoodTrucks.map((item, index) => ( 
               
-                <Card style = {styles.truckItemContainer} >
+                <Card style = {this.context.theme=='light'?styles.truckItemContainer: styles.truckItemContainerDark} key = {`${item.name}-${index}`}>
                   <Card.Title 
                     title={item.name}
                     subtitle={item.description} 
@@ -67,7 +76,13 @@ export default class GetMapPage extends React.Component {
                       size={25}
                       onPress={() => console.log('Pressed')}
                     />
-                    <Button onPress={()=> alert('press')}>View</Button>
+                    <Button 
+                      onPress={()=> {
+                        showMapTruck(this.props.navigation,item.id,viewMapTruck)
+                      }}
+                    >
+                      View
+                    </Button>
                   </Card.Actions>
                 </Card>
             ))}
@@ -77,6 +92,8 @@ export default class GetMapPage extends React.Component {
     );
   }
 }
+
+GetMapPage.contextType = PreferencesContext;
 
 const styles = StyleSheet.create({
   container: {
@@ -122,6 +139,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     //alignItems: 'center',
  },
+ truckItemContainerDark: {
+  //padding: 10,
+  marginBottom: 1,
+  backgroundColor: '#927BAE', // lime green
+  //flex: 1,
+  flexDirection: 'row',
+  //alignItems: 'center',
+},
   separator: {
     height: 3,
     backgroundColor: '#fff',
