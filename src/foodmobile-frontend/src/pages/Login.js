@@ -34,7 +34,7 @@ export default class LoginPage extends React.Component {
     if (this.state.isLoading === true) {
       return (<Text> Loading..... </Text>);
     } else {
-      return( <LoginForm />)
+      return( <LoginForm {...this.props} />)
     }
   }
 }
