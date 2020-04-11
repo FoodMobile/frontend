@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     //backgroundColor: '#6C5B7B', //purple
     // backgroundColor: '#FECEAB', //light tan/organge
     //backgroundColor: '#EDD8ff',
-    backgroundColor: '#f2f2ff',
+    backgroundColor: '#ecf0f1', //f2f2ff
   },
   order: {
     padding: 10,
