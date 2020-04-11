@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Dimensions, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { createStackNavigator, Assets } from '@react-navigation/stack';
+import { Divider, List, Checkbox, DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 
 import AppbarWrapper from '../components/appBar/appBarWrapper'
 import ScreenNames from '../screenNames'
@@ -106,28 +107,87 @@ let ORDERS = [
 },
 ]
 
-
+let singleOrder = [
+  {
+      customerName: 'Sophie',
+      orderNumber: 3,
+      truckName: "Tapioca Time",
+      date: "Dec, 2",
+      totalPrice: 15.96,
+      orderItems: [
+          {
+              name: "Royal Milk Tea",
+              price: 2.99,
+              quantity: 2,
+              notes: "",
+              picture: "https://i.pinimg.com/736x/b4/d6/0a/b4d60a060ebf01d9b1e3bf4c534592e8.jpg",
+          },
+          {
+              name: "Classic Bubble Tea",
+              price: 4.99,
+              quantity: 1,
+              notes: "extra ",
+              picture: "",
+          },
+          {
+              name: "BubbleTea",
+              price: 2.99,
+              quantity: 1,
+              picture: "",
+          },
+          {
+              name: "Brown Sugar Bubble Tea",
+              price: 4.99,
+              quantity: 1,
+              picture: "https://s3-media0.fl.yelpcdn.com/bphoto/3MGQborVWAwtmeerJ_2_-Q/o.jpg",
+          },
+      ],
+  },
+]
 
 export default class MyOrdersPage extends React.Component{
-    showOrder(order){
-      //console.log("DATA: " + order.customerName)
-    };
+    // showOrder(order){
+    //   console.log("DATA: " + order.customerName)
+    // };
     render (){
       return(
+        <PaperProvider theme={DefaultTheme}
+          // theme={{
+          //   colors: {
+          //     accent: '#99B898',
+          //     background: '#EDD8ff',
+          //     text: '#2A363B',
+          //   }
+          // }}
+        >
       <ScrollView style={styles.container}>
         {ORDERS.map((order, index) => (
-          <View style={styles.order}>
-          <Text style={styles.truckNameText}>{order.truckName}</Text>
-          <Text style={styles.date}>{order.date}     </Text>
-          <Text style={styles.price}>${order.totalPrice}</Text>
-          <TouchableOpacity activeOpacity = {.5} onPress={this.showOrder}>
-            <Image
-              style={styles.arrow}
-              source={require('../../assets/arrowIcon.png')}/>
-          </TouchableOpacity>
-          </View>
+          <>
+          <List.Accordion
+            title={order.truckName + " - " + order.date}
+            
+          >
+          {order.orderItems.map((item, index) => (
+            <List.Item 
+            title={item.name}
+            style={{
+              backgroundColor: '#f7f7fa',
+              borderColor: '#ffedd8',
+              
+            }}
+            right={props => <Text style={{marginRight: 20,}}>{item.price}</Text>}
+            />
+          ))}
+          {/* <List.Item 
+            title={<Text>{order.totalPrice}</Text>}
+            //right={props => <Text style={{marginRight: 20}}>Total:    ${order.totalPrice}</Text>}
+            /> */}
+        </List.Accordion>
+        <Divider/>
+          </>
         ))}
       </ScrollView> 
+      </PaperProvider>
     )}
 }
   
@@ -137,7 +197,8 @@ const styles = StyleSheet.create({
     
     //backgroundColor: '#6C5B7B', //purple
     // backgroundColor: '#FECEAB', //light tan/organge
-    backgroundColor: '#EDD8ff',
+    //backgroundColor: '#EDD8ff',
+    backgroundColor: '#f2f2ff',
   },
   order: {
     padding: 10,
@@ -168,6 +229,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     //color: '#6C5B7B',
     color: '#41344D',
+    // textAlignVertical: 'bottom',
     //flex: 1,
   },
   price: {
