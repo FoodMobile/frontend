@@ -165,7 +165,6 @@ export default class MyOrdersPage extends React.Component{
           <>
           <List.Accordion
             title={order.truckName + " - " + order.date}
-            
           >
           {order.orderItems.map((item, index) => (
             <List.Item 
@@ -173,7 +172,6 @@ export default class MyOrdersPage extends React.Component{
             style={{
               backgroundColor: '#f7f7fa',
               borderColor: '#ffedd8',
-              
             }}
             right={props => <Text style={{marginRight: 20,}}>{item.price}</Text>}
             />
