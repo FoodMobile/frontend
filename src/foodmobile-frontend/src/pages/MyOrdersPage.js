@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Dimensions, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Dimensions, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { createStackNavigator, Assets } from '@react-navigation/stack';
 
@@ -9,6 +9,7 @@ import Order from './MyOrders/Order'
 // import { Item } from 'react-native-paper/lib/typescript/src/components/List/List';
 // import OrdersList from './MyOrders/OrdersList'
 // import ORDERS from './MyOrders/Order'
+const arrowIcon = require('../../assets/arrowIcon.png') 
 
 const Stack = createStackNavigator();
 
@@ -56,6 +57,7 @@ let ORDERS = [
       customerName: 'John',
       orderNumber: 3,
       truckName: "Tapioca Time",
+      date: "Dec, 2",
       totalPrice: 15.96,
       orderItems: [
           {
@@ -104,42 +106,39 @@ let ORDERS = [
 },
 ]
 
-export default function MyOrdersPage({ navigation }) {
-    const {myOrders} =  ScreenNames.stackPages
-    return (
+
+
+export default class MyOrdersPage extends React.Component{
+    showOrder(order){
+      //console.log("DATA: " + order.customerName)
+    };
+    render (){
+      return(
       <ScrollView style={styles.container}>
         {ORDERS.map((order, index) => (
           <View style={styles.order}>
           <Text style={styles.truckNameText}>{order.truckName}</Text>
-          <Text style={styles.price}>{order.totalPrice}</Text>
+          <Text style={styles.date}>{order.date}     </Text>
+          <Text style={styles.price}>${order.totalPrice}</Text>
+          <TouchableOpacity activeOpacity = {.5} onPress={this.showOrder}>
+            <Image
+              style={styles.arrow}
+              source={require('../../assets/arrowIcon.png')}/>
+          </TouchableOpacity>
           </View>
         ))}
-      </ScrollView>
-    );
+      </ScrollView> 
+    )}
 }
   
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.get('window').height,
-   //flex: 1,
+    
     //backgroundColor: '#6C5B7B', //purple
     // backgroundColor: '#FECEAB', //light tan/organge
     backgroundColor: '#EDD8ff',
   },
-  // header: {
-  //   fontSize: 20,
-  //   alignSelf: 'center',
-  //   color: '#606070',
-  //   paddingTop: 10,
-  //   paddingBottom: 10,
-  // },
-  // row: {
-  //   flex: 1,
-  //   width: Dimensions.get('window').width,
-  //   //backgroundColor: '#b5acae',
-  //   backgroundColor: '#6C5B7B',
-  //   // marginBottom: 30,
-  // },
   order: {
     padding: 10,
     marginBottom: 1,
@@ -148,8 +147,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: 80,
+    width: Dimensions.get('window').width,
     //flexWrap: 'wrap',
     //backgroundColor: '#6C5B7B',
+
   },
   text: {
     fontSize: 12,
@@ -159,18 +160,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
     // color: '#606070',
     color: '#2A363B',
-    padding: 18,
+    paddingLeft: 18,
+    flex: 1,
+    
   },
   orderInfoText: {
     fontSize: 12,
     //color: '#6C5B7B',
     color: '#41344D',
-    
+    //flex: 1,
   },
   price: {
     color: '#fff',
-    textAlign: 'right',
-    paddingLeft: 30,
+    textAlign: 'center',
+    paddingRight: 30,
+    //flex: 1,
 
+  },
+  date: {
+    color: '#fff',
+    textAlign: 'center',
+    
+  },
+  arrow: {
+    height: 30,
+    width: 30,
+    marginRight: 18,
   }
 });
