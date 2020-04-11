@@ -1,6 +1,6 @@
 import React from 'react';
 
-let orders = [
+let ORDERS = [
     {
         customerName: 'Sophie',
         orderNumber: 1,
@@ -65,7 +65,7 @@ class Order extends React.Component {
     render() {
         return (
             <li>
-                {this.order.customerName} {this.props.orderItems}
+                {ORDERS.order.customerName} {ORDERS.props.orderItems}
             </li>
         )
     }

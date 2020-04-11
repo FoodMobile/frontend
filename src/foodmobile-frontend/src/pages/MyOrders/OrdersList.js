@@ -5,8 +5,8 @@ class OrdersList extends React.Component {
     render() {
         return (
             <ul>
-                {this.props.orders.map((order) => {
-                    return <Contact contact={contact}/>
+                {ORDERS.props.orders.map((order) => {
+                    return <Order order={order}/>
                 })}
             </ul>
         )
