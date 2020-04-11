@@ -7,11 +7,16 @@ import ScreenNames from '../../screenNames'
 import {getData,storeData} from '../../components/asyncStorage'
 
 export default function LoginForm(props) {
-    // const {login} =  ScreenNames.stackPages
+    const {
+        login,
+        createAccount,
+        resetPassword
+    } = ScreenNames.stackPages
 
     //Get the signin method default with the context value
     //And see if its been changed in Main.js
     const { navigation } = props
+    //console.log(Object.keys(props),'aaaa')
     const {signIn,userState} = React.useContext(
         PreferencesContext
     );
@@ -141,13 +146,30 @@ export default function LoginForm(props) {
               <Text>Login</Text>
           </Button>
 
-          <IconButton
+          {/* <IconButton
             icon="camera"
             color={Colors.red500}
             size={40}
             onPress={() => console.log('Pressed')}
-          />
-          {/* <Text>User state: {JSON.stringify(userState)}</Text> */}
+          /> */}
+
+          <Button 
+            compact={true} 
+            mode="text " 
+            onPress={() => navigation.navigate(createAccount.screenName)}
+            style={{marginTop:20}}
+          >
+           Create Account
+          </Button>
+
+          <Button 
+            compact={false} 
+            mode="text " 
+            onPress={() => navigation.navigate(resetPassword.screenName)}
+            style={{marginTop:20}}
+          >
+           Forgot Password
+          </Button>
       </>
     
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-export default PreferencesContext = React.createContext({
+const PreferencesContext = React.createContext({
   rtl: 'left',
   theme: 'light',
   toggleTheme: () => {},
@@ -10,4 +10,6 @@ export default PreferencesContext = React.createContext({
   signOut: () => {},
   token:undefined
 });
+
+export default PreferencesContext;
 

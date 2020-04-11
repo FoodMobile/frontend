@@ -3,24 +3,33 @@ import MapView from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Text,List,Checkbox } from 'react-native-paper';
+import { Text,List,Checkbox,  Avatar, Button, Card, IconButton, Colors,Title, Paragraph  } from 'react-native-paper';
 //import {getThene} from '../context/styles'
-
+import PreferencesContext from '../context/context'
 import MapStyle from '../components/mapStyle'
 import myFoodTrucks from '../components/data/myFoodTrucks'
+import ViewMapTruck from './viewTruck/viewMapTruck'
+
+import ScreenNames from '../screenNames'
 
 export default class GetMapPage extends React.Component {
   render() {
-    console.log(this.props.location)
+    
     const myLocation = this.props?.location?.coords || {
       latitude:36,
       longitude:36,
       latitudeDelta: 0.00922,
       longitudeDelta: 0.00421,
     }
-
+    function showMapTruck(navigation,truckId,viewMapTruck) {
+      //props.navigation.navigate(viewMapTruck.screenName)
+      console.log(navigation.navigate('View Map Truck',{truckId:truckId}))
+    }
+    const {
+        viewMapTruck
+    } = ScreenNames.stackPages
     return (
-
+    
       <React.Fragment>
         <MapView style={styles.mapStyle} 
           customMapStyle={MapStyle} 
@@ -40,16 +49,42 @@ export default class GetMapPage extends React.Component {
         {/* list of trucks displayed on the map */}
         <ScrollView style={styles.scrollViewContainer}>
               {myFoodTrucks.map((item, index) => ( 
-                <View
-                  key = {item.name}
-                  style = {styles.truckItemContainer} 
-                >
-                  <Image style = {styles.icon} source = {{uri: item.icon}} />
-                  <View style = {{flex: 1, flexDirection: 'column',}}>
-                    <Text style = {styles.truckNameText}>{item.name}</Text>
-                    <Text style = {styles.text}>{item.description}</Text>
-                  </View> 
-                </View>
+              
+                <Card style = {this.context.theme=='light'?styles.truckItemContainer: styles.truckItemContainerDark} key = {`${item.name}-${index}`}>
+                  <Card.Title 
+                    title={item.name}
+                    subtitle={item.description} 
+                    key = {item.name}
+                    icon = {item.icon}
+                    left={
+                      (props) => 
+                      <Avatar.Image 
+                        {...props} 
+                        size={41} 
+                        source={{ uri: item.icon }} 
+                      />}
+                  />
+                  <Card.Content>
+                    {/* <Title>Card title</Title> */}
+                    <Paragraph>{item.distance} miles away</Paragraph>
+                  </Card.Content>
+                  {/* <Card.Cover source={{ uri: 'https://picsum.photos/700' }} /> */}
+                  <Card.Actions>
+                    <IconButton
+                      icon={ index%2 ==0? "heart-outline": "heart"}
+                      color={Colors.yellow600}
+                      size={25}
+                      onPress={() => console.log('Pressed')}
+                    />
+                    <Button 
+                      onPress={()=> {
+                        showMapTruck(this.props.navigation,item.id,viewMapTruck)
+                      }}
+                    >
+                      View
+                    </Button>
+                  </Card.Actions>
+                </Card>
             ))}
         </ScrollView>
       </React.Fragment>
@@ -57,6 +92,8 @@ export default class GetMapPage extends React.Component {
     );
   }
 }
+
+GetMapPage.contextType = PreferencesContext;
 
 const styles = StyleSheet.create({
   container: {
@@ -95,13 +132,21 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   truckItemContainer: {
-    padding: 10,
+    //padding: 10,
     marginBottom: 1,
     backgroundColor: '#d9f9b1', // lime green
-    flex: 1,
+    //flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    //alignItems: 'center',
  },
+ truckItemContainerDark: {
+  //padding: 10,
+  marginBottom: 1,
+  backgroundColor: '#927BAE', // lime green
+  //flex: 1,
+  flexDirection: 'row',
+  //alignItems: 'center',
+},
   separator: {
     height: 3,
     backgroundColor: '#fff',
