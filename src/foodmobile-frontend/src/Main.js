@@ -65,7 +65,10 @@ export default function Main(){
           }
         }
     );
-
+    
+    const {ip} = React.useContext(
+        PreferencesContext
+    )
     //const [pageLoaded,setPageLoaded] = React.useState(false)
 
     //Make state for theme
@@ -86,6 +89,7 @@ export default function Main(){
             userState,
             updateUserState,
             toggleTheme,
+            ip,
             theme,
             signIn: async data => {
                 // In a production app, we need to send some data (usually
@@ -95,36 +99,39 @@ export default function Main(){
                 // example, we'll use a dummy token
 
                 // "simulates logging in"
-                const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-                const resData = await res.json()
-
-                if(resData.title) {
-                    const token = {
-                        value:`${data.userName}-${data.password}-token`,
-                        expDate:Date.now(),
-                        assingDate:Date.now()
-                    }
-                    
-                    //Store the token
-                    await storeData(JSON.stringify(token),'token')
+                try {
+                    const res = await fetch(`${ip}/todos/1`)
+                    const resData = await res.json()
     
-                    //Update state
-                    await updateUserState({ 
-                        type: 'SIGN_IN', 
-                        token: token
-                    });
-
-                    //console.log('============',resData.title,"===============")
-                    return {
-                        status:200,
-                        message:'Logged in'
+                    if(resData.title) {
+                        const token = {
+                            value:`${data.userName}-${data.password}-token`,
+                            expDate:Date.now(),
+                            assingDate:Date.now()
+                        }
+                        
+                        //Store the token
+                        await storeData(JSON.stringify(token),'token')
+        
+                        //Update state
+                        await updateUserState({ 
+                            type: 'SIGN_IN', 
+                            token: token
+                        });
+    
+                        return {
+                            status:200,
+                            message:'Logged in'
+                        }
+                    } else {
+                        throw `invalid login - ${resData.title}`
                     }
-                } else {
-                    //console.log('^^^^^^^^^^^^^^^^^^^^',resData.title,"^^^^^^^^^^^^^^^^^^")
+                }
+                catch(err) {
                     //failed login
                     return {
                         status:400,
-                        message:`invalid login - ${resData.title}`
+                        message:err
                     }
                 }
                 

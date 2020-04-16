@@ -20,7 +20,7 @@ export default function LoginForm(props) {
     const {signIn,userState} = React.useContext(
         PreferencesContext
     );
-    
+   
     //keeps track of error
     const [inputError,updateError] = React.useReducer(
       (prevState, action) => {

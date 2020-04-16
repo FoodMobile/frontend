@@ -8,6 +8,7 @@ const PreferencesContext = React.createContext({
   toggleRTL: () => {},
   signIn: () => {},
   signOut: () => {},
+  ip: 'https://jsonplaceholder.typicode.com',
   token:undefined
 });
 
