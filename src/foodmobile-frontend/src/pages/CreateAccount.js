@@ -12,6 +12,8 @@ export default class CreateAccount extends React.Component {
   
   state = {
     email:'',
+    userName:'',
+    name:'',
     password:'',
     confirmPassword:''
   }
@@ -25,12 +27,14 @@ export default class CreateAccount extends React.Component {
 
     function resetFields() {
       this.state.email = ''
+      this.state.userName = ''
+      this.state.name = ''
       this.state.password = ''
       this.state.confirmPassword = ''
     }
 
     function submitAccount(state,navigation,login) {
-      if(state.email == '' || state.password == '' || state.confirmPassword == '') {
+      if(state.email == '' || state.name == ''|| state.userName == '' || state.password == '' || state.confirmPassword == '') {
         alert('Please enter all fields')
       }
       else {
@@ -53,6 +57,18 @@ export default class CreateAccount extends React.Component {
           onChangeText={email => this.setState({ email })}
         />
 
+        <TextInput
+          label='Username'
+          value={this.state.userName}
+          onChangeText={userName => this.setState({ userName })}
+        />
+
+        <TextInput
+          label='Name'
+          value={this.state.name}
+          onChangeText={name => this.setState({ name })}
+        />
+        
         <TextInput
           label='Password'
           value={this.state.password}

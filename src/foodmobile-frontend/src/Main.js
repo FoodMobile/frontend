@@ -66,7 +66,7 @@ export default function Main(){
         }
     );
     
-    const {ip} = React.useContext(
+    const {ip,endpoints} = React.useContext(
         PreferencesContext
     )
     //const [pageLoaded,setPageLoaded] = React.useState(false)
@@ -90,6 +90,7 @@ export default function Main(){
             updateUserState,
             toggleTheme,
             ip,
+            endpoints,
             theme,
             signIn: async data => {
                 // In a production app, we need to send some data (usually
@@ -100,9 +101,24 @@ export default function Main(){
 
                 // "simulates logging in"
                 try {
-                    const res = await fetch(`${ip}/todos/1`)
+                    console.log(`${ip}${endpoints.login}`)
+                    
+                    let payload = new FormData();
+                    payload.append("username",data.userName)
+                    payload.append("password",data.password)
+
+                    const res = await fetch(`${ip}${endpoints.login}`, {
+                        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: payload
+                    });
+
+                    //const res = await fetch(`${ip}${endpoints.login}`)///todos/1
                     const resData = await res.json()
-    
+                    console.log(resData)
+
                     if(resData.title) {
                         const token = {
                             value:`${data.userName}-${data.password}-token`,
