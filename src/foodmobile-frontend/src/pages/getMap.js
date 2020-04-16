@@ -1,254 +1,36 @@
 import React from 'react';
 import MapView from 'react-native-maps';
-import { StyleSheet, Text, View, Dimensions, Image } from 'react-native';
+import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Text,List,Checkbox,  Avatar, Button, Card, IconButton, Colors,Title, Paragraph  } from 'react-native-paper';
+//import {getThene} from '../context/styles'
+import PreferencesContext from '../context/context'
+import MapStyle from '../components/mapStyle'
+import myFoodTrucks from '../components/data/myFoodTrucks'
+import ViewMapTruck from './viewTruck/viewMapTruck'
 
-import {getThene} from '../context/styles'
-
-// export default class GetMapPage extends React.Component {
-//   state = {
-//     location: null,
-//     errorMessage: null,
-//   };
-
-//   componentWillMount() {
-//     if (Platform.OS === 'android' && !Constants.isDevice) {
-//       this.setState({
-//         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
-//       });
-//     } else {
-//       this._getLocationAsync();
-//     }
-//   }
-
-//   _getLocationAsync = async () => {
-//     let { status } = await Permissions.askAsync(Permissions.LOCATION);
-//     if (status !== 'granted') {
-//       this.setState({
-//         errorMessage: 'Permission to access location was denied',
-//       });
-//     }
-
-//     let location = await Location.getCurrentPositionAsync({});
-//     this.setState({ location });
-//   };
-
-//   render() {
-//     let text = 'Waiting..';
-//     if (this.state.errorMessage) {
-//       text = this.state.errorMessage;
-//     } else if (this.state.location) {
-//       text = JSON.stringify(this.state.location);
-//     }
-
-//     return (
-//       <View style={styles.containerLocation}>
-//         <Text style={styles.paragraph}>{text}</Text>
-//       </View>
-//     );
-//   }
-// }
-
-const MapStyle=[
-  {
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#212121"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.icon",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#757575"
-      }
-    ]
-  },
-  {
-    "elementType": "labels.text.stroke",
-    "stylers": [
-      {
-        "color": "#212121"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#757575"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.country",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#9e9e9e"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.land_parcel",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.locality",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#bdbdbd"
-      }
-    ]
-  },
-  {
-    "featureType": "poi",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#757575"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#181818"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#616161"
-      }
-    ]
-  },
-  {
-    "featureType": "poi.park",
-    "elementType": "labels.text.stroke",
-    "stylers": [
-      {
-        "color": "#1b1b1b"
-      }
-    ]
-  },
-  {
-    "featureType": "road",
-    "elementType": "geometry.fill",
-    "stylers": [
-      {
-        "color": "#2c2c2c"
-      }
-    ]
-  },
-  {
-    "featureType": "road",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#8a8a8a"
-      }
-    ]
-  },
-  {
-    "featureType": "road.arterial",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#373737"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#3c3c3c"
-      }
-    ]
-  },
-  {
-    "featureType": "road.highway.controlled_access",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#4e4e4e"
-      }
-    ]
-  },
-  {
-    "featureType": "road.local",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#616161"
-      }
-    ]
-  },
-  {
-    "featureType": "transit",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#757575"
-      }
-    ]
-  },
-  {
-    "featureType": "water",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#000000"
-      }
-    ]
-  },
-  {
-    "featureType": "water",
-    "elementType": "labels.text.fill",
-    "stylers": [
-      {
-        "color": "#3d3d3d"
-      }
-    ]
-  }
-]
+import ScreenNames from '../screenNames'
 
 export default class GetMapPage extends React.Component {
   render() {
-    console.log(this.props.location)
+    
     const myLocation = this.props?.location?.coords || {
       latitude:36,
       longitude:36,
       latitudeDelta: 0.00922,
       longitudeDelta: 0.00421,
     }
-
+    function showMapTruck(navigation,truckId,viewMapTruck) {
+      //props.navigation.navigate(viewMapTruck.screenName)
+      console.log(navigation.navigate('View Map Truck',{truckId:truckId}))
+    }
+    const {
+        viewMapTruck
+    } = ScreenNames.stackPages
     return (
-      <View style={styles.container}>
+    
+      <React.Fragment>
         <MapView style={styles.mapStyle} 
           customMapStyle={MapStyle} 
           showsUserLocation={true}
@@ -263,51 +45,55 @@ export default class GetMapPage extends React.Component {
           }}
           provider="google"
         />
+        
         {/* list of trucks displayed on the map */}
-        <View style={styles.truckListContainer}>
-           <ScrollView style={styles.scrollStyle}>
-              {myFoodTrucks.map((item, index) => (
-                <View>
-                <View
-                  key = {item.name}
-                  style = {styles.truckItemContainer}>
-                  <Image 
-                    style = {styles.icon}
-                    source = {{uri: item.icon}}
+        <ScrollView style={styles.scrollViewContainer}>
+              {myFoodTrucks.map((item, index) => ( 
+              
+                <Card style = {this.context.theme=='light'?styles.truckItemContainer: styles.truckItemContainerDark} key = {`${item.name}-${index}`}>
+                  <Card.Title 
+                    title={item.name}
+                    subtitle={item.description} 
+                    key = {item.name}
+                    icon = {item.icon}
+                    left={
+                      (props) => 
+                      <Avatar.Image 
+                        {...props} 
+                        size={41} 
+                        source={{ uri: item.icon }} 
+                      />}
                   />
-                  <View style = {{flex: 1, flexDirection: 'column',}}>
-                    <Text style = {styles.truckNameText}>{item.name}</Text>
-                    <Text style = {styles.text}>{item.description}</Text>
-                  </View> 
-                </View>
-                <View style = {styles.separator} />
-                </View>
-              ))}
-           </ScrollView>
-        </View>
-      </View>
+                  <Card.Content>
+                    {/* <Title>Card title</Title> */}
+                    <Paragraph>{item.distance} miles away</Paragraph>
+                  </Card.Content>
+                  {/* <Card.Cover source={{ uri: 'https://picsum.photos/700' }} /> */}
+                  <Card.Actions>
+                    <IconButton
+                      icon={ index%2 ==0? "heart-outline": "heart"}
+                      color={Colors.yellow600}
+                      size={25}
+                      onPress={() => console.log('Pressed')}
+                    />
+                    <Button 
+                      onPress={()=> {
+                        showMapTruck(this.props.navigation,item.id,viewMapTruck)
+                      }}
+                    >
+                      View
+                    </Button>
+                  </Card.Actions>
+                </Card>
+            ))}
+        </ScrollView>
+      </React.Fragment>
+    
     );
   }
 }
 
-
-myFoodTrucks = [
-  {
-    name: 'Buoy Bowls',
-    description: 'Smoothies and more',
-    icon: "https://randomuser.me/api/portraits/men/4.jpg",
-  },
-  {
-    name: 'Filafel Frenzy',
-    description: 'Mediteranean food',
-    icon: "https://randomuser.me/api/portraits/men/47.jpg",
-  },
-  {
-    name: 'Rolling Thunder',
-    description: 'Boston Lobster Rolls',
-    icon: "https://randomuser.me/api/portraits/men/13.jpg",
-  },
-];
+GetMapPage.contextType = PreferencesContext;
 
 const styles = StyleSheet.create({
   container: {
@@ -319,7 +105,7 @@ const styles = StyleSheet.create({
   mapStyle: {
     width: Dimensions.get('window').width,
     // height: Dimensions.get('window').height,
-    flex: 2.5,
+    flex: 2,
   },
   containerLocation: {
     flex: 1,
@@ -328,36 +114,52 @@ const styles = StyleSheet.create({
     //paddingTop: Constants.statusBarHeight,
     // backgroundColor: '#ecf0f1',
   },
-  scrollStyle: {
-    backgroundColor: '#ffe373', //YELLOW
-    width: Dimensions.get('window').width,
-    marginBottom: 98, // might need to change if the components get bigger?
-  },
   truckListContainer: {
-    flex: 1,
-    flexWrap: 'wrap',
+    flex: 2,
+    // flexWrap: 'wrap',
     width: Dimensions.get('window').width,
+    // backgroundColor: '#ffe373', //YELLOW
+    backgroundColor: '#b5acae',
+    marginBottom: 30,
+  },
+
+  scrollViewContainer: {
+    flex: 1,
+    // flexWrap: 'wrap',
+    width: Dimensions.get('window').width,
+    // backgroundColor: '#ffe373', //YELLOW
+    backgroundColor: '#b5acae',
+    marginBottom: 10,
   },
   truckItemContainer: {
-    padding: 10,
-    // marginTop: 3,
+    //padding: 10,
+    marginBottom: 1,
     backgroundColor: '#d9f9b1', // lime green
-    flex: 1,
+    //flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
+    //alignItems: 'center',
  },
+ truckItemContainerDark: {
+  //padding: 10,
+  marginBottom: 1,
+  backgroundColor: '#927BAE', // lime green
+  //flex: 1,
+  flexDirection: 'row',
+  //alignItems: 'center',
+},
   separator: {
     height: 3,
     backgroundColor: '#fff',
-    width: '100%',
+    width: '50%',
+    alignSelf: 'center',
   },
   text: {
-    fontSize: 15,
+    fontSize: 12,
     color: '#606070',
     //padding: 10,
   },
   truckNameText: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#606070',
     // padding: 4,
   },
@@ -369,3 +171,4 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 });
+ 
