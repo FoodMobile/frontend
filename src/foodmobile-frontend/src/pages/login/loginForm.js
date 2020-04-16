@@ -70,14 +70,26 @@ export default function LoginForm(props) {
     );
     
     //What to do when clicking logging
-    function handleSignin() {
+    async function handleSignin() {
       const {userName,password}=userNamePasswordValues
       const {userNameError,passwordError}=inputError
       if(userName && password) {
-        signIn({
+        const signInRes = await signIn({
           userName:userNamePasswordValues.userName,
           password:userNamePasswordValues.password
         })
+
+        //Handle valid or invalid login
+        if(signInRes.status === 200) {
+          //alert(signInRes.status)
+          //Do nothing, page will auto switch cause of state change
+        } 
+        else {
+          if(signInRes.status === 400) {
+            alert(signInRes.message)
+          } 
+        }
+        
         //console.log(userState,'----------')
       }
       else {

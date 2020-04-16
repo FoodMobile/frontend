@@ -14,7 +14,7 @@ import { useColorScheme } from 'react-native-appearance';
 
 import {RootNavigation} from './navigation/RootNavigation'
 import PreferencesContext from './context/context'
-import { set } from 'react-native-reanimated';
+// import { set } from 'react-native-reanimated';
 
 //This function provides the theme of the app
 //And sets up a context that allows all
@@ -66,7 +66,7 @@ export default function Main(){
         }
     );
 
-    const [pageLoaded,setPageLoaded] = React.useState(false)
+    //const [pageLoaded,setPageLoaded] = React.useState(false)
 
     //Make state for theme
     const [theme, setTheme] = React.useState(
@@ -93,21 +93,42 @@ export default function Main(){
                 // need to handle errors if sign in failed After getting token,
                 // we need to persist the token using `AsyncStorage` In the
                 // example, we'll use a dummy token
-                
-                const token = {
-                    value:`${data.userName}-${data.password}-token`,
-                    expDate:Date.now(),
-                    assingDate:Date.now()
+
+                // "simulates logging in"
+                const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
+                const resData = await res.json()
+
+                if(resData.title) {
+                    const token = {
+                        value:`${data.userName}-${data.password}-token`,
+                        expDate:Date.now(),
+                        assingDate:Date.now()
+                    }
+                    
+                    //Store the token
+                    await storeData(JSON.stringify(token),'token')
+    
+                    //Update state
+                    await updateUserState({ 
+                        type: 'SIGN_IN', 
+                        token: token
+                    });
+
+                    //console.log('============',resData.title,"===============")
+                    return {
+                        status:200,
+                        message:'Logged in'
+                    }
+                } else {
+                    //console.log('^^^^^^^^^^^^^^^^^^^^',resData.title,"^^^^^^^^^^^^^^^^^^")
+                    //failed login
+                    return {
+                        status:400,
+                        message:`invalid login - ${resData.title}`
+                    }
                 }
                 
-                //Store the token
-                await storeData(JSON.stringify(token),'token')
-
-                //Update state
-                await updateUserState({ 
-                    type: 'SIGN_IN', 
-                    token: token
-                });
+               
             },
             signOut: async () => {
                 //remove saved token
@@ -147,7 +168,6 @@ export default function Main(){
             setTheme(theme)  
         }
         getTheme()
-        console.log('a')
     }, []) // maybe put user Id in here?
 
     const determineTheme = theme => {
