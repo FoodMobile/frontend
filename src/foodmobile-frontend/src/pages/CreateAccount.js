@@ -15,11 +15,11 @@ export default class CreateAccount extends React.Component {
   }
   
   state = {
-    email:'user@user.com',
-    userName:'user12',
-    name:'name',
-    password:'123456',
-    confirmPassword:'123456'
+    email:'',
+    userName:'',
+    name:'',
+    password:'',
+    confirmPassword:''
   }
   
   

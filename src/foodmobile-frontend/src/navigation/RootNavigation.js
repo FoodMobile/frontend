@@ -48,13 +48,9 @@ function determineStack(userState) {
 
     //If there is a token
     if(userState?.token) {
-        
-        if(userState?.token?.value) {
-            return <CustomerStack/>
-        } else {
-            return <SigninStack/>
-        }
-        
+        return <CustomerStack/>  
+    } else {
+        return <SigninStack/>
     }
     
 }
@@ -63,16 +59,16 @@ function determineStack(userState) {
 export class  RootNavigation extends React.Component {
     
     async componentDidMount() {    
-        const token = JSON.parse(await getData('token','{}'))
-        
+        const token = JSON.parse(await getData('token',''))
+       
         // "simulates checking token"
-        const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-        const data = await res.json()
+        // const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
+        // const data = await res.json()
 
-        console.log("'Checked' token",data)
+        // console.log("'Checked' token",data)
         
         //if valid token
-        if(data.title) {
+        if(token) {
             this.context.updateUserState({ 
                 type: 'RESTORE_TOKEN', token: token 
             })
@@ -87,13 +83,14 @@ export class  RootNavigation extends React.Component {
     }
 
     render() {
-        this.userState = this.context.userState
+        //this.userState = this.context.userState
+        console.log(this.context.userState)
         return (
             <NavigationContainer theme={this.props.theme}>
                 {/* If no user token,that means user needs to log in */}
                 
                 {
-                    determineStack(this.userState)
+                    determineStack(this.context.userState)
                 }
             </NavigationContainer>
         );

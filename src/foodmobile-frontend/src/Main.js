@@ -14,6 +14,7 @@ import { useColorScheme } from 'react-native-appearance';
 
 import {RootNavigation} from './navigation/RootNavigation'
 import PreferencesContext from './context/context'
+import axios from 'axios'
 // import { set } from 'react-native-reanimated';
 
 //This function provides the theme of the app
@@ -58,11 +59,7 @@ export default function Main(){
         {
           isLoading: true,
           isSignout: false,
-          token:{
-              value:undefined,
-              expDate:undefined,
-              assingDate:undefined
-          }
+          token:''
         }
     );
     
@@ -93,65 +90,32 @@ export default function Main(){
             endpoints,
             theme,
             signIn: async data => {
-                // In a production app, we need to send some data (usually
-                // username, password) to server and get a token We will also
-                // need to handle errors if sign in failed After getting token,
-                // we need to persist the token using `AsyncStorage` In the
-                // example, we'll use a dummy token
 
-                // "simulates logging in"
-                try {
-                    console.log(`${ip}${endpoints.login}`)
-                    
-                    let payload = new FormData();
-                    payload.append("username",data.userName)
-                    payload.append("password",data.password)
+                let payload = new URLSearchParams();
+                payload.append("username",data.userName)
+                payload.append("password",data.password)
 
-                    const res = await fetch(`${ip}${endpoints.login}`, {
-                        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: payload
+
+                axios.post(`${ip}${endpoints.login}`, payload)
+                .then(async function (result) {
+                    console.log('TOKEN GOT')
+                    //Store the token
+                    await storeData(JSON.stringify(result.data.token),'token')
+
+
+                    const test = 
+                    //Update state
+                    await updateUserState({ 
+                        type: 'SIGN_IN', 
+                        token: result.data.token
                     });
-
-                    //const res = await fetch(`${ip}${endpoints.login}`)///todos/1
-                    const resData = await res.json()
-                    console.log(resData)
-
-                    if(resData.title) {
-                        const token = {
-                            value:`${data.userName}-${data.password}-token`,
-                            expDate:Date.now(),
-                            assingDate:Date.now()
-                        }
-                        
-                        //Store the token
-                        await storeData(JSON.stringify(token),'token')
-        
-                        //Update state
-                        await updateUserState({ 
-                            type: 'SIGN_IN', 
-                            token: token
-                        });
+ 
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    alert(error)
+                });
     
-                        return {
-                            status:200,
-                            message:'Logged in'
-                        }
-                    } else {
-                        throw `invalid login - ${resData.title}`
-                    }
-                }
-                catch(err) {
-                    //failed login
-                    return {
-                        status:400,
-                        message:err
-                    }
-                }
-                
-               
             },
             signOut: async () => {
                 //remove saved token
