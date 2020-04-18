@@ -3,20 +3,25 @@ import { Text, TextInput, Paragraph, IconButton, Button, Colors } from 'react-na
 import {getData,storeData} from '../components/asyncStorage'
 import { TextInput as ReactNativeTextInput } from 'react-native';
 import ScreenNames from '../screenNames'
+
+const emailMatcher = /(\S+?)@\S+\.(\S+)/;
+
+import PreferencesContext from '../context/context'
+
 export default class CreateAccount extends React.Component {
 
   constructor(props) {
     super(props);
-   
   }
   
   state = {
-    email:'',
-    userName:'',
-    name:'',
-    password:'',
-    confirmPassword:''
+    email:'user@user.com',
+    userName:'user12',
+    name:'name',
+    password:'123456',
+    confirmPassword:'123456'
   }
+  
   
   render() {
     const {
@@ -26,14 +31,14 @@ export default class CreateAccount extends React.Component {
     } = ScreenNames.stackPages
 
     function resetFields() {
-      this.state.email = ''
-      this.state.userName = ''
-      this.state.name = ''
-      this.state.password = ''
-      this.state.confirmPassword = ''
+      this.state.email = '' //4 charceters, x@x.x
+      this.state.userName = '' //4 charceters
+      this.state.name = '' //4 charceters
+      this.state.password = '' //4 charceters
+      this.state.confirmPassword = '' //4 charceters
     }
 
-    function submitAccount(state,navigation,login) {
+    function submitAccount(state,navigation,login,context) {
       if(state.email == '' || state.name == ''|| state.userName == '' || state.password == '' || state.confirmPassword == '') {
         alert('Please enter all fields')
       }
@@ -41,8 +46,45 @@ export default class CreateAccount extends React.Component {
         if(state.password != state.confirmPassword) {
           alert('Please make sure password and confirm password are same')
         } else {
-          alert('Account created')
-          navigation.navigate(login.screenName)
+
+          if(emailMatcher.test(state.email)) {
+              const formData = new FormData();
+
+              formData.append('name', state.name)
+              formData.append('username', state.userName)
+              formData.append('email', state.email)
+              formData.append('password', state.password)
+
+              fetch(`${context.ip}${context.endpoints.createAccount}`, {
+                method: 'POST',
+                body: formData,
+              })
+             
+              // fetch(`${context.ip}${context.endpoints.test}/a`, {
+              //   method: 'GET',
+              // })
+              fetch(`${context.ip}${context.endpoints.createAccount}`, {
+                method: 'POST',
+                body: formData,
+              })
+              .then((response) => response.json())
+              .then((result) => {
+                if(result.status > 399) {
+                  alert('Error '+ result.status)
+                } else {
+                  //console.log(result)
+                  alert(`${result.success ? 'User created' :result.errorMessage}` );
+                }
+              })
+              .catch((error) => {
+                alert('Error:', error);
+              });
+
+
+             //navigation.navigate(login.screenName)
+          } else {
+            alert("Please enter a valid email")
+          }
         }
       }
     }
@@ -88,7 +130,7 @@ export default class CreateAccount extends React.Component {
         <Button 
           compact={true} 
           mode="contained" 
-          onPress={() => submitAccount(this.state,this.props.navigation,login)}
+          onPress={() => submitAccount(this.state,this.props.navigation,login,this.context)}
           style={{marginTop:20}}
         >
           Create Account
@@ -103,10 +145,11 @@ export default class CreateAccount extends React.Component {
         >
           Reset Fields
         </Button>
-
+        
       </>
       
     )
   }
 }
   
+CreateAccount.contextType = PreferencesContext;

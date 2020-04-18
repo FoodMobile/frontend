@@ -84,7 +84,7 @@ export default function FavPage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.get('window').height,
-    backgroundColor: '#f2f2ff',
+    backgroundColor: '#ecf0f1',
   },
 });
   

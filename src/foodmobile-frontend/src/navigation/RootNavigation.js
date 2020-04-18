@@ -21,6 +21,7 @@ import CustomerStack from './CustomerStack'
 import SigninStack from './Login'
 import Loading from '../../assets/loading.png'
 import Splash from '../../assets/splash.png'
+
 function determineStack(userState) {
     //console.log('determine',userState)
     //if we still loading, show nothing
