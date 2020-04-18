@@ -4,7 +4,7 @@ import {getData,storeData} from '../components/asyncStorage'
 
 import LoginForm from './login/loginForm'
 
-async function getTokie() {
+async function getToken() {
   return await getData('token')
 }
 export default class LoginPage extends React.Component {
@@ -14,17 +14,17 @@ export default class LoginPage extends React.Component {
     this.state = {
       isLoggedIn: false,
       isLoading: true,
-      test_token: null
+      //test_token: null
     };
   }
 
   componentDidMount() {
-    this._asyncRequest = getTokie().then(
+    this._asyncRequest = getToken().then(
       externalData => {
         this._asyncRequest = null;
         this.setState({
           isLoading:false,
-          test_token: externalData
+          //test_token: externalData
         });
       }
     );

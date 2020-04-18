@@ -145,6 +145,16 @@ let singleOrder = [
   },
 ]
 
+function returnTotal(orders) {
+  let total = 0;
+
+  orders.forEach(order => {
+    total = total + order.price
+  });
+
+  return total
+}
+
 export default class MyOrdersPage extends React.Component{
     // showOrder(order){
     //   console.log("DATA: " + order.customerName)
@@ -176,10 +186,10 @@ export default class MyOrdersPage extends React.Component{
             right={props => <Text style={{marginRight: 20,}}>{item.price}</Text>}
             />
           ))}
-          {/* <List.Item 
-            title={<Text>{order.totalPrice}</Text>}
-            //right={props => <Text style={{marginRight: 20}}>Total:    ${order.totalPrice}</Text>}
-            /> */}
+          <List.Item 
+            //title={<Text>{order.totalPrice}</Text>}
+            right={props => <Text style={{marginRight: 20}}>Total:    ${returnTotal(order.orderItems)}</Text>}
+            />
         </List.Accordion>
         <Divider/>
           </>

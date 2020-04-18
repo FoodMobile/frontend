@@ -8,9 +8,14 @@ import ForgotPassword from '../pages/ForgotPassword'
 // import AppbarWrapper from '../components/appBar/appBarWrapper'
 const Stack = createStackNavigator();
 
+import PreferencesContext from '../context/context'
+
 export default function SigninStack(props) {
 
-    
+    // const {theme,ip} = React.useContext(
+    //     PreferencesContext
+    // );
+    // console.log(theme,'===================',ip)
 
     const {
         login,

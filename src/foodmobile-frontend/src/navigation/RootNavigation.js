@@ -63,17 +63,26 @@ export class  RootNavigation extends React.Component {
     
     async componentDidMount() {    
         const token = JSON.parse(await getData('token','{}'))
+        
+        // "simulates checking token"
+        const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
+        const data = await res.json()
 
-        // //console.log('got token = ',token,Object.keys(token),token.userName)
-        this.context.updateUserState({ 
-            type: 'RESTORE_TOKEN', token: token 
-        })
-        // this.context.userState.token = {
-        //     ...this.context.userState.token,
-        //     value:token
-        // }
-        // this.context.userState.isLoading=false
-        //this.forceUpdate();
+        console.log("'Checked' token",data)
+        
+        //if valid token
+        if(data.title) {
+            this.context.updateUserState({ 
+                type: 'RESTORE_TOKEN', token: token 
+            })
+        } else {
+            //if not valid token
+            this.context.updateUserState({ 
+                type: 'RESTORE_TOKEN', token: {} 
+            })
+        }
+        
+      
     }
 
     render() {
