@@ -15,6 +15,7 @@ import { useColorScheme } from 'react-native-appearance';
 import {RootNavigation} from './navigation/RootNavigation'
 import PreferencesContext from './context/context'
 import axios from 'axios'
+import {decode as atob, encode as btoa} from 'base-64'
 // import { set } from 'react-native-reanimated';
 
 //This function provides the theme of the app
@@ -54,12 +55,18 @@ export default function Main(){
                     ...prevState,
                     isLoading:action.isLoading
                 };
+            case 'UPDATE_USERDATA':
+                return {
+                    ...prevState,
+                    userData:action.userData
+                };
           }
         },
         {
           isLoading: true,
           isSignout: false,
-          token:''
+          token:'',
+          userData:{}
         }
     );
     
@@ -103,13 +110,21 @@ export default function Main(){
                     await storeData(JSON.stringify(result.data.token),'token')
 
 
-                    const test = 
+               
                     //Update state
                     await updateUserState({ 
                         type: 'SIGN_IN', 
                         token: result.data.token
                     });
- 
+
+                    const atobResult = atob(result.data.token.split('.')[1])
+                    await storeData(atobResult,'userData')
+
+                    await updateUserState({ 
+                        type: 'UPDATE_USERDATA', 
+                        userData: JSON.parse(atobResult)
+                    });
+                        
                 })
                 .catch(function (error) {
                     console.log(error);
