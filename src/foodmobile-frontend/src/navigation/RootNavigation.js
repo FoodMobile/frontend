@@ -69,6 +69,8 @@ export class  RootNavigation extends React.Component {
         
         //if valid token
         if(token) {
+            console.log('user data ==========================')
+            console.log( this.context.userState.userData)
             this.context.updateUserState({ 
                 type: 'RESTORE_TOKEN', token: token 
             })
