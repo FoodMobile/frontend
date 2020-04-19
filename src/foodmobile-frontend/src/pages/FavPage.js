@@ -45,20 +45,21 @@ export default function FavPage({ navigation }) {
           {FAVORITES.map((favorite, index) => (
             <>
             <View>
-            <List.Item
-              title={favorite.key}
-              style={{
-                
-              }}
-              right={props => <IconButton
-                icon={ index%0 ==0? "heart-outline": "heart"}
-                color={Colors.yellow600}
-                size={25}
-                onPress={() => console.log('Pressed')}
-              />}
-            />
-            
-            <Divider/>
+              <List.Item
+                title={favorite.key}
+                style={{
+                  
+                }}
+                key = {favorite.key}
+                right={props => <IconButton
+                  icon={ index%0 ==0? "heart-outline": "heart"}
+                  color={Colors.yellow600}
+                  size={25}
+                  onPress={() => console.log('Pressed')}
+                />}
+              />
+              
+              <Divider/>
             </View>
             </>
           ))}
