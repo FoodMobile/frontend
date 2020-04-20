@@ -74,17 +74,16 @@ export class  RootNavigation extends React.Component {
             //console.log( this.context.userState.userData)
 
             const atobResult = JSON.parse(atob(token.split('.')[1]))
-
-
             const username = atobResult.username
-            
+            console.log('DECODED TOKEN = ',atobResult)
             try {
                 let payload = new URLSearchParams();
                 payload.append("username",username)
 
+                console.log('SENDING USERNAME = ',username)
                 const response = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payload)
 
-                console.log('res = ',response.data)
+                console.log('RESPONSE = ',response.data)
 
                 await this.context.updateUserState({ 
                     type: 'UPDATE_USERDATA', 
@@ -114,7 +113,7 @@ export class  RootNavigation extends React.Component {
 
     render() {
         //this.userState = this.context.userState
-        console.log(this.context.userState)
+        console.log("RENDER USERSTATE = ",this.context.userState)
         return (
             <NavigationContainer theme={this.props.theme}>
                 {/* If no user token,that means user needs to log in */}
