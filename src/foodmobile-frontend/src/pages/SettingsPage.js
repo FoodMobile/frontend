@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import GeneralSettings from './settings/generalSettings'
 import PrivacySettings from './settings/privacySettings'
 
+import {ScrollView} from 'react-native';
 
 import { Button,Text,Card,Title, DarkTheme,Provider,DefaultTheme } from 'react-native-paper';
 import PreferencesContext from '../context/context'
@@ -18,7 +19,7 @@ export default function SettingsPage(props) {
  
     
     return (  
-        <>
+        <ScrollView>
             <GeneralSettings {...props} styles={styles}/>
             <PrivacySettings {...props} styles={styles}/>
             <Button onPress={()=>signOut()} mode="contained">
@@ -32,10 +33,18 @@ export default function SettingsPage(props) {
                     <Card.Content>
                         <Text>User token: {JSON.stringify(userState)}</Text>
                     </Card.Content>
+
+                </Card>
+
+                <Card style={{margin:15,padding:5}} theme={DarkTheme} elevation={115}>
+                    <Title>Saved user data</Title>
+                    <Card.Content >
+                        <Text>User token: {JSON.stringify(userState.userData)}</Text>
+                    </Card.Content>     
                 </Card>
             </Provider>
             
-        </>   
+        </ScrollView>   
     );
 
 }

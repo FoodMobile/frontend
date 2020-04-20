@@ -12,7 +12,8 @@ const PreferencesContext = React.createContext({
   endpoints : {
     login:'/login',
     createAccount: `/register/normal`,
-    test:'/api/test'
+    test:'/api/test',
+    userInfo:'/auth/userinfo'
   },
   token:undefined
 });

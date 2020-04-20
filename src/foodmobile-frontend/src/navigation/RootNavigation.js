@@ -21,6 +21,8 @@ import CustomerStack from './CustomerStack'
 import SigninStack from './Login'
 import Loading from '../../assets/loading.png'
 import Splash from '../../assets/splash.png'
+import axios from 'axios'
+import {decode as atob, encode as btoa} from 'base-64'
 
 function determineStack(userState) {
     //console.log('determine',userState)
@@ -69,11 +71,37 @@ export class  RootNavigation extends React.Component {
         
         //if valid token
         if(token) {
-            console.log('user data ==========================')
-            console.log( this.context.userState.userData)
-            this.context.updateUserState({ 
-                type: 'RESTORE_TOKEN', token: token 
-            })
+            //console.log( this.context.userState.userData)
+
+            const atobResult = JSON.parse(atob(token.split('.')[1]))
+
+
+            const username = atobResult.username
+            
+            try {
+                let payload = new URLSearchParams();
+                payload.append("username",username)
+
+                const response = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payload)
+
+                console.log('res = ',response.data)
+
+                await this.context.updateUserState({ 
+                    type: 'UPDATE_USERDATA', 
+                    userData: response.data.data
+                });
+
+                await this.context.updateUserState({ 
+                    type: 'RESTORE_TOKEN', token: token 
+                })
+
+            } catch(error) {
+                console.log(error)
+                this.context.updateUserState({ 
+                    type: 'RESTORE_TOKEN', token: {} 
+                })
+            }
+            
         } else {
             //if not valid token
             this.context.updateUserState({ 
