@@ -40,7 +40,7 @@ let FAVORITES = [
 export default function FavPage({ navigation }) {
     const {myFavorites} =  ScreenNames.stackPages
     return (
-      <PaperProvider theme={DefaultTheme}>
+      // <PaperProvider theme={DefaultTheme}>
         <ScrollView style={styles.container}>
           {FAVORITES.map((favorite, index) => (
             <>
@@ -64,7 +64,7 @@ export default function FavPage({ navigation }) {
             </>
           ))}
         </ScrollView>
-      </PaperProvider>
+      // </PaperProvider>
         // <Stack.Navigator 
         //     // screenOptions={AppbarWrapper()}
         //     initialRouteName= {myFavorites.screenName}
@@ -85,7 +85,7 @@ export default function FavPage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.get('window').height,
-    backgroundColor: '#ecf0f1',
+    //backgroundColor: '#ecf0f1',
   },
 });
   

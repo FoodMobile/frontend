@@ -161,15 +161,15 @@ export default class MyOrdersPage extends React.Component{
     // };
     render (){
       return(
-        <PaperProvider theme={DefaultTheme}
-          // theme={{
-          //   colors: {
-          //     accent: '#99B898',
-          //     background: '#EDD8ff',
-          //     text: '#2A363B',
-          //   }
-          // }}
-        >
+        // <PaperProvider theme={DefaultTheme}
+        //   // theme={{
+        //   //   colors: {
+        //   //     accent: '#99B898',
+        //   //     background: '#EDD8ff',
+        //   //     text: '#2A363B',
+        //   //   }
+        //   // }}
+        // >
       <ScrollView style={styles.container}>
         {ORDERS.map((order, index) => (
           <React.Fragment key={index}>
@@ -180,7 +180,7 @@ export default class MyOrdersPage extends React.Component{
                 <List.Item 
                 title={item.name}
                 style={{
-                  backgroundColor: '#f7f7fa',
+                  //backgroundColor: '#f7f7fa',
                   borderColor: '#ffedd8',
                 }}
                 key={item.name+index}
@@ -197,7 +197,7 @@ export default class MyOrdersPage extends React.Component{
           </React.Fragment>
         ))}
       </ScrollView> 
-      </PaperProvider>
+      // </PaperProvider>
     )}
 }
   
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     //backgroundColor: '#6C5B7B', //purple
     // backgroundColor: '#FECEAB', //light tan/organge
     //backgroundColor: '#EDD8ff',
-    backgroundColor: '#ecf0f1', //f2f2ff
+    //backgroundColor: '#ecf0f1', //f2f2ff
   },
   order: {
     padding: 10,
