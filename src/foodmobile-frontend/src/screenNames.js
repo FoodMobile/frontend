@@ -98,6 +98,8 @@ const LoginPage = new stackScreenData('Login', 'Login');
 const CreateAccountPage = new stackScreenData('CreateAccount', 'Create Account');
 const ResetPasswordPage = new stackScreenData('ResetPassword', 'Reset Password');
 
+const findFoodTruckCompanyPage = new stackScreenData('Find Food Truck Company', 'Find Food Truck Company');
+
 const ScreenNames = {
     mainTabs: {
         activeColor:"white",
@@ -123,7 +125,8 @@ const ScreenNames = {
         login:LoginPage,
         createAccount:CreateAccountPage,
         resetPassword:ResetPasswordPage,
-        viewMapTruck:ViewMapTruckPage
+        viewMapTruck:ViewMapTruckPage,
+        findFoodTruckCompany:findFoodTruckCompanyPage
     }
     
 };
