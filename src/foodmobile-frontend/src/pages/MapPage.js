@@ -1,6 +1,6 @@
 import React, { Component,useState } from 'react';
 import { Platform, View, StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, Text, ActivityIndicator, Colors } from 'react-native-paper';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
@@ -49,10 +49,24 @@ export default class MapPage extends Component {
   
       return (
         <View style={styles.container}>
-          {(this.state.isGetting == 'done') && <GetMapPage location = {this.state.location} {...this.props}/>}
-          <Button mode="contained" color="#aaaa00"onPress={()=>{this._getLocationAsync()}}>
-              Update:{this.state.isGetting}
-          </Button>
+          {
+          (this.state.isGetting == 'done')?
+            <React.Fragment>
+              <GetMapPage location = {this.state.location} {...this.props}/>
+              <Button 
+                compact = {true} 
+                mode="contained" 
+                color="dodgerblue"
+                onPress={()=>{this._getLocationAsync()}}
+                style={{ borderRadius: 0,}}
+              >
+                  Reset map
+              </Button>
+            </React.Fragment>
+          :
+            <ActivityIndicator animating={true} color={Colors.green800} size={100} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}/>
+          }
+          
         </View>
       );
     }
