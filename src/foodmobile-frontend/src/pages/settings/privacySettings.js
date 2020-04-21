@@ -5,7 +5,7 @@ import PreferencesContext from '../../context/context'
 import { RadioButton } from 'react-native-paper';
 import {useState } from 'react'
 import { View, StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button, Text,Divider } from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import ScreenNames from '../../screenNames'
@@ -34,6 +34,7 @@ export default function PrivacySettings(props) {
                     }
                 />
             </List.Accordion>
+            <Divider/>
             <List.Item
                 style={styles.preference}
                 title="Wallet"
