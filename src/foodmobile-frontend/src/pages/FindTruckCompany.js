@@ -1,50 +1,83 @@
 import * as React from 'react';
-import { Button,Text,Paragraph, Searchbar,Subheading,Title,DataTable    } from 'react-native-paper';
+import { 
+    Button,Text,Paragraph, Searchbar,Subheading,Title,DataTable,
+    Divider,FAB 
+} from 'react-native-paper';
 import PreferencesContext from '../context/context'
 import { StyleSheet } from "react-native";
 import axios from 'axios'
-import { View } from 'react-native';
+import { View,ScrollView } from 'react-native';
+import screenNames from '../screenNames'
 
 export default class FindTruckCompany extends React.Component{
     state = {
-        searchQuery: '',
+        searchQuery: undefined,
       };
     
     _onChangeSearch = query => this.setState({ searchQuery: query });
+
+    navigateToCreateCompany = () => {
+        this.props.navigation.navigate(screenNames.stackPages.createCompany.screenName)
+    }
     render() {
 
         const { searchQuery } = this.state;
 
         return (
-            <React.Fragment>
-                <Title style={{textAlign: 'center'}}>
-                    Enter Company name/id
-                </Title>
-                <Subheading style={{textAlign: 'center'}}>
-                    Please enter the company name or id to which you belong to.
-                </Subheading >
-                <View style = {{margin:15}}>
-                    <Searchbar
-                        placeholder="Search"
-                        onChangeText={this._onChangeSearch}
-                        value={searchQuery}
-                        
+            
+                <React.Fragment>
+                    <ScrollView style={{marginBottom:70}}>
+                        <Title style={{textAlign: 'center'}}>
+                            Enter Company name/id
+                        </Title>
+                        <Subheading style={{textAlign: 'center'}}>
+                            Please enter the company name or id to which you belong to.
+                        </Subheading >
+                        <View >
+                            <Searchbar
+                                placeholder="Search"
+                                onChangeText={this._onChangeSearch}
+                                value={searchQuery}
+                                style = {{margin:15}}
+                            />
+                            
+                            <Divider style = {{padding:1}}/>
+                            {
+                                !searchQuery ?
+                                <React.Fragment>
+                                    <Text style = {{margin:15}}>Sorry but this company name/id does not exist. Please make sure name/id is correct or create a new company.</Text>
+                                </React.Fragment>
+                                :
+                                <ShowFakeQuery searchQuery={searchQuery}/>
+                            }
+                        </View>
+
+                    </ScrollView>
+                    
+                    <FAB
+                        style={styles.fab}
+                        small
+                        label="Create Company"
+                        icon="plus"
+                        onPress={this.navigateToCreateCompany}
                     />
                     
-
-                    {
-                        searchQuery?
-                        <ShowFakeQuery searchQuery={searchQuery}/>
-                        :
-                        <Text>{searchQuery}</Text>
-                    }
-                </View>
-                
-            </React.Fragment>
+                </React.Fragment>
+ 
            
         )
     }
 }
+
+const styles = StyleSheet.create({
+    fab: {
+      position: 'absolute',
+      margin: 16,
+      right: 0,
+      bottom: 0,
+    },
+  })
+
 
 function ShowFakeQuery(props) {
     const modLength = props.searchQuery.length % 3

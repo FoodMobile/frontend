@@ -99,6 +99,7 @@ const CreateAccountPage = new stackScreenData('CreateAccount', 'Create Account')
 const ResetPasswordPage = new stackScreenData('ResetPassword', 'Reset Password');
 
 const findFoodTruckCompanyPage = new stackScreenData('Find Food Truck Company', 'Find Food Truck Company');
+const createCompanyPage = new stackScreenData('Create Company', 'Create Company');
 
 const ScreenNames = {
     mainTabs: {
@@ -126,7 +127,8 @@ const ScreenNames = {
         createAccount:CreateAccountPage,
         resetPassword:ResetPasswordPage,
         viewMapTruck:ViewMapTruckPage,
-        findFoodTruckCompany:findFoodTruckCompanyPage
+        findFoodTruckCompany:findFoodTruckCompanyPage,
+        createCompany:createCompanyPage
     }
     
 };

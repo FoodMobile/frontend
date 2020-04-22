@@ -11,6 +11,7 @@ import myWallets from '../pages/settings/myWalletsPage'
 import EditWallet from '../pages/settings/editWallet'
 import ViewMapTruck from '../pages/viewTruck/viewMapTruck'
 import FindTruckCompany from '../pages/FindTruckCompany'
+import CreateCompany from '../pages/createCompany'
 //Load the names of our pages
 import ScreenNames from '../screenNames'
 //Custom header
@@ -25,7 +26,8 @@ export default function CustomerStack(props) {
         myFoodPrefernces,
         editWallet,
         viewMapTruck,
-        findFoodTruckCompany
+        findFoodTruckCompany,
+        createCompany
     } = ScreenNames.stackPages
     const {
         mainTabs
@@ -83,6 +85,16 @@ export default function CustomerStack(props) {
                     title:findFoodTruckCompany.title
                 }}  
             />
+
+            <Stack.Screen 
+                name={createCompany.screenName}
+                component={CreateCompany} 
+                options ={{
+                    title:createCompany.title
+                }}  
+            />
+
+
         </Stack.Navigator>
     )
 }

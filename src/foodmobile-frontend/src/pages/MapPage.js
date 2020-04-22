@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     //alignItems: 'center',
     //justifyContent: 'center',
     paddingTop: 5,//Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
+    //backgroundColor: '#ecf0f1',
   },
   paragraph: {
     margin: 24,

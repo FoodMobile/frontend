@@ -17,7 +17,7 @@ export default class RequestToBeDriver extends React.Component {
     
     _hideDialog = () => this.setState({ visible: false });
 
-    submitRequestToBeDriver = (items) => {
+    submitRequestToBeDriver = () => {
         //alert((screenNames.stackPages.findFoodTruckCompany.screenName))     
         this._hideDialog()  
         this.props.navigation.navigate(screenNames.stackPages.findFoodTruckCompany.screenName)

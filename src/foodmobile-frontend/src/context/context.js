@@ -13,7 +13,8 @@ const PreferencesContext = React.createContext({
     login:'/login',
     createAccount: `/register/normal`,
     test:'/api/test',
-    userInfo:'/auth/userinfo'
+    userInfo:'/auth/userinfo',
+    createCompany: '/bus/createcompany'
   },
   token:undefined
 });
