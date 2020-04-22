@@ -28,6 +28,8 @@ export default class CreateCompany extends React.Component {
         this.setState({[key]:{ ...this.state[key],...value }}) // 
     }
 
+
+
     render() {
         return(
             <ScrollView>
@@ -45,14 +47,26 @@ export default class CreateCompany extends React.Component {
                         <Financial state={this.state} updateState={this.updateState}/>
                     </View>
                     <Divider  style = {{padding:1}}/>
+
                     <View style = {{marginLeft:15,marginRight:15}}>
-                        <Dietary state={this.state} updateState={this.updateState}/>
+                        <Title>Dietary</Title>
+                        <Subheading>Does you menu contain any GMO free products?</Subheading>
+            
+                        <Text>First</Text>
+            
+                        {/* this.updateState({
+                                    [value]:!this.state.dietary[value]
+                                },'dietary') */}
                     </View>
+
+
 
                 </React.Fragment>
             </ScrollView>
         )
     }
+
+    
 }
 
 const Financial = (props) => {
@@ -86,22 +100,7 @@ const Financial = (props) => {
     )
 }
 
-const Dietary = (props) => {
-
-  
-    return (
-        <React.Fragment>
-            <Title>Dietary</Title>
-            <Subheading>Does you menu contain any GMO free products?</Subheading>
-
-            <Text>First</Text>
-
-           
-      
-           
-        </React.Fragment>
-    )
-}
+//const 
 
 const styles = StyleSheet.create({
     inputSpace: {
