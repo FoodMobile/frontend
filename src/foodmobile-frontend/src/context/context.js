@@ -14,7 +14,9 @@ const PreferencesContext = React.createContext({
     createAccount: `/register/normal`,
     test:'/api/test',
     userInfo:'/auth/userinfo',
-    createCompany: '/bus/createcompany'
+    createCompany: '/bus/createcompany',
+    createFinancial:'/bus/createcompanyfinancial',
+    createGenre:'/bus/createfoodgenre'
   },
   token:undefined
 });

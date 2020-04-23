@@ -8,30 +8,130 @@ import { StyleSheet } from "react-native";
 import axios from 'axios'
 import { View,ScrollView } from 'react-native';
 import screenNames from '../screenNames'
+import {decode as atob, encode as btoa} from 'base-64'
 
 export default class CreateCompany extends React.Component {
     state = {
         financial:{
-            ein: '',
-            stateCode:'',
-            country:'',
+            ein: '12-1234567',
+            stateCode:'AB',
+            country:'USA',
         },
         dietary:{
             gmoCode:'',
             nuts:false,
             onlyVegan:false,
-            isGlutenFree:-1
+            isGlutenFree:-1,
+            genre:''
         },
-        genre:{
-            value:''
+        error:{
+            ein:'',
+            stateCode:'',
+            country:'',
+            gmoCode:'',
+            nuts:'',
+            onlyVegan:'',
+            isGlutenFree:'',
+            genre:''
         }
     };
 
-    updateState = (value,key) => {
-        this.setState({[key]:{ ...this.state[key],...value }}) // 
+    regexList = {
+        ein: /^\d{2}-\d{7}$/,
+        stateCode: /[A-Za-z]{2}/,
+        country: /[A-Za-z]{3}/
     }
 
+    updateState = (value,key) => {
+        this.setState({[key]:{ ...this.state[key],...value }}) 
 
+        const errorKey = Object.keys(value)[0]
+
+        console.log(errorKey)
+        this.updateError({[errorKey]:false})
+        //console.log('key',Object.keys(value))
+    }
+
+    updateError = (value,key) => {
+        this.setState({
+            error:{
+                ...this.state.error,
+                ...value
+            }
+        })
+    }
+
+    async submitCreateFinancial() {
+        const  financial = this.state.financial
+        let noErrors = true;
+        let errorValuesToUpdate = {}
+
+        //Check EIN
+        const einTest = this.regexList.ein.test(financial.ein)
+        if(!einTest) {
+            errorValuesToUpdate.ein = true
+            //this.updateError({ein:true})
+            noErrors = false
+        }
+
+        //Check statecode
+        const stateCodeTest = this.regexList.stateCode.test(financial.stateCode)
+        if(!stateCodeTest) {
+            errorValuesToUpdate.stateCode = true
+            //this.updateError({stateCode:true})
+            noErrors = false
+        }
+
+        //Check country code
+        const countryTest = this.regexList.country.test(financial.country)
+        if(!countryTest) {
+            errorValuesToUpdate.country = true
+            noErrors = false
+        }
+
+        //if no errors
+        if(noErrors) {
+            let payload = new URLSearchParams();
+            payload.append("ein",financial.ein)
+            payload.append("stateCode",financial.stateCode)
+            payload.append("country",financial.country)
+
+            try {
+                const res = await axios.post(`${this.context.ip}${this.context.endpoints.createFinancial}`, payload)
+                return res.data
+            } catch(error) {
+                console.log(error);
+                alert(error)
+            }
+    
+        } else {
+            this.updateError({...errorValuesToUpdate})
+            return false
+        }
+
+       
+    }
+
+    async submitCreateGenre() {
+        if(this.state.dietary.genre.length < 1) {
+            this.updateError({genre:true})
+            return false
+        }
+    }
+    async submitCreateCompany() {
+        const submitedFinancial = await this.submitCreateFinancial()
+        if(submitedFinancial === false) {
+            alert('Error in financial section')
+            return false
+        }
+        
+        const submitedGenre = await this.submitCreateGenre() 
+        if(submitedGenre === false) {
+            alert('Error in genre section')
+            return false
+        }
+        alert('Submitting')
+    }
 
     render() {
         return(
@@ -43,7 +143,7 @@ export default class CreateCompany extends React.Component {
                     </Title> */}
                     <Subheading style={{textAlign: 'center',}}>
                     Please enter the below information to create a company.
-                    {JSON.stringify(this.state)}
+                    {JSON.stringify(this.state.error)}
                     </Subheading >
                     <Divider  style = {{padding:1}}/>
 
@@ -70,7 +170,7 @@ export default class CreateCompany extends React.Component {
                     <Button 
                         //icon="camera" 
                         mode="contained" 
-                        onPress={() => console.log('Pressed')}
+                        onPress={() => this.submitCreateCompany()}
                         style={{marginBottom:10,borderRadius: 0,}}
                     >
                         Create Company
@@ -88,29 +188,53 @@ const Financial = (props) => {
     return (
         <React.Fragment>
             <Title style={{textDecorationLine: 'underline'}}>Financial</Title>
-            <Subheading style={{fontWeight: 'bold'}}>ein</Subheading>
+            <Subheading style={{fontWeight: 'bold'}}>ein: XX-XXXXXXX, total 9 digits</Subheading>
             <TextInput
-                label='ein'
+                label='ein: 12-1234567'
                 value={props.state.financial.ein}
                 onChangeText={ein => props.updateState({ein},'financial')}
                 style={styles.inputSpace}
+                error = {props.state.error.ein}
             />
 
-            <Subheading style={{fontWeight: 'bold'}}>State Code</Subheading>
+            {
+                props.state.error.ein === true?
+                <Text style={{color:'red'}}>Please enter numbers only in the format of XX-XXXXXXX</Text>
+                :
+                <React.Fragment/>
+            }
+           
+
+            <Subheading style={{fontWeight: 'bold'}}>State Code: 2 letter code</Subheading>
             <TextInput
-                label='State Code'
+                label='State Code: NC'
                 value={props.state.financial.stateCode}
                 onChangeText={stateCode => props.updateState({stateCode},'financial')}
                 style={styles.inputSpace}
+                error = {props.state.error.stateCode}
             />
 
-            <Subheading style={{fontWeight: 'bold'}}>Country</Subheading>
+            {
+                props.state.error.stateCode === true?
+                <Text style={{color:'red'}}>Please enter 2 letter state code</Text>
+                :
+                <React.Fragment/>
+            }
+
+            <Subheading style={{fontWeight: 'bold'}}>Country: 3 letter code</Subheading>
             <TextInput
-                label='Country'
+                label='Country:USA'
                 value={props.state.financial.country}
                 onChangeText={country => props.updateState({country},'financial')}
                 style={styles.inputSpace}
+                error = {props.state.error.country}
             />
+            {
+                props.state.error.country === true?
+                <Text style={{color:'red'}}>Please enter 3 letter country code</Text>
+                :
+                <React.Fragment/>
+            }
         </React.Fragment>
     )
 }
@@ -226,9 +350,16 @@ const Dietary = (props) => {
             </Subheading>
             <TextInput
                 label='Food Genre'
-                value={props.state.genre.value}
-                onChangeText={(genre) => props.updateState({value:genre},'genre')}
+                value={props.state.dietary.genre}
+                onChangeText={(genre) => props.updateState({genre:genre},'dietary')}
+                error = {props.state.error.genre}
             />
+            {
+                props.state.error.genre === true?
+                <Text style={{color:'red'}}>Please enter a genre for you food truck</Text>
+                :
+                <React.Fragment/>
+            }
 
             {/* <List.Item
                 title={"Is the menu only vegan?"}
