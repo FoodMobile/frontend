@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { 
     Button,Text,Paragraph, Searchbar,Subheading,Title,DataTable,
-    Divider,FAB ,Surface,TextInput ,RadioButton
+    Divider,FAB ,Surface,TextInput ,RadioButton,List,Checkbox
 } from 'react-native-paper';
 import PreferencesContext from '../context/context'
 import { StyleSheet } from "react-native";
@@ -17,10 +17,9 @@ export default class CreateCompany extends React.Component {
             country:'',
         },
         dietary:{
-            hasGMO:false,
-            hasGF:false,
-            onlyGMO:false,
-            onlyGF:false,
+            gmoCode:'',
+            nuts:false,
+            onlyVegan:false
         }
     };
 
@@ -39,7 +38,7 @@ export default class CreateCompany extends React.Component {
                     </Title> */}
                     <Subheading style={{textAlign: 'center'}}>
                     Please enter the below information to create a company.
-                    {JSON.stringify(this.state)}
+                    {JSON.stringify(this.state.dietary)}
                     </Subheading >
                     <Divider  style = {{padding:1}}/>
 
@@ -52,12 +51,22 @@ export default class CreateCompany extends React.Component {
                         <Title>Dietary</Title>
                         <Subheading>Does you menu contain any GMO free products?</Subheading>
             
-                        <Text>First</Text>
-            
                         {/* this.updateState({
                                     [value]:!this.state.dietary[value]
                                 },'dietary') */}
+                        <Dietary state={this.state} updateState={this.updateState}/>
                     </View>
+
+                    <Divider  style = {{padding:1}}/>
+
+                    <Button 
+                        //icon="camera" 
+                        mode="contained" 
+                        onPress={() => console.log('Pressed')}
+                        style={{marginBottom:10,borderRadius: 0,}}
+                    >
+                        Create Company
+                    </Button>
 
 
 
@@ -95,6 +104,66 @@ const Financial = (props) => {
                 value={props.state.financial.country}
                 onChangeText={country => props.updateState({country},'financial')}
                 style={styles.inputSpace}
+            />
+        </React.Fragment>
+    )
+}
+
+
+const Dietary = (props) => {
+    return (
+        <React.Fragment>
+            <RadioButton.Group
+                onValueChange={gmoCode => props.updateState({gmoCode},'dietary')}
+                value={props.state.dietary.gmoCode}
+            >
+                <List.Item
+                    title={"Has some GMO free items."}
+                    key={"1"}
+                    left={() => (
+                        <RadioButton value="1" />
+                    )}
+                />
+                <List.Item
+                    title={"All items are GMO free."}
+                    key={"2"}
+                    left={() => (
+                        <RadioButton value="0" />
+                    )}
+                />
+                <List.Item
+                    title={"None are GMO free."}
+                    key={"3"}
+                    left={() => (
+                        <RadioButton value="2" />
+                    )}
+                />
+            </RadioButton.Group>
+            
+            <Subheading>
+                Please check for <Text style={{color:'green'}}>yes</Text>, 
+                or leave unchecked for <Text style={{color:'red'}}>no</Text>.
+            </Subheading>
+            <List.Item
+                title={"Does any item contain nuts?"}
+                key={"nuts"}
+                left={() => (
+                    <Checkbox
+                        status={props.state.dietary.nuts ? 'checked' : 'unchecked'}
+                        onPress={() => props.updateState({nuts:!props.state.dietary.nuts},'dietary')}
+                    />
+                )}
+            />
+
+            <List.Item
+                title={"Is the menu only vegan?"}
+                key={"vegan"}
+                left={() => (
+                    <Checkbox
+                        status={props.state.dietary.onlyVegan ? 'checked' : 'unchecked'}
+                        onPress={() => props.updateState({onlyVegan:!props.state.dietary.onlyVegan},'dietary')}
+                    />
+                )}
             />
         </React.Fragment>
     )
