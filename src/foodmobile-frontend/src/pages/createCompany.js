@@ -47,7 +47,6 @@ export default class CreateCompany extends React.Component {
 
         const errorKey = Object.keys(value)[0]
 
-        console.log(errorKey)
         this.updateError({[errorKey]:false})
         //console.log('key',Object.keys(value))
     }
@@ -116,6 +115,17 @@ export default class CreateCompany extends React.Component {
         if(this.state.dietary.genre.length < 1) {
             this.updateError({genre:true})
             return false
+        } else {
+            let payload = new URLSearchParams();
+            payload.append("genre",this.state.dietary.genre)
+
+            try {
+                const res = await axios.post(`${this.context.ip}${this.context.endpoints.createGenre}`, payload)
+                return res.data
+            } catch(error) {
+                console.log(error);
+                alert(error)
+            }
         }
     }
     async submitCreateCompany() {
@@ -130,6 +140,8 @@ export default class CreateCompany extends React.Component {
             alert('Error in genre section')
             return false
         }
+
+        console.log(submitedGenre)
         alert('Submitting')
     }
 
