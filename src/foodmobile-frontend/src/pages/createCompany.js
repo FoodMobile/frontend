@@ -19,7 +19,11 @@ export default class CreateCompany extends React.Component {
         dietary:{
             gmoCode:'',
             nuts:false,
-            onlyVegan:false
+            onlyVegan:false,
+            isGlutenFree:-1
+        },
+        genre:{
+            value:''
         }
     };
 
@@ -33,12 +37,13 @@ export default class CreateCompany extends React.Component {
         return(
             <ScrollView>
                 <React.Fragment>
+                    <View style={{marginBottom:50}}>
                     {/* <Title style={{textAlign: 'center'}}>
                         Please enter the below information to
                     </Title> */}
-                    <Subheading style={{textAlign: 'center'}}>
+                    <Subheading style={{textAlign: 'center',}}>
                     Please enter the below information to create a company.
-                    {JSON.stringify(this.state.dietary)}
+                    {JSON.stringify(this.state)}
                     </Subheading >
                     <Divider  style = {{padding:1}}/>
 
@@ -48,17 +53,20 @@ export default class CreateCompany extends React.Component {
                     <Divider  style = {{padding:1}}/>
 
                     <View style = {{marginLeft:15,marginRight:15}}>
-                        <Title>Dietary</Title>
-                        <Subheading>Does you menu contain any GMO free products?</Subheading>
+                        
             
                         {/* this.updateState({
                                     [value]:!this.state.dietary[value]
                                 },'dietary') */}
-                        <Dietary state={this.state} updateState={this.updateState}/>
+                        <Dietary state={this.state} updateState={this.updateState} setState={this.setState}/>
                     </View>
 
-                    <Divider  style = {{padding:1}}/>
+                   
 
+                    
+
+                    </View>      
+                    <Divider  style = {{padding:1}}/>                   
                     <Button 
                         //icon="camera" 
                         mode="contained" 
@@ -66,9 +74,7 @@ export default class CreateCompany extends React.Component {
                         style={{marginBottom:10,borderRadius: 0,}}
                     >
                         Create Company
-                    </Button>
-
-
+                    </Button>      
 
                 </React.Fragment>
             </ScrollView>
@@ -81,8 +87,8 @@ export default class CreateCompany extends React.Component {
 const Financial = (props) => {
     return (
         <React.Fragment>
-            <Title>Financial</Title>
-            <Subheading>ein:</Subheading>
+            <Title style={{textDecorationLine: 'underline'}}>Financial</Title>
+            <Subheading style={{fontWeight: 'bold'}}>ein</Subheading>
             <TextInput
                 label='ein'
                 value={props.state.financial.ein}
@@ -90,7 +96,7 @@ const Financial = (props) => {
                 style={styles.inputSpace}
             />
 
-            <Subheading>State Code:</Subheading>
+            <Subheading style={{fontWeight: 'bold'}}>State Code</Subheading>
             <TextInput
                 label='State Code'
                 value={props.state.financial.stateCode}
@@ -98,7 +104,7 @@ const Financial = (props) => {
                 style={styles.inputSpace}
             />
 
-            <Subheading>Country:</Subheading>
+            <Subheading style={{fontWeight: 'bold'}}>Country</Subheading>
             <TextInput
                 label='Country'
                 value={props.state.financial.country}
@@ -112,7 +118,10 @@ const Financial = (props) => {
 
 const Dietary = (props) => {
     return (
+        
         <React.Fragment>
+            <Title style={{textDecorationLine: 'underline'}}>Dietary</Title>
+            <Subheading style={{fontWeight: 'bold'}}>Does you menu contain any GMO free products?</Subheading>
             <RadioButton.Group
                 onValueChange={gmoCode => props.updateState({gmoCode},'dietary')}
                 value={props.state.dietary.gmoCode}
@@ -121,14 +130,14 @@ const Dietary = (props) => {
                     title={"Has some GMO free items."}
                     key={"1"}
                     left={() => (
-                        <RadioButton value="1" />
+                        <RadioButton value="0" />
                     )}
                 />
                 <List.Item
                     title={"All items are GMO free."}
                     key={"2"}
                     left={() => (
-                        <RadioButton value="0" />
+                        <RadioButton value="1" />
                     )}
                 />
                 <List.Item
@@ -139,10 +148,68 @@ const Dietary = (props) => {
                     )}
                 />
             </RadioButton.Group>
+
+            <Subheading style={{fontWeight: 'bold'}}>Are some/all/none of the menu items Glueten Free?</Subheading>
+            <RadioButton.Group
+                onValueChange={isGlutenFree => props.updateState({isGlutenFree},'dietary')}
+                value={props.state.dietary.isGlutenFree}
+            >
+                <List.Item
+                    title={"Some items are Glueten Free"}
+                    key={"SomeGlutenFree"}
+                    left={() => (
+                        <RadioButton value="0" />
+                    )}
+                />
+                <List.Item
+                    title={"All items are GMO free."}
+                    key={"AllGlutenFree"}
+                    left={() => (
+                        <RadioButton value="1" />
+                    )}
+                />
+                <List.Item
+                    title={"None are GMO free."}
+                    key={"NoneGluetenFree"}
+                    left={() => (
+                        <RadioButton value="2" />
+                    )}
+                />
+            </RadioButton.Group>
+
+            <Subheading style={{fontWeight: 'bold'}}>What are the vegan options?</Subheading>
+            <RadioButton.Group
+                onValueChange={onlyVegan => props.updateState({onlyVegan},'dietary')}
+                value={props.state.dietary.onlyVegan}
+            >
+                <List.Item
+                    title={"Some items are Vegan"}
+                    key={"SomeVegan"}
+                    left={() => (
+                        <RadioButton value="0" />
+                    )}
+                />
+                <List.Item
+                    title={"All items are Vegan."}
+                    key={"AllVegan"}
+                    left={() => (
+                        <RadioButton value="1" />
+                    )}
+                />
+                <List.Item
+                    title={"None are Vegan."}
+                    key={"NoneVegan"}
+                    left={() => (
+                        <RadioButton value="2" />
+                    )}
+                />
+            </RadioButton.Group>
+
+
             
-            <Subheading>
-                Please check for <Text style={{color:'green'}}>yes</Text>, 
-                or leave unchecked for <Text style={{color:'red'}}>no</Text>.
+            <Subheading style={{fontWeight: 'bold'}}>
+                Please check for <Text style={{color:'green',fontWeight: 'bold'}}>yes</Text>, 
+                or leave unchecked for <Text style={{color:'red',fontWeight: 'bold'}}>no</Text>.
             </Subheading>
             <List.Item
                 title={"Does any item contain nuts?"}
@@ -154,8 +221,16 @@ const Dietary = (props) => {
                     />
                 )}
             />
+            <Subheading style={{fontWeight: 'bold'}}>
+               Enter the name of the genre of your foodtruck
+            </Subheading>
+            <TextInput
+                label='Food Genre'
+                value={props.state.genre.value}
+                onChangeText={(genre) => props.updateState({value:genre},'genre')}
+            />
 
-            <List.Item
+            {/* <List.Item
                 title={"Is the menu only vegan?"}
                 key={"vegan"}
                 left={() => (
@@ -164,7 +239,9 @@ const Dietary = (props) => {
                         onPress={() => props.updateState({onlyVegan:!props.state.dietary.onlyVegan},'dietary')}
                     />
                 )}
-            />
+            />  */}
+
+          
         </React.Fragment>
     )
 }
