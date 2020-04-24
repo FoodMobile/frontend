@@ -13,18 +13,20 @@ import {decode as atob, encode as btoa} from 'base-64'
 export default class CreateCompany extends React.Component {
     state = {
         financial:{
-            ein: '12-1234567',
-            stateCode:'AB',
+            ein: '69-6969690',
+            stateCode:'NC',
             country:'USA',
+            companyName: ''
         },
         dietary:{
             gmoCode:'',
             nuts:false,
             onlyVegan:false,
             isGlutenFree:-1,
-            genre:''
+            genre:'abc'
         },
         error:{
+            companyName:'',
             ein:'',
             stateCode:'',
             country:'',
@@ -60,7 +62,7 @@ export default class CreateCompany extends React.Component {
         })
     }
 
-    async submitCreateFinancial() {
+    checkFinancial() {
         const  financial = this.state.financial
         let noErrors = true;
         let errorValuesToUpdate = {}
@@ -88,20 +90,15 @@ export default class CreateCompany extends React.Component {
             noErrors = false
         }
 
+
+        if(financial.companyName.length === 0) {
+            errorValuesToUpdate.companyName = true
+            noErrors = false
+        }
+
         //if no errors
         if(noErrors) {
-            let payload = new URLSearchParams();
-            payload.append("ein",financial.ein)
-            payload.append("stateCode",financial.stateCode)
-            payload.append("country",financial.country)
-
-            try {
-                const res = await axios.post(`${this.context.ip}${this.context.endpoints.createFinancial}`, payload)
-                return res.data
-            } catch(error) {
-                console.log(error);
-                alert(error)
-            }
+            return true
     
         } else {
             this.updateError({...errorValuesToUpdate})
@@ -111,37 +108,202 @@ export default class CreateCompany extends React.Component {
        
     }
 
-    async submitCreateGenre() {
+    async submitedFinancialInfo() {
+        const financial = this.state.financial
+        let payload = new URLSearchParams();
+        payload.append("ein",financial.ein)
+        payload.append("stateCode",financial.stateCode)
+        payload.append("country",financial.country)
+
+        try {
+            const res = await axios.post(`${this.context.ip}${this.context.endpoints.createFinancial}`, payload)
+            return res.data
+        } catch(error) {
+            console.log(error);
+            alert(error)
+            return {}
+        }
+    }
+
+    checkGenre() {
         if(this.state.dietary.genre.length < 1) {
             this.updateError({genre:true})
             return false
         } else {
-            let payload = new URLSearchParams();
-            payload.append("genre",this.state.dietary.genre)
-
-            try {
-                const res = await axios.post(`${this.context.ip}${this.context.endpoints.createGenre}`, payload)
-                return res.data
-            } catch(error) {
-                console.log(error);
-                alert(error)
-            }
+           return true
         }
     }
+
+    async submitGenreInfo() {
+        let payload = new URLSearchParams();
+        payload.append("genre",this.state.dietary.genre)
+
+        try {
+            const res = await axios.post(`${this.context.ip}${this.context.endpoints.createGenre}`, payload)
+            return res.data
+        } catch(error) {
+            console.log(error);
+            alert(error)
+            return {}
+        }
+    }
+
+    checkDietary() {
+
+        let anyErrors = false
+        const dietary = this.state.dietary
+        const {
+            gmoCode,
+            nuts,
+            onlyVegan,
+            isGlutenFree
+        } = dietary
+        let errorValuesToUpdate = {}
+
+        // console.log('gmoCode',dietary.gmoCode)
+        // //console.log('nuts',dietary.nuts)
+        // console.log('onlyVegan',dietary.onlyVegan)
+        // console.log('isGlutenFree',dietary.isGlutenFree)
+
+        if(gmoCode.length === 0 ) {
+            anyErrors = true
+            errorValuesToUpdate.gmoCode = true
+        }
+
+        
+        if(onlyVegan === false ) {
+            anyErrors = true
+            errorValuesToUpdate.onlyVegan = true
+        }
+
+       
+        if(isGlutenFree == -1 ) {
+            anyErrors = true
+            errorValuesToUpdate.isGlutenFree = true
+        }
+        
+       
+       
+        if(anyErrors) {
+            this.updateError({...errorValuesToUpdate})
+            return false
+        } else {
+            return true
+        }
+    }
+
+    async submitDietaryInfo(genreId) {
+        let payload = new URLSearchParams();
+        const {
+            gmoCode,
+            nuts,
+            onlyVegan,
+            isGlutenFree
+        } = this.state.dietary
+
+        payload.append("usesNuts",nuts)
+        
+        switch (gmoCode) {
+            case "0":
+                payload.append("hasGMO",true)
+                payload.append("onlyGMO",false)
+                break;
+
+            case "1":
+                payload.append("hasGMO",true)
+                payload.append("onlyGMO",true)
+                break;
+
+            case "2":
+                payload.append("hasGMO",false)
+                payload.append("onlyGMO",false)
+                break;
+    
+            default:
+                break;
+        }
+
+        switch (onlyVegan) {
+            case "0":
+                payload.append("veganOptions",true)
+                payload.append("onlyVegan",false)
+                break;
+
+            case "1":
+                payload.append("veganOptions",true)
+                payload.append("onlyVegan",true)
+                break;
+
+            case "2":
+                payload.append("veganOptions",false)
+                payload.append("onlyVegan",false)
+                break;
+    
+            default:
+                break;
+        }
+
+        switch (isGlutenFree) {
+            case "0":
+                payload.append("hasGF",true)
+                payload.append("onlyGF",false)
+                break;
+
+            case "1":
+                payload.append("hasGF",true)
+                payload.append("onlyGF",true)
+                break;
+
+            case "2":
+                payload.append("hasGF",false)
+                payload.append("onlyGF",false)
+                break;
+    
+            default:
+                break;
+        }
+
+        payload.append("genreId",genreId)
+
+        try {
+            const res = await axios.post(`${this.context.ip}${this.context.endpoints.createDietary}`, payload)
+            return res.data
+        } catch(error) {
+            console.log(error);
+            alert(error)
+            return {}
+        }
+    }
+
     async submitCreateCompany() {
-        const submitedFinancial = await this.submitCreateFinancial()
-        if(submitedFinancial === false) {
+        if(this.checkFinancial() === false) {
             alert('Error in financial section')
             return false
         }
-        
-        const submitedGenre = await this.submitCreateGenre() 
-        if(submitedGenre === false) {
+       
+        if(this.checkGenre() === false) {
             alert('Error in genre section')
             return false
         }
 
-        console.log(submitedGenre)
+  
+        if(this.checkDietary() === false) {
+            alert('Error in dietary section')
+            return false
+        }
+
+        //If all checks pass
+        const createdFinancialInfo = await this.submitedFinancialInfo();
+        const createdGenreInfo = await this.submitGenreInfo()
+        const createdDietaryInfo = await this.submitDietaryInfo(createdGenreInfo.data.guid)
+
+        console.log('CREATED FIN',createdFinancialInfo)
+        console.log('CREATED GENRE ',createdGenreInfo)
+        console.log('CREATED DIETARY ',createdDietaryInfo)
+
+        const financialGUID = createdFinancialInfo?.data?.guid
+        const dietaryGUID = createdDietaryInfo?.data?.guid
+        const userGUID = this.context?.userState?.UserData?.guid
         alert('Submitting')
     }
 
@@ -200,6 +362,23 @@ const Financial = (props) => {
     return (
         <React.Fragment>
             <Title style={{textDecorationLine: 'underline'}}>Financial</Title>
+
+            <Subheading style={{fontWeight: 'bold'}}>Company Name</Subheading>
+            <TextInput
+                label='Company Name'
+                value={props.state.financial.companyName}
+                onChangeText={companyName => props.updateState({companyName},'financial')}
+                style={styles.inputSpace}
+                error = {props.state.error.companyName}
+            />
+
+            {
+                props.state.error.companyName === true?
+                <Text style={{color:'red'}}>Please enter company name</Text>
+                :
+                <React.Fragment/>
+            }
+
             <Subheading style={{fontWeight: 'bold'}}>ein: XX-XXXXXXX, total 9 digits</Subheading>
             <TextInput
                 label='ein: 12-1234567'
@@ -207,6 +386,7 @@ const Financial = (props) => {
                 onChangeText={ein => props.updateState({ein},'financial')}
                 style={styles.inputSpace}
                 error = {props.state.error.ein}
+                disabled = {true}
             />
 
             {
@@ -264,26 +444,32 @@ const Dietary = (props) => {
             >
                 <List.Item
                     title={"Has some GMO free items."}
-                    key={"1"}
+                    key={"someGMOFree"}
                     left={() => (
                         <RadioButton value="0" />
                     )}
                 />
                 <List.Item
                     title={"All items are GMO free."}
-                    key={"2"}
+                    key={"allGMOFree"}
                     left={() => (
                         <RadioButton value="1" />
                     )}
                 />
                 <List.Item
                     title={"None are GMO free."}
-                    key={"3"}
+                    key={"noneGMOFree"}
                     left={() => (
                         <RadioButton value="2" />
                     )}
                 />
             </RadioButton.Group>
+            {
+                props.state.error.gmoCode === true?
+                <Text style={{color:'red'}}>Please select an option</Text>
+                :
+                <React.Fragment/>
+            }
 
             <Subheading style={{fontWeight: 'bold'}}>Are some/all/none of the menu items Glueten Free?</Subheading>
             <RadioButton.Group
@@ -298,20 +484,26 @@ const Dietary = (props) => {
                     )}
                 />
                 <List.Item
-                    title={"All items are GMO free."}
+                    title={"All items are Gluten free."}
                     key={"AllGlutenFree"}
                     left={() => (
                         <RadioButton value="1" />
                     )}
                 />
                 <List.Item
-                    title={"None are GMO free."}
+                    title={"None are Gluten free."}
                     key={"NoneGluetenFree"}
                     left={() => (
                         <RadioButton value="2" />
                     )}
                 />
             </RadioButton.Group>
+            {
+                props.state.error.isGlutenFree === true?
+                <Text style={{color:'red'}}>Please select an option</Text>
+                :
+                <React.Fragment/>
+            }
 
             <Subheading style={{fontWeight: 'bold'}}>What are the vegan options?</Subheading>
             <RadioButton.Group
@@ -340,6 +532,12 @@ const Dietary = (props) => {
                     )}
                 />
             </RadioButton.Group>
+            {
+                props.state.error.onlyVegan === true?
+                <Text style={{color:'red'}}>Please select an option</Text>
+                :
+                <React.Fragment/>
+            }
 
 
             
