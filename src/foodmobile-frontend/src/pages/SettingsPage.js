@@ -38,14 +38,14 @@ export default function SettingsPage(props) {
             <PrivacySettings {...props} styles={styles}/>
 
             <Divider style={{marginBottom:15,padding:1}}/>
-            
-            <RequestToBeDriver {...props} styles={styles}/>
+{/*             
+            <RequestToBeDriver {...props} styles={styles}/> */}
 
             <Button color = '#dd0000'onPress={()=>askIfSignout()} mode="contained" style={styles.button}>
                 <Text>Logout</Text>
             </Button>
 
-            <Provider  theme = {theme=='light'? DarkTheme:DefaultTheme} >
+            {/* <Provider  theme = {theme=='light'? DarkTheme:DefaultTheme} >
                 <Card style={{marginLeft:15, marginRight:15,padding:5}} theme={DarkTheme} elevation={115}>
                 
                     <Title>Saved token data</Title>
@@ -61,7 +61,7 @@ export default function SettingsPage(props) {
                         <Text>User token: {JSON.stringify(userState.userData)}</Text>
                     </Card.Content>     
                 </Card>
-            </Provider>
+            </Provider> */}
 
             <Portal>
                 <Dialog

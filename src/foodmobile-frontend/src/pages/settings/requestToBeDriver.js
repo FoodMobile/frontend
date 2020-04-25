@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button,Text,Paragraph, Dialog, Portal } from 'react-native-paper';
+import { Button,Text,Paragraph, Dialog, Portal, List } from 'react-native-paper';
 import PreferencesContext from '../../context/context'
 import { StyleSheet} from "react-native";
 import axios from 'axios'
@@ -35,9 +35,18 @@ export default class RequestToBeDriver extends React.Component {
         } = screenNames
         return (
             <React.Fragment>
-                <Button mode="contained" onPress={this._showDialog} style={this.props.styles.button}>
+                {/* <Button mode="contained" onPress={this._showDialog} style={this.props.styles.button}>
                    <Text>Request to be driver</Text>
-                </Button>
+                </Button> */}
+                <List.Item
+                    title="Request to be driver"
+                    description="If you are a driver of a food truck company"
+                    onPress={this._showDialog}
+                    right={
+                        props =>  
+                        <View style={styles.preference}/>
+                    }
+                />
                 <Portal>
                     <Dialog
                         visible={this.state.visible}

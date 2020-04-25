@@ -9,6 +9,7 @@ import { Button, Text,Divider } from 'react-native-paper';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import ScreenNames from '../../screenNames'
+import RequestToBeDriver from '../settings/requestToBeDriver'
 
 export default function PrivacySettings(props) {
     const {toggleTheme,theme} = React.useContext(
@@ -33,6 +34,9 @@ export default function PrivacySettings(props) {
                         <View style={styles.preference}/>
                     }
                 />
+
+                <RequestToBeDriver {...props} styles={styles}/>
+
             </List.Accordion>
             <Divider/>
             <List.Item
