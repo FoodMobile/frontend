@@ -52,6 +52,7 @@ export default class MapPage extends Component {
           {
           (this.state.isGetting == 'done')?
             <React.Fragment>
+              {/* <Text>{JSON.stringify(this.state)}</Text> */}
               <GetMapPage location = {this.state.location} {...this.props}/>
               <Button 
                 compact = {true} 
