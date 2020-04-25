@@ -93,11 +93,7 @@ export default class CreateCompany extends React.Component {
                                     [value]:!this.state.dietary[value]
                                 },'dietary') */}
                         <Dietary state={this.state} updateState={this.updateState} setState={this.setState} styles={styles} />
-                    </View>
-
-                   
-
-                    
+                    </View>    
 
                     </View>      
                     <Divider  style = {{padding:1}}/>                   
@@ -113,9 +109,7 @@ export default class CreateCompany extends React.Component {
                 </React.Fragment>
             </ScrollView>
         )
-    }
-
-    
+    }  
 }
 
 const styles = StyleSheet.create({
