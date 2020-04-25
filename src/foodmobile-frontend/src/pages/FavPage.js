@@ -43,7 +43,7 @@ export default function FavPage({ navigation }) {
       // <PaperProvider theme={DefaultTheme}>
         <ScrollView style={styles.container}>
           {FAVORITES.map((favorite, index) => (
-            <>
+            <React.Fragment key = {favorite.key}>
             <View>
               <List.Item
                 title={favorite.key}
@@ -61,7 +61,7 @@ export default function FavPage({ navigation }) {
               
               <Divider/>
             </View>
-            </>
+            </React.Fragment>
           ))}
         </ScrollView>
       // </PaperProvider>
