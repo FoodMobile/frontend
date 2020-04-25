@@ -70,7 +70,7 @@ export default function PrivacySettings(props) {
                     />
                 </React.Fragment>
                 :
-                <Text>aaaaaaaaaaaaaaaaa</Text>
+                <React.Fragment></React.Fragment>
             }
             
         </List.Section>

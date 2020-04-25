@@ -47,7 +47,7 @@ export default class MapPage extends Component {
 
       const response = await axios.post(`${this.context.ip}${this.context.endpoints.getNearbyTrucks}`, payload)
     
-      console.log('RESPONSE = ',response.data)
+      console.log('RESPONSE(MAP) = ',response.data)
     };
   
     render() {

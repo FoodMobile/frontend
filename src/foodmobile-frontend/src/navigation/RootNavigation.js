@@ -84,15 +84,20 @@ export class  RootNavigation extends React.Component {
     
                     console.log('SENDING USERNAME = ',username)
                     const response = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payload)
-    
-                    console.log('RESPONSE = ',response.data)
+
+                    let payload2 = new URLSearchParams();
+                    payload2.append("token",token)
+                    const response2 = await axios.post(`${this.context.ip}${this.context.endpoints.getLoggedInTruck}`, payload2)
+                    
+                    console.log('GET LOGGED IN TRUCK = ',response2.data)
+                    console.log('RESPONSE ==== ',response.data)
                     
                     let userData = response.data.data
-                    userData.isDriver = true
+                    userData.isDriver = !(response2.data.data == null)
 
                     await this.context.updateUserState({ 
                         type: 'UPDATE_USERDATA', 
-                        userData: response.data.data
+                        userData: userData
                     });
     
                     await this.context.updateUserState({ 

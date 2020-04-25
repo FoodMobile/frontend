@@ -20,6 +20,8 @@ const PreferencesContext = React.createContext({
     createDietary: '/bus/createcompanydietary',
     getNearbyTrucks:'/nearbytrucks',
     createTruck: '/bus/createtruck',
+    joinCompany: '/bus/joincompany',
+    getLoggedInTruck: '/bus/getloggedintruck',
 
     createItem: '/menu/createitem'
   },

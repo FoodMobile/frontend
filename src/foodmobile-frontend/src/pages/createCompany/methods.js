@@ -259,8 +259,23 @@ async function submitCreateCompany(thisVar) {
 
     try {
         const res = await axios.post(`${thisVar.context.ip}${thisVar.context.endpoints.createCompany}`, payload)
-        console.log(res.data)
-        alert('Company Created! Once you become a driver please relogin')
+        console.log('Company created =',  res.data)
+
+        let payload2 = new URLSearchParams();
+        payload2.append("companyGuid",res.data.data.guid)
+        payload2.append("userGuid",userGUID)
+        const res2 =  await axios.post(`${thisVar.context.ip}${thisVar.context.endpoints.joinCompany}`, payload2)
+        console.log('Joined company =',res2.data)
+
+        // const companyguid = res2.data.data.companyGuid
+
+        if(thisVar.state.financial.isDriver) {
+            const res3 =  await axios.post(`${thisVar.context.ip}${thisVar.context.endpoints.createTruck}`, payload2)
+            console.log('Created Truck = ',res3.data)
+        }
+     
+        
+        alert('Company Created! Please relog')
 
         const {mySettings} = screenNames.stackPages
         thisVar.props.navigation.navigate(mySettings.screenName)
