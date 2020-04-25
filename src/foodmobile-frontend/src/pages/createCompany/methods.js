@@ -260,7 +260,7 @@ async function submitCreateCompany(thisVar) {
     try {
         const res = await axios.post(`${thisVar.context.ip}${thisVar.context.endpoints.createCompany}`, payload)
         console.log(res.data)
-        alert('Company Created!')
+        alert('Company Created! Once you become a driver please relogin')
 
         const {mySettings} = screenNames.stackPages
         thisVar.props.navigation.navigate(mySettings.screenName)

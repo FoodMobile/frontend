@@ -86,7 +86,10 @@ export class  RootNavigation extends React.Component {
                     const response = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payload)
     
                     console.log('RESPONSE = ',response.data)
-    
+                    
+                    let userData = response.data.data
+                    userData.isDriver = true
+
                     await this.context.updateUserState({ 
                         type: 'UPDATE_USERDATA', 
                         userData: response.data.data

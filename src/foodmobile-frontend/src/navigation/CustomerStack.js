@@ -13,12 +13,14 @@ import EditWallet from '../pages/settings/editWallet'
 import ViewMapTruck from '../pages/viewTruck/viewMapTruck'
 import FindTruckCompany from '../pages/FindTruckCompany'
 import CreateCompany from '../pages/createCompany'
+import EditCompanyMenu from '../pages/editCompanyMenu'
 //Load the names of our pages
 import ScreenNames from '../screenNames'
 //Custom header
 import AppbarWrapper from '../components/appBar/appBarWrapper'
 //Load the main tab that shows at bottom
 import MainTab from './tab/mainTab'
+import CreateTruck from '../pages/createTruck'
 
 export default function CustomerStack(props) {
 
@@ -28,7 +30,9 @@ export default function CustomerStack(props) {
         editWallet,
         viewMapTruck,
         findFoodTruckCompany,
-        createCompany
+        createCompany,
+        editCompanyMenu,
+        addTruck
     } = ScreenNames.stackPages
     const {
         mainTabs
@@ -93,6 +97,22 @@ export default function CustomerStack(props) {
                 component={CreateCompany} 
                 options ={{
                     title:createCompany.title
+                }}  
+            />
+
+            <Stack.Screen 
+                name={editCompanyMenu.screenName}
+                component={EditCompanyMenu} 
+                options ={{
+                    title:editCompanyMenu.title
+                }}  
+            />
+
+            <Stack.Screen 
+                name={addTruck.screenName}
+                component={CreateTruck} 
+                options ={{
+                    title:addTruck.title
                 }}  
             />
 
