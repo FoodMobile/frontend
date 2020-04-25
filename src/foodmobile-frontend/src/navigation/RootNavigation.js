@@ -31,7 +31,7 @@ function determineStack(userState) {
         return (
         
             <View style={{ flex: 1 }}>
-                <Text>JSON.stringify(userState)</Text>
+                <Text>{JSON.stringify(userState)}</Text>
                 <Image
                     source={Loading}
                     resizeMode='contain'
@@ -62,7 +62,7 @@ function determineStack(userState) {
 export class  RootNavigation extends React.Component {
     
     async componentDidMount() {    
-        const token = JSON.parse(await getData('token',''))
+        const token = JSON.parse(await getData('token','{}'))
        
         // "simulates checking token"
         // const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
@@ -71,43 +71,51 @@ export class  RootNavigation extends React.Component {
         // console.log("'Checked' token",data)
         
         //if valid token
-        if(token) {
-            //console.log( this.context.userState.userData)
-
-            const atobResult = JSON.parse(atob(token.split('.')[1]))
-            const username = atobResult.username
-            console.log('DECODED TOKEN = ',atobResult)
-            try {
-                let payload = new URLSearchParams();
-                payload.append("username",username)
-
-                console.log('SENDING USERNAME = ',username)
-                const response = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payload)
-
-                console.log('RESPONSE = ',response.data)
-
-                await this.context.updateUserState({ 
-                    type: 'UPDATE_USERDATA', 
-                    userData: response.data.data
-                });
-
-                await this.context.updateUserState({ 
-                    type: 'RESTORE_TOKEN', token: token 
-                })
-
-            } catch(error) {
-                console.log(error)
+        try {
+            if(token) {
+                //console.log( this.context.userState.userData)
+                //console.log(JSON.parse(atob(token.split('.')[1])))
+                const atobResult = JSON.parse(atob(token.split('.')[1]))
+                const username = atobResult.username
+                console.log('DECODED TOKEN = ',atobResult)
+                try {
+                    let payload = new URLSearchParams();
+                    payload.append("username",username)
+    
+                    console.log('SENDING USERNAME = ',username)
+                    const response = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payload)
+    
+                    console.log('RESPONSE = ',response.data)
+    
+                    await this.context.updateUserState({ 
+                        type: 'UPDATE_USERDATA', 
+                        userData: response.data.data
+                    });
+    
+                    await this.context.updateUserState({ 
+                        type: 'RESTORE_TOKEN', token: token 
+                    })
+    
+                } catch(error) {
+                    console.log(error)
+                    this.context.updateUserState({ 
+                        type: 'RESTORE_TOKEN', token: {} 
+                    })
+                }
+                
+            } else {
+                //if not valid token
                 this.context.updateUserState({ 
                     type: 'RESTORE_TOKEN', token: {} 
                 })
             }
-            
-        } else {
+        } catch (error) {
             //if not valid token
             this.context.updateUserState({ 
                 type: 'RESTORE_TOKEN', token: {} 
             })
         }
+        
         
       
     }
