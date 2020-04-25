@@ -16,24 +16,24 @@ const Dietary = (props) => {
                 value={props.state.dietary.gmoCode}
             >
                 <List.Item
-                    title={"Has some GMO free items."}
+                    // title={"Has some GMO free items."}
                     key={"someGMOFree"}
                     left={() => (
-                        <RadioButton value="0" />
+                        <RadioButton.Item label ="Has some GMO free items."  value="0" />
                     )}
                 />
                 <List.Item
-                    title={"All items are GMO free."}
+                    //title={"All items are GMO free."}
                     key={"allGMOFree"}
                     left={() => (
-                        <RadioButton value="1" />
+                        <RadioButton.Item label ="All items are GMO free." value="1" />
                     )}
                 />
                 <List.Item
-                    title={"None are GMO free."}
+                    //title={"None are GMO free."}
                     key={"noneGMOFree"}
                     left={() => (
-                        <RadioButton value="2" />
+                        <RadioButton.Item label ="None are GMO free." value="2" />
                     )}
                 />
             </RadioButton.Group>
@@ -50,24 +50,24 @@ const Dietary = (props) => {
                 value={props.state.dietary.isGlutenFree}
             >
                 <List.Item
-                    title={"Some items are Glueten Free"}
+                    //title={"Some items are Glueten Free"}
                     key={"SomeGlutenFree"}
                     left={() => (
-                        <RadioButton value="0" />
+                        <RadioButton.Item label ="Some items are Glueten Free" value="0" />
                     )}
                 />
                 <List.Item
-                    title={"All items are Gluten free."}
+                    //title={"All items are Gluten free."}
                     key={"AllGlutenFree"}
                     left={() => (
-                        <RadioButton value="1" />
+                        <RadioButton.Item label ="All items are Gluten free." value="1" />
                     )}
                 />
                 <List.Item
-                    title={"None are Gluten free."}
+                    //title={"None are Gluten free."}
                     key={"NoneGluetenFree"}
                     left={() => (
-                        <RadioButton value="2" />
+                        <RadioButton.Item label ="None are Gluten free." value="2" />
                     )}
                 />
             </RadioButton.Group>
@@ -84,24 +84,24 @@ const Dietary = (props) => {
                 value={props.state.dietary.onlyVegan}
             >
                 <List.Item
-                    title={"Some items are Vegan"}
+                    //title={"Some items are Vegan"}
                     key={"SomeVegan"}
                     left={() => (
-                        <RadioButton value="0" />
+                        <RadioButton.Item label = "Some items are Vegan" value="0" />
                     )}
                 />
                 <List.Item
-                    title={"All items are Vegan."}
+                    //title={"All items are Vegan."}
                     key={"AllVegan"}
                     left={() => (
-                        <RadioButton value="1" />
+                        <RadioButton.Item label = "All items are Vegan." value="1" />
                     )}
                 />
                 <List.Item
-                    title={"None are Vegan."}
+                    //title={"None are Vegan."}
                     key={"NoneVegan"}
                     left={() => (
-                        <RadioButton value="2" />
+                        <RadioButton.Item label = "None are Vegan." value="2" />
                     )}
                 />
             </RadioButton.Group>
