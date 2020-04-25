@@ -31,7 +31,7 @@ export default class GetMapPage extends React.Component {
     return (
     
       <React.Fragment>
-        <MapView style={styles.mapStyle} 
+        {/* <MapView style={styles.mapStyle} 
           customMapStyle={MapStyle} 
           showsUserLocation={true}
           userLocationUpdateInterval={50}
@@ -44,7 +44,8 @@ export default class GetMapPage extends React.Component {
             longitudeDelta: 0.00421,
           }}
           provider="google"
-        />
+        /> */}
+        <MapView style={styles.mapStyle} />
         
         {/* list of trucks displayed on the map */}
         <ScrollView style={styles.scrollViewContainer}>

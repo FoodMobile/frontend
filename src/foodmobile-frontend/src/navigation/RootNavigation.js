@@ -122,6 +122,7 @@ export class  RootNavigation extends React.Component {
                     determineStack(this.context.userState)
                 }
             </NavigationContainer>
+          
         );
     }
 

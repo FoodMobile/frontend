@@ -1,8 +1,9 @@
 import React from 'react';
 //Create the stack navigator
 import { createStackNavigator } from '@react-navigation/stack';
+import { Text } from 'react-native-paper';
 const Stack = createStackNavigator();
-
+import { Button, View } from 'react-native';
 // import { Text } from 'react-native';
 
 //These are possible other pages we can go to from the inital landing page.
@@ -33,6 +34,7 @@ export default function CustomerStack(props) {
         mainTabs
     } = ScreenNames
     return (
+
         <Stack.Navigator
             screenOptions={AppbarWrapper()}   
         >
@@ -96,5 +98,6 @@ export default function CustomerStack(props) {
 
 
         </Stack.Navigator>
+
     )
 }
