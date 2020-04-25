@@ -65,28 +65,32 @@ export default class GetMapPage extends React.Component {
                         source={{ uri: item.icon }} 
                       />}
                   />
-                  <Card.Content>
+                  <Card.Content style={{flex:1, flexDirection:'row',justifyContent:'space-between'}}>
                     {/* <Title>Card title</Title> */}
-                    <Paragraph>{item.distance} miles away</Paragraph>
+                    <Paragraph >{item.distance} miles away</Paragraph>
+
+                    <View style={{flexDirection:'row',marginTop:-10}}>
+                      <IconButton
+                        icon={ index%2 ==0? "heart-outline": "heart"}
+                        color={Colors.yellow600}
+                        size={25}
+                        onPress={() => console.log('Pressed')}
+                      />
+                      <Button 
+                        style={{marginTop:5}}
+                        onPress={()=> {
+                          showMapTruck(this.props.navigation,item.id,viewMapTruck)
+                        }}
+                      >
+                        View
+                      </Button>
+                    </View>
+                    
                   </Card.Content>
                   {/* <Card.Cover source={{ uri: 'https://picsum.photos/700' }} /> */}
-                  <Card.Actions>
+                  {/* <Card.Actions>
                     
-                    <IconButton
-                      icon={ index%2 ==0? "heart-outline": "heart"}
-                      color={Colors.yellow600}
-                      size={25}
-                      onPress={() => console.log('Pressed')}
-                      
-                    />
-                    <Button 
-                      onPress={()=> {
-                        showMapTruck(this.props.navigation,item.id,viewMapTruck)
-                      }}
-                    >
-                      View
-                    </Button>
-                  </Card.Actions>
+                  </Card.Actions> */}
                 </Card>
             ))}
         </ScrollView>
@@ -132,7 +136,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     // backgroundColor: '#ffe373', //YELLOW
     backgroundColor: '#b5acae',
-    marginBottom: 10,
+    //marginBottom: 10,
   },
   truckItemContainer: {
     //padding: 10,
@@ -140,6 +144,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#d9f9b1', // lime green
     //flex: 1,
     flexDirection: 'row',
+    borderRadius:0
     //alignItems: 'center',
  },
  truckItemContainerDark: {
@@ -148,6 +153,7 @@ const styles = StyleSheet.create({
   backgroundColor: '#927BAE', // lime green
   //flex: 1,
   flexDirection: 'row',
+  borderRadius:0
   //alignItems: 'center',
 },
   separator: {
