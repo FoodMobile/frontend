@@ -112,8 +112,6 @@ const Dietary = (props) => {
                 <React.Fragment/>
             }
 
-
-            
             <Subheading style={{fontWeight: 'bold'}}>
                 Please check for <Text style={{color:'green',fontWeight: 'bold'}}>yes</Text>, 
                 or leave unchecked for <Text style={{color:'red',fontWeight: 'bold'}}>no</Text>.
@@ -123,6 +121,7 @@ const Dietary = (props) => {
                 key={"nuts"}
                 left={() => (
                     <Checkbox
+                        //label="Does any item contain nuts?"
                         status={props.state.dietary.nuts ? 'checked' : 'unchecked'}
                         onPress={() => props.updateState({nuts:!props.state.dietary.nuts},'dietary')}
                     />

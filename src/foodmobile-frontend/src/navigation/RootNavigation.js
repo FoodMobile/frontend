@@ -31,7 +31,7 @@ function determineStack(userState) {
         return (
         
             <View style={{ flex: 1 }}>
-                <Text>{JSON.stringify(userState)}</Text>
+                {/* <Text>{JSON.stringify(userState)}</Text> */}
                 <Image
                     source={Loading}
                     resizeMode='contain'
