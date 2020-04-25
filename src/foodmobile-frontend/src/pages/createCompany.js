@@ -10,13 +10,15 @@ import { View,ScrollView } from 'react-native';
 import screenNames from '../screenNames'
 import {decode as atob, encode as btoa} from 'base-64'
 
+import Financial from './createCompany/financial'
+
 export default class CreateCompany extends React.Component {
     state = {
         financial:{
             ein: '69-6969690',
             stateCode:'NC',
             country:'USA',
-            companyName: ''
+            companyName: 'TEST COMPANY'
         },
         dietary:{
             gmoCode:'',
@@ -297,14 +299,43 @@ export default class CreateCompany extends React.Component {
         const createdGenreInfo = await this.submitGenreInfo()
         const createdDietaryInfo = await this.submitDietaryInfo(createdGenreInfo.data.guid)
 
-        console.log('CREATED FIN',createdFinancialInfo)
-        console.log('CREATED GENRE ',createdGenreInfo)
-        console.log('CREATED DIETARY ',createdDietaryInfo)
+        // console.log('CREATED FIN',createdFinancialInfo)
+        // console.log('CREATED GENRE ',createdGenreInfo)
+        // console.log('CREATED DIETARY ',createdDietaryInfo)
 
         const financialGUID = createdFinancialInfo?.data?.guid
         const dietaryGUID = createdDietaryInfo?.data?.guid
-        const userGUID = this.context?.userState?.UserData?.guid
-        alert('Submitting')
+        const userGUID = this.context?.userState?.userData?.guid
+        const name = this.state.financial.companyName;
+        // console.log({
+        //     name,
+        //     financialGUID,
+        //     dietaryGUID,
+        //     userGUID
+        // })
+
+        let payload = new URLSearchParams();
+        payload.append("name",name)
+        payload.append("financialInfo",financialGUID)
+        payload.append("dietaryInfo",dietaryGUID)
+        payload.append("userGuid",userGUID)
+
+        try {
+            const res = await axios.post(`${this.context.ip}${this.context.endpoints.createCompany}`, payload)
+            console.log(res.data)
+            alert('Company Created!')
+
+            const {mySettings} = screenNames.stackPages
+            this.props.navigation.navigate(mySettings.screenName)
+        } catch(error) {
+            //console.log(error);
+            alert(error)
+            //return {}
+        }
+
+        //console.log(this.context.userState.userData.guid)
+
+        
     }
 
     render() {
@@ -317,12 +348,13 @@ export default class CreateCompany extends React.Component {
                     </Title> */}
                     <Subheading style={{textAlign: 'center',}}>
                     Please enter the below information to create a company.
-                    {JSON.stringify(this.state.error)}
+                    {/* {JSON.stringify(this.state)} */}
                     </Subheading >
+
                     <Divider  style = {{padding:1}}/>
 
                     <View style = {{marginLeft:15,marginRight:15}}>
-                        <Financial state={this.state} updateState={this.updateState}/>
+                        <Financial state={this.state} updateState={this.updateState} styles={styles}/>
                     </View>
                     <Divider  style = {{padding:1}}/>
 
@@ -358,78 +390,78 @@ export default class CreateCompany extends React.Component {
     
 }
 
-const Financial = (props) => {
-    return (
-        <React.Fragment>
-            <Title style={{textDecorationLine: 'underline'}}>Financial</Title>
+// const Financial = (props) => {
+//     return (
+//         <React.Fragment>
+//             <Title style={{textDecorationLine: 'underline'}}>Financial</Title>
 
-            <Subheading style={{fontWeight: 'bold'}}>Company Name</Subheading>
-            <TextInput
-                label='Company Name'
-                value={props.state.financial.companyName}
-                onChangeText={companyName => props.updateState({companyName},'financial')}
-                style={styles.inputSpace}
-                error = {props.state.error.companyName}
-            />
+//             <Subheading style={{fontWeight: 'bold'}}>Company Name</Subheading>
+//             <TextInput
+//                 label='Company Name'
+//                 value={props.state.financial.companyName}
+//                 onChangeText={companyName => props.updateState({companyName},'financial')}
+//                 style={styles.inputSpace}
+//                 error = {props.state.error.companyName}
+//             />
 
-            {
-                props.state.error.companyName === true?
-                <Text style={{color:'red'}}>Please enter company name</Text>
-                :
-                <React.Fragment/>
-            }
+//             {
+//                 props.state.error.companyName === true?
+//                 <Text style={{color:'red'}}>Please enter company name</Text>
+//                 :
+//                 <React.Fragment/>
+//             }
 
-            <Subheading style={{fontWeight: 'bold'}}>ein: XX-XXXXXXX, total 9 digits</Subheading>
-            <TextInput
-                label='ein: 12-1234567'
-                value={props.state.financial.ein}
-                onChangeText={ein => props.updateState({ein},'financial')}
-                style={styles.inputSpace}
-                error = {props.state.error.ein}
-                disabled = {true}
-            />
+//             <Subheading style={{fontWeight: 'bold'}}>ein: XX-XXXXXXX, total 9 digits</Subheading>
+//             <TextInput
+//                 label='ein: 12-1234567'
+//                 value={props.state.financial.ein}
+//                 onChangeText={ein => props.updateState({ein},'financial')}
+//                 style={styles.inputSpace}
+//                 error = {props.state.error.ein}
+//                 disabled = {true}
+//             />
 
-            {
-                props.state.error.ein === true?
-                <Text style={{color:'red'}}>Please enter numbers only in the format of XX-XXXXXXX</Text>
-                :
-                <React.Fragment/>
-            }
+//             {
+//                 props.state.error.ein === true?
+//                 <Text style={{color:'red'}}>Please enter numbers only in the format of XX-XXXXXXX</Text>
+//                 :
+//                 <React.Fragment/>
+//             }
            
 
-            <Subheading style={{fontWeight: 'bold'}}>State Code: 2 letter code</Subheading>
-            <TextInput
-                label='State Code: NC'
-                value={props.state.financial.stateCode}
-                onChangeText={stateCode => props.updateState({stateCode},'financial')}
-                style={styles.inputSpace}
-                error = {props.state.error.stateCode}
-            />
+//             <Subheading style={{fontWeight: 'bold'}}>State Code: 2 letter code</Subheading>
+//             <TextInput
+//                 label='State Code: NC'
+//                 value={props.state.financial.stateCode}
+//                 onChangeText={stateCode => props.updateState({stateCode},'financial')}
+//                 style={styles.inputSpace}
+//                 error = {props.state.error.stateCode}
+//             />
 
-            {
-                props.state.error.stateCode === true?
-                <Text style={{color:'red'}}>Please enter 2 letter state code</Text>
-                :
-                <React.Fragment/>
-            }
+//             {
+//                 props.state.error.stateCode === true?
+//                 <Text style={{color:'red'}}>Please enter 2 letter state code</Text>
+//                 :
+//                 <React.Fragment/>
+//             }
 
-            <Subheading style={{fontWeight: 'bold'}}>Country: 3 letter code</Subheading>
-            <TextInput
-                label='Country:USA'
-                value={props.state.financial.country}
-                onChangeText={country => props.updateState({country},'financial')}
-                style={styles.inputSpace}
-                error = {props.state.error.country}
-            />
-            {
-                props.state.error.country === true?
-                <Text style={{color:'red'}}>Please enter 3 letter country code</Text>
-                :
-                <React.Fragment/>
-            }
-        </React.Fragment>
-    )
-}
+//             <Subheading style={{fontWeight: 'bold'}}>Country: 3 letter code</Subheading>
+//             <TextInput
+//                 label='Country:USA'
+//                 value={props.state.financial.country}
+//                 onChangeText={country => props.updateState({country},'financial')}
+//                 style={styles.inputSpace}
+//                 error = {props.state.error.country}
+//             />
+//             {
+//                 props.state.error.country === true?
+//                 <Text style={{color:'red'}}>Please enter 3 letter country code</Text>
+//                 :
+//                 <React.Fragment/>
+//             }
+//         </React.Fragment>
+//     )
+// }
 
 
 const Dietary = (props) => {
