@@ -71,11 +71,13 @@ export default class GetMapPage extends React.Component {
                   </Card.Content>
                   {/* <Card.Cover source={{ uri: 'https://picsum.photos/700' }} /> */}
                   <Card.Actions>
+                    
                     <IconButton
                       icon={ index%2 ==0? "heart-outline": "heart"}
                       color={Colors.yellow600}
                       size={25}
                       onPress={() => console.log('Pressed')}
+                      
                     />
                     <Button 
                       onPress={()=> {
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     // backgroundColor: '#ffe373', //YELLOW
     backgroundColor: '#b5acae',
-    marginBottom: 30,
+    //marginBottom: 30,
   },
 
   scrollViewContainer: {

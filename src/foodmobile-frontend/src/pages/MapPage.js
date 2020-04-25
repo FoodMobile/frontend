@@ -54,7 +54,7 @@ export default class MapPage extends Component {
             <React.Fragment>
               {/* <Text>{JSON.stringify(this.state)}</Text> */}
               <GetMapPage location = {this.state.location} {...this.props}/>
-              <Button 
+              {/* <Button 
                 compact = {true} 
                 mode="contained" 
                 color="dodgerblue"
@@ -62,12 +62,11 @@ export default class MapPage extends Component {
                 style={{ borderRadius: 0,}}
               >
                   Reset map
-              </Button>
+              </Button> */}
             </React.Fragment>
           :
             <ActivityIndicator animating={true} color={Colors.green800} size={100} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}/>
           }
-          
         </View>
       );
     }
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
     flex: 1,
     //alignItems: 'center',
     //justifyContent: 'center',
-    paddingTop: 5,//Constants.statusBarHeight,
+    //paddingTop: 5,//Constants.statusBarHeight,
     //backgroundColor: '#ecf0f1',
   },
   paragraph: {
