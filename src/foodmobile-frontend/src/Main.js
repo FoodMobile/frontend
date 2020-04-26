@@ -109,8 +109,13 @@ export default function Main(){
                     //Store the token
                     await storeData(JSON.stringify(result.data.token),'token')
 
+                    
+                    let payload2 = new URLSearchParams();
+                    payload2.append("token",result.data.token)
+                    const resGetLoggedInTruck = await axios.post(`${ip}${endpoints.getLoggedInTruck}`, payload2)
 
-               
+                    console.log('RES FOR GET LOGGED IN TRUCK = ',resGetLoggedInTruck.data)
+                    
                     //Update state
                     await updateUserState({ 
                         type: 'SIGN_IN', 
@@ -124,6 +129,15 @@ export default function Main(){
                         type: 'UPDATE_USERDATA', 
                         userData: JSON.parse(atobResult)
                     });
+
+                    let userData = JSON.parse(atobResult)
+                    userData.isDriver = resGetLoggedInTruck.data.sucess
+
+                    await updateUserState({ 
+                        type: 'UPDATE_USERDATA', 
+                        userData: userData
+                    });
+
                         
                 })
                 .catch(function (error) {

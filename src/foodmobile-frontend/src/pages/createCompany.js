@@ -20,7 +20,8 @@ export default class CreateCompany extends React.Component {
             ein: '69-6969690',
             stateCode:'NC',
             country:'USA',
-            companyName: 'TEST COMPANY'
+            companyName: 'TEST COMPANY',
+            isDriver:false
         },
         dietary:{
             gmoCode:'',

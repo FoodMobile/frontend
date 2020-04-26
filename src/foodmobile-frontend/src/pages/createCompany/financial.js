@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { 
-    Text,Subheading,Title,TextInput
+    Text,Subheading,Title,TextInput,Checkbox,List
 } from 'react-native-paper';
 
 const Financial = (props) => {
@@ -73,6 +73,18 @@ const Financial = (props) => {
                 :
                 <React.Fragment/>
             }
+
+            <List.Item
+                title={"Are you a driver?"}
+                key={"nuts"}
+                left={() => (
+                    <Checkbox
+                        //label="Does any item contain nuts?"
+                        status={props.state.financial.isDriver ? 'checked' : 'unchecked'}
+                        onPress={() => props.updateState({isDriver:!props.state.financial.isDriver},'financial')}
+                    />
+                )}
+            />
         </React.Fragment>
     )
 }

@@ -12,12 +12,13 @@ import ScreenNames from '../../screenNames'
 import RequestToBeDriver from '../settings/requestToBeDriver'
 
 export default function PrivacySettings(props) {
-    const {toggleTheme,theme} = React.useContext(
+    const {toggleTheme,theme,userState} = React.useContext(
         PreferencesContext
     );
     
+
     const {navigation,styles } = props
-    const {myFoodPrefernces,myWallet} = ScreenNames.stackPages
+    const {myFoodPrefernces,myWallet,editCompanyMenu,addTruck} = ScreenNames.stackPages
     return (
         <List.Section title="Privacy" >
             <List.Accordion
@@ -47,6 +48,31 @@ export default function PrivacySettings(props) {
                 
                 left={props => <List.Icon{...props} color = {Colors.green500} icon="cash-usd" />}
             />
+            {
+                userState.userData.isDriver?
+                <React.Fragment>
+                    <Divider/>
+                    <List.Item
+                        style={styles.preference}
+                        title="Edit menu"
+                        description="Add/remove/edit items to the trucks menu"
+                        onPress={() => {navigation.navigate(editCompanyMenu.screenName)}}
+                        
+                        left={props => <List.Icon{...props} color = {Colors.purple400} icon="food" />}
+                    />
+                    <List.Item
+                        style={styles.preference}
+                        title="Create Truck"
+                        description="Add a truck to the company"
+                        onPress={() => {navigation.navigate(addTruck.screenName)}}
+                        
+                        left={props => <List.Icon{...props} color = {Colors.orange400} icon="plus" />}
+                    />
+                </React.Fragment>
+                :
+                <React.Fragment></React.Fragment>
+            }
+            
         </List.Section>
     );
 }

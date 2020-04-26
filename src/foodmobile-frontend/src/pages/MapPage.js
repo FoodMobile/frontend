@@ -4,9 +4,9 @@ import { Button, Text, ActivityIndicator, Colors } from 'react-native-paper';
 import Constants from 'expo-constants';
 import * as Location from 'expo-location';
 import * as Permissions from 'expo-permissions';
-
+import PreferencesContext from '../context/context'
 import GetMapPage from './getMap'
-
+import axios from 'axios'
 
 export default class MapPage extends Component {
     state = {
@@ -23,6 +23,7 @@ export default class MapPage extends Component {
       } else {
         this._getLocationAsync();
       }
+
     }
   
     _getLocationAsync = async () => {
@@ -37,6 +38,16 @@ export default class MapPage extends Component {
       let location = await Location.getCurrentPositionAsync({});
       this.setState({ location });
       this.setState({ isGetting:'done' });
+
+      console.log('LOCATION = ',location.coords)
+
+      let payload = new URLSearchParams();
+      payload.append("lat",location.coords.latitude)
+      payload.append("lon",location.coords.longitude)
+
+      const response = await axios.post(`${this.context.ip}${this.context.endpoints.getNearbyTrucks}`, payload)
+    
+      console.log('RESPONSE(MAP) = ',response.data)
     };
   
     render() {
@@ -86,3 +97,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
+MapPage.contextType = PreferencesContext;

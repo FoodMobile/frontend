@@ -1,5 +1,6 @@
 import React from 'react';
 import MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -11,6 +12,8 @@ import myFoodTrucks from '../components/data/myFoodTrucks'
 import ViewMapTruck from './viewTruck/viewMapTruck'
 
 import ScreenNames from '../screenNames'
+
+import TruckMaker from '../components/truckMarker'
 
 export default class GetMapPage extends React.Component {
   render() {
@@ -44,7 +47,15 @@ export default class GetMapPage extends React.Component {
             longitudeDelta: 0.00421,
           }}
           provider="google"
-        />
+        >
+          <TruckMaker 
+            latitude={myLocation.latitude} 
+            longitude={myLocation.longitude}
+            name="truck"
+          />
+         
+        </MapView>
+
         {/* <MapView style={styles.mapStyle} /> */}
         
         {/* list of trucks displayed on the map */}

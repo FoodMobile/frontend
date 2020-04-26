@@ -17,7 +17,13 @@ const PreferencesContext = React.createContext({
     createCompany: '/bus/createcompany',
     createFinancial:'/bus/createcompanyfinancial',
     createGenre:'/bus/createfoodgenre',
-    createDietary: '/bus/createcompanydietary'
+    createDietary: '/bus/createcompanydietary',
+    getNearbyTrucks:'/nearbytrucks',
+    createTruck: '/bus/createtruck',
+    joinCompany: '/bus/joincompany',
+    getLoggedInTruck: '/bus/getloggedintruck',
+
+    createItem: '/menu/createitem'
   },
   token:undefined
 });
