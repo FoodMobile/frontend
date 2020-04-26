@@ -11,11 +11,11 @@ export default class TruckMaker extends React.Component{
                 latitude: this.props.latitude,//36.0689 ,
                 longitude:  this.props.longitude//-79.8102
               }}
-              >
+            >
               <View >
                 
                 <Button mode="text" color={Colors.red500} icon="truck-check" onPress={() => console.log('Pressed')}>
-                    {this.props.name}
+                    {/* {this.props.name} */}
                 </Button>
               </View>
             </Marker>
