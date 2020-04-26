@@ -72,12 +72,13 @@ export default class GetMapPage extends React.Component {
                     <View style={{flexDirection:'row',marginTop:-10}}>
                       <IconButton
                         icon={ index%2 ==0? "heart-outline": "heart"}
-                        color={Colors.yellow600}
+                        color={Colors.red200} //Colors.yellow600
                         size={25}
                         onPress={() => console.log('Pressed')}
                       />
                       <Button 
                         style={{marginTop:5}}
+                        color={Colors.blue400}
                         onPress={()=> {
                           showMapTruck(this.props.navigation,item.id,viewMapTruck)
                         }}
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     // flexWrap: 'wrap',
     width: Dimensions.get('window').width,
     // backgroundColor: '#ffe373', //YELLOW
-    backgroundColor: '#b5acae',
+    //backgroundColor: '#b5acae',
     //marginBottom: 30,
   },
 
@@ -135,13 +136,13 @@ const styles = StyleSheet.create({
     // flexWrap: 'wrap',
     width: Dimensions.get('window').width,
     // backgroundColor: '#ffe373', //YELLOW
-    backgroundColor: '#b5acae',
+    //backgroundColor: '#b5acae',
     //marginBottom: 10,
   },
   truckItemContainer: {
     //padding: 10,
     marginBottom: 1,
-    backgroundColor: '#d9f9b1', // lime green
+    backgroundColor: '#b3ffcc', // lime green
     //flex: 1,
     flexDirection: 'row',
     borderRadius:0
@@ -150,7 +151,7 @@ const styles = StyleSheet.create({
  truckItemContainerDark: {
   //padding: 10,
   marginBottom: 1,
-  backgroundColor: '#927BAE', // lime green
+  //backgroundColor: '#927BAE', // lime green
   //flex: 1,
   flexDirection: 'row',
   borderRadius:0
