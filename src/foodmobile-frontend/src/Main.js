@@ -131,7 +131,7 @@ export default function Main(){
                     });
 
                     let userData = JSON.parse(atobResult)
-                    userData.isDriver = !(resGetLoggedInTruck.data.data == null)
+                    userData.isDriver = resGetLoggedInTruck.data.sucess
 
                     await updateUserState({ 
                         type: 'UPDATE_USERDATA', 
