@@ -77,28 +77,29 @@ export class  RootNavigation extends React.Component {
                 //console.log(JSON.parse(atob(token.split('.')[1])))
                 const atobResult = JSON.parse(atob(token.split('.')[1]))
                 const username = atobResult.username
-                console.log('DECODED TOKEN = ',atobResult)
+                //console.log('DECODED TOKEN = ',atobResult)
                 try {
-                    let payload = new URLSearchParams();
-                    payload.append("username",username)
+                    let payloadUserInfo = new URLSearchParams();
+                    payloadUserInfo.append("username",username)
     
-                    console.log('SENDING USERNAME = ',username)
-                    const response = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payload)
+                    //console.log('SENDING USERNAME = ',username)
+                    const resUserInfo = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payloadUserInfo)
 
-                    let payload2 = new URLSearchParams();
-                    payload2.append("token",token)
-                    const response2 = await axios.post(`${this.context.ip}${this.context.endpoints.getLoggedInTruck}`, payload2)
-                    
-                    console.log('GET LOGGED IN TRUCK = ',response2.data)
-                    console.log('RESPONSE ==== ',response.data)
-                    
-                    let userData = response.data.data
-                    userData.isDriver = !(response2.data.data == null)
+                    let payloadGetLoggedInTruck = new URLSearchParams();
+                    payloadGetLoggedInTruck.append("token",token)
+                    const resLoggedInTruck = await axios.post(`${this.context.ip}${this.context.endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
+
+                    console.log('==========================',resUserInfo.data)
+                    console.log('--------------------------',resLoggedInTruck.data)
+                    let userData = resUserInfo.data.data
+                    userData.isDriver = resLoggedInTruck.data.success
 
                     await this.context.updateUserState({ 
                         type: 'UPDATE_USERDATA', 
                         userData: userData
                     });
+
+                    //console.log('~~~~~~~~~~~~~~~~~~~~~~~~',userData)
     
                     await this.context.updateUserState({ 
                         type: 'RESTORE_TOKEN', token: token 
@@ -130,7 +131,7 @@ export class  RootNavigation extends React.Component {
 
     render() {
         //this.userState = this.context.userState
-        console.log("RENDER USERSTATE = ",this.context.userState)
+        // console.log("RENDER USERSTATE = ",this.context.userState)
         return (
             <NavigationContainer theme={this.props.theme}>
                 {/* If no user token,that means user needs to log in */}

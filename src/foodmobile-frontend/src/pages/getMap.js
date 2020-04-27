@@ -48,12 +48,41 @@ export default class GetMapPage extends React.Component {
           }}
           provider="google"
         >
-          <TruckMaker 
-            latitude={myLocation.latitude} 
-            longitude={myLocation.longitude}
+          {/* <TruckMaker 
+            latitude={35.8561671} 
+            longitude={-78.8441269}
+            color={Colors.red400}
             name="truck"
           />
-         
+
+          <TruckMaker 
+            latitude={35.8561671} 
+            longitude={-78.8551270}
+            color={Colors.blue400}
+            name="truck"
+          />
+
+          <TruckMaker 
+            latitude={35.8501671} 
+            longitude={-78.8531270}
+            color={Colors.green400}
+            name="truck"
+          />
+
+          <TruckMaker 
+            latitude={35.8561671} 
+            longitude={-78.8419269}
+            color={Colors.yellow400}
+            name="truck"
+          />
+
+          <TruckMaker 
+            latitude={35.8501671} 
+            longitude={-78.8441269}
+            color={Colors.amber400}
+            name="truck"
+          />
+          */}
         </MapView>
 
         {/* <MapView style={styles.mapStyle} /> */}

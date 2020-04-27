@@ -101,42 +101,63 @@ export default function Main(){
                 let payload = new URLSearchParams();
                 payload.append("username",data.userName)
                 payload.append("password",data.password)
-
+                const userName = data.userName
 
                 axios.post(`${ip}${endpoints.login}`, payload)
                 .then(async function (result) {
-                    console.log('TOKEN GOT')
+                    //console.log('TOKEN GOT')
                     //Store the token
                     await storeData(JSON.stringify(result.data.token),'token')
 
                     
-                    let payload2 = new URLSearchParams();
-                    payload2.append("token",result.data.token)
-                    const resGetLoggedInTruck = await axios.post(`${ip}${endpoints.getLoggedInTruck}`, payload2)
+                    let payloadUserInfo = new URLSearchParams();
+                    payloadUserInfo.append("username",userName)
+    
+                    //console.log('SENDING USERNAME = ',username)
+                    const responseUserInfo = await axios.post(`${ip}${endpoints.userInfo}`, payloadUserInfo)
+                    let userData = responseUserInfo.data.data
+                   
 
-                    console.log('RES FOR GET LOGGED IN TRUCK = ',resGetLoggedInTruck.data)
-                    
-                    //Update state
-                    await updateUserState({ 
-                        type: 'SIGN_IN', 
-                        token: result.data.token
-                    });
+                    let payloadGetLoggedInTruck = new URLSearchParams();
+                    payloadGetLoggedInTruck.append("token",result.data.token)
+                    const resGetLoggedInTruck = await axios.post(`${ip}${endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
 
-                    const atobResult = atob(result.data.token.split('.')[1])
-                    await storeData(atobResult,'userData')
+                    //console.log('==========',payloadGetLoggedInTruck)
+                    //console.log('RES FOR GET LOGGED IN TRUCK = ',resGetLoggedInTruck.data);
 
-                    await updateUserState({ 
-                        type: 'UPDATE_USERDATA', 
-                        userData: JSON.parse(atobResult)
-                    });
-
-                    let userData = JSON.parse(atobResult)
-                    userData.isDriver = resGetLoggedInTruck.data.sucess
+                    userData.isDriver = resGetLoggedInTruck?.data?.success;
+            
+                   
+                    //console.log('USER DATA ===',userData)
 
                     await updateUserState({ 
                         type: 'UPDATE_USERDATA', 
                         userData: userData
                     });
+
+                     //Update state
+                     await updateUserState({ 
+                        type: 'SIGN_IN', 
+                        token: result.data.token
+                    });
+
+                    
+
+                    // const atobResult = atob(result.data.token.split('.')[1])
+                    // await storeData(atobResult,'userData')
+
+                    // await updateUserState({ 
+                    //     type: 'UPDATE_USERDATA', 
+                    //     userData: JSON.parse(atobResult)
+                    // });
+
+                    // let userData = JSON.parse(atobResult)
+                    // userData.isDriver = resGetLoggedInTruck.data.sucess
+
+                    // await updateUserState({ 
+                    //     type: 'UPDATE_USERDATA', 
+                    //     userData: userData
+                    // });
 
                         
                 })

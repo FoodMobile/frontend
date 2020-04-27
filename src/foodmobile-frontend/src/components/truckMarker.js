@@ -14,7 +14,7 @@ export default class TruckMaker extends React.Component{
             >
               <View >
                 
-                <Button mode="text" color={Colors.red500} icon="truck-check" onPress={() => console.log('Pressed')}>
+                <Button mode="text" color={this.props.color} icon="truck-check" onPress={() => console.log('Pressed')}>
                     {/* {this.props.name} */}
                 </Button>
               </View>

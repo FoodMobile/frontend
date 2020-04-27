@@ -39,15 +39,34 @@ export default class MapPage extends Component {
       this.setState({ location });
       this.setState({ isGetting:'done' });
 
-      console.log('LOCATION = ',location.coords)
+      // console.log('LOCATION = ',location.coords)
 
       let payload = new URLSearchParams();
       payload.append("lat",location.coords.latitude)
       payload.append("lon",location.coords.longitude)
 
-      const response = await axios.post(`${this.context.ip}${this.context.endpoints.getNearbyTrucks}`, payload)
-    
-      console.log('RESPONSE(MAP) = ',response.data)
+      const resGetNearbyTrucks = await axios.post(`${this.context.ip}${this.context.endpoints.getNearbyTrucks}`, payload)
+      
+      
+      try {
+        let payloadAddTruck = new URLSearchParams();
+        payloadAddTruck.append("lat",35.8561671)
+        payloadAddTruck.append("lon",-78.8441269)
+  
+        // const responseAddTrucks = await axios.post(
+        //   `${this.context.ip}${this.context.endpoints.truckLocation}`, 
+        //   payloadAddTruck,
+        //   // {
+        //   //   headers: {token: this.context.userState.token}
+        //   // }
+        // )
+        console.log(`${this.context.ip}${this.context.endpoints.truckLocation}`)
+        
+        console.log('======= ADD TRUCKS? ======',responseAddTrucks.data)
+      } catch(err) {
+        console.log('======= BIG ERROR ======',err)
+      }
+      console.log('RESPONSE(MAP) = ',resGetNearbyTrucks.data)
     };
   
     render() {

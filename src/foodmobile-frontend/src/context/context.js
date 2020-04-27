@@ -23,7 +23,8 @@ const PreferencesContext = React.createContext({
     joinCompany: '/bus/joincompany',
     getLoggedInTruck: '/bus/getloggedintruck',
 
-    createItem: '/menu/createitem'
+    createItem: '/menu/createitem',
+    truckLocation: '/trucklocation'
   },
   token:undefined
 });
