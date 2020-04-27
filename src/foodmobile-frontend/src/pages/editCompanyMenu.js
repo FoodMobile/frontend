@@ -6,11 +6,11 @@ import {
 } from 'react-native-paper';
 import PreferencesContext from '../context/context'
 import { StyleSheet } from "react-native";
-import { View,ScrollView } from 'react-native';
+import { View,ScrollView,RefreshControl  } from 'react-native';
 import axios from 'axios'
 import menuData from '../components/data/menu'
 import ScreenNames from '../screenNames'
-
+import TruckMenu from '../components/TruckMenu'
 const {
        
     addItem,
@@ -24,9 +24,15 @@ export default class EditCompanyMenu extends React.Component {
     }
 
     async componentDidMount() {
-        const {guid} = this.context.userState.userData
+        this.setState({
+            isLoading:true,
+            //guid:truckGuid
+        })
+        const {truckGuid} = this.context.userState.userData
+        
+        
         let payloadGetTruckMenu = new URLSearchParams();
-        payloadGetTruckMenu.append("truckGuid", guid)
+        payloadGetTruckMenu.append("truckGuid", truckGuid)
         const resGetTruckMenu = await axios.post(
             `${this.context.ip}${this.context.endpoints.menuForTruck}`, 
             payloadGetTruckMenu
@@ -39,7 +45,7 @@ export default class EditCompanyMenu extends React.Component {
 
         this.setState({
             isLoading:false,
-            guid:guid
+            guid:truckGuid
         })
     }
 
@@ -66,15 +72,22 @@ export default class EditCompanyMenu extends React.Component {
     render() {
         
         return (
-
-            <React.Fragment>
-            {
-                (!this.state.isLoading)?
-                    <ShowCurrentMenu menu={this.state.truckMenu} guid={this.state.guid} {...this.props}/>
-                :
-                    <ActivityIndicator animating={true} color={Colors.green800} size={100} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}/>
-            }
-            </React.Fragment>
+            <ScrollView
+            >
+                <React.Fragment>
+                {
+                    (!this.state.isLoading)?
+                    <React.Fragment>
+                        <ShowCurrentMenu menu={this.state.truckMenu} guid={this.state.guid} {...this.props}/>
+                        <Button onPress={()=>this.componentDidMount()}>Refresh</Button>
+                    </React.Fragment>
+                        
+                    :
+                        <ActivityIndicator animating={true} color={Colors.green800} size={100} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}/>
+                }
+                </React.Fragment>
+                
+            </ScrollView>
            
             
         )
@@ -89,72 +102,28 @@ class ShowCurrentMenu extends React.Component{
         visibleDelete:false,
         deletingIndex:0,
         editingIndex:0,
-        isLoading:true
+        isLoading:true,
+        guid:this.props.guid
     }
 
     _addItem() {
         //alert(this.props.guid)
-        this.props.navigation.navigate(addItem.screenName)
+        this.navigation.navigate(addItem.screenName)
+        //console.log(Object.keys(this))
     }
     render() {
         return (
             <React.Fragment>
                 <Title style={{textAlign: 'center',}}>Currernt Menu</Title>
-                <DataTable>
-                    <DataTable.Header>
-                    <DataTable.Title>Item</DataTable.Title>
-                    <DataTable.Title numeric>Calories</DataTable.Title>
-                    <DataTable.Title numeric>Price</DataTable.Title>
-                    <DataTable.Title numeric></DataTable.Title>
-                    <DataTable.Title numeric></DataTable.Title>
-                    </DataTable.Header> 
-
-                    {
-                        this.state.menu.map((item,index)=> {
-                            return (
-                                <DataTable.Row key = {item.name+index}>
-                                    <DataTable.Cell >{item.name}</DataTable.Cell>
-                                    <DataTable.Cell numeric>{item.calories}</DataTable.Cell>
-                                    <DataTable.Cell numeric>{item.price}</DataTable.Cell>
-                                    <DataTable.Cell 
-                                        numeric 
-                                        onPress={()=>this._showEditDialog(index)}
-                                    >
-                                        <Text style={{color:Colors.amber600}}> Edit</Text>
-                                    </DataTable.Cell>
-                                    <DataTable.Cell 
-                                        numeric 
-                                        onPress={()=> this._showDeleteDialog(index)} 
-                                    >
-                                        <Text style={{color:'#ff0000'}}> Delete</Text>
-                                    </DataTable.Cell>
-                                </DataTable.Row>
-                            )
-                        })
-                    }
-
-                    <DataTable.Row key = "additemKey">
-                        <DataTable.Cell >+</DataTable.Cell>
-                        <DataTable.Cell numeric></DataTable.Cell>
-                        <DataTable.Cell numeric></DataTable.Cell>
-                        <DataTable.Cell 
-                            numeric 
-                            onPress={()=>this._addItem()}
-                        >
-                            <Text style={{color:Colors.green400}}>+ Add</Text>
-                        </DataTable.Cell>
-                        <DataTable.Cell 
-                            numeric 
-                           
-                        >
-                            <Text style={{color:'#ff0000'}}></Text>
-                        </DataTable.Cell>
-                    </DataTable.Row>
-
-                    
-                </DataTable>     
+                <TruckMenu 
+                    menu = {this.state.menu} 
+                    guid={this.state.guid} 
+                    add={true} 
+                    addfnc={this._addItem}
+                    {...this.props}
+                />
             
-                <Divider  style = {{padding:1}}/>
+              
 
                 <View>
                 

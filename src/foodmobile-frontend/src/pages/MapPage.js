@@ -128,9 +128,11 @@ export default class MapPage extends Component {
 
       
 
-        console.log('============================ MENU',resGetMenu.data)
+        //console.log('============================ MENU',resGetMenu.data)
 
         this.setState({ nearbyTrucks:currentState });
+        //console.log('NEAR BY TRUCKS',this.state.nearbyTrucks)
+        console.log('STATES',this.context.userState.userData,`${this.context.ip}${this.context.endpoints.userInfo}`)
         //console.log('=================',currentState)
         this.setState({ isGetting:'done' });
        

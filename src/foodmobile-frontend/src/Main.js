@@ -130,7 +130,15 @@ export default function Main(){
 
                     userData.isDriver = resGetLoggedInTruck?.data?.success;
             
-                   
+                    if(userData .isDriver) {
+                        let payLoadGetTruckGuid = new URLSearchParams();
+                        payLoadGetTruckGuid.append("username",userName)
+                        const resGetTruckGuid = await axios.post(`${ip}${endpoints.getTruckGuid}`, payLoadGetTruckGuid)
+                        
+                        //console.log("------------------------",resGetTruckGuid.data)
+                        userData.truckGuid = resGetTruckGuid.data.data.guid
+                    
+                    }
                     //console.log('USER DATA ===',userData)
 
                     await updateUserState({ 

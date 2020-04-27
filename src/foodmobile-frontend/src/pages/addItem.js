@@ -11,17 +11,17 @@ import axios from 'axios'
 export default class AddItem extends React.Component {
     
     state ={
-        ingredientList:'apple,beans',
-        description:'food #1',
-        title:'Apples with beans',
+        ingredientList:'Co2,Water,Nuts',
+        description:'Soda is a cool new liquid u drink',
+        title:'Soda',
         glutenFree:false,
         noGmo:false,
         cookedNearNuts:false,
         cookedNearShellfish:false,
         containsShellfish:false,
         vegan:false,
-        primaryPrice:'0',
-        fractionalPrice:'0'
+        primaryPrice:'10',
+        fractionalPrice:'20'
     }
 
     async componentDidMount() {
@@ -48,7 +48,7 @@ export default class AddItem extends React.Component {
             primaryPrice,
             fractionalPrice
         } = this.state
-        payloadAddItem.append("businessGuid",this.context.userState.userData.guid)
+        payloadAddItem.append("businessGuid",this.context.userState.userData.companyGuid)
         payloadAddItem.append("ingredientsList",ingredientList)
         payloadAddItem.append("description",description)
         payloadAddItem.append("title",title)
@@ -65,7 +65,14 @@ export default class AddItem extends React.Component {
         
         try {
             const resAddItem = await axios.post(`${this.context.ip}${this.context.endpoints.createItem}`, payloadAddItem)
+            //console.log('ITEM',resAddItem.data)
+            //console.log('PAYLOAD',payloadAddItem)
+            //console.log(this.context.userState.userData)
             console.log(resAddItem.data)
+            // console.log(resAddItem.data)
+            if(resAddItem.data.success) {
+                alert("Item created!")
+            }
         } catch(err) {
             console.log(err.response.data.message)
         }
@@ -77,7 +84,7 @@ export default class AddItem extends React.Component {
             <React.Fragment>
                 <Subheading style={{textAlign: 'center',}}>
                     Please enter the below information to add/edit a new item.
-                    {JSON.stringify(this.state)}
+                    {/* {JSON.stringify(this.state)} */}
                 </Subheading >
 
                 <Title style={{textDecorationLine: 'underline'}}>List of ingredients:</Title>
