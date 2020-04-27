@@ -15,7 +15,10 @@ export default class TruckMenu extends React.Component{
             <React.Fragment>
                 {
                     menu.length==0?
-                    <Text>Truck {guid} has no menu</Text>
+                    <React.Fragment>
+                        <Text>Truck {guid} has no menu</Text>
+                        <Button onPress={()=>this.props.addfnc()}>Add items</Button>
+                    </React.Fragment>
                     :
                     <React.Fragment>
                         <List.Section title={`Menu for ${guid}`}>

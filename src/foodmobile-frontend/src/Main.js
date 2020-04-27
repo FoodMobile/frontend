@@ -108,49 +108,55 @@ export default function Main(){
 
                 axios.post(`${ip}${endpoints.login}`, payload)
                 .then(async function (result) {
-                    //console.log('TOKEN GOT')
-                    //Store the token
-                    await storeData(JSON.stringify(result.data.token),'token')
 
-                    
-                    let payloadUserInfo = new URLSearchParams();
-                    payloadUserInfo.append("username",userName)
-    
-                    //console.log('SENDING USERNAME = ',username)
-                    const responseUserInfo = await axios.post(`${ip}${endpoints.userInfo}`, payloadUserInfo)
-                    let userData = responseUserInfo.data.data
-                   
+                    if(result.data.success) {
+                         //console.log('TOKEN GOT')
+                        //Store the token
+                        await storeData(JSON.stringify(result.data.token),'token')
 
-                    let payloadGetLoggedInTruck = new URLSearchParams();
-                    payloadGetLoggedInTruck.append("token",result.data.token)
-                    const resGetLoggedInTruck = await axios.post(`${ip}${endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
-
-                    // console.log('==========',payloadGetLoggedInTruck)
-                    // console.log('RES FOR GET LOGGED IN TRUCK = ',resGetLoggedInTruck.data);
-
-                    userData.isDriver = resGetLoggedInTruck?.data?.success;
-            
-                    if(userData .isDriver) {
-                        let payLoadGetTruckGuid = new URLSearchParams();
-                        payLoadGetTruckGuid.append("username",userName)
-                        const resGetTruckGuid = await axios.post(`${ip}${endpoints.getTruckGuid}`, payLoadGetTruckGuid)
                         
-                        //console.log("------------------------",resGetTruckGuid.data)
-                        userData.truckGuid = resGetTruckGuid.data.data.guid
+                        let payloadUserInfo = new URLSearchParams();
+                        payloadUserInfo.append("username",userName)
+        
+                        //console.log('SENDING USERNAME = ',username)
+                        const responseUserInfo = await axios.post(`${ip}${endpoints.userInfo}`, payloadUserInfo)
+                        let userData = responseUserInfo?.data?.data
                     
+
+                        let payloadGetLoggedInTruck = new URLSearchParams();
+                        payloadGetLoggedInTruck.append("token",result.data.token)
+                        const resGetLoggedInTruck = await axios.post(`${ip}${endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
+
+                        // console.log('==========',payloadGetLoggedInTruck)
+                        // console.log('RES FOR GET LOGGED IN TRUCK = ',resGetLoggedInTruck.data);
+
+                        userData.isDriver = resGetLoggedInTruck?.data?.success;
+                
+                        if(userData .isDriver) {
+                            let payLoadGetTruckGuid = new URLSearchParams();
+                            payLoadGetTruckGuid.append("username",userName)
+                            const resGetTruckGuid = await axios.post(`${ip}${endpoints.getTruckGuid}`, payLoadGetTruckGuid)
+                            
+                            //console.log("------------------------",resGetTruckGuid.data)
+                            userData.truckGuid = resGetTruckGuid.data.data.guid
+                        
+                        }
+                        //console.log('USER DATA ===',userData)
+
+                        await updateUserState({ 
+                            type: 'UPDATE_USERDATA', 
+                            userData: userData
+                        });
+
+                        //Update state
+                        await updateUserState({ 
+                            type: 'SIGN_IN', 
+                            token: result.data.token
+                        });
+                    } else {
+                        alert(result.data.errorMessage)
                     }
-                    //console.log('USER DATA ===',userData)
-
-                    await updateUserState({ 
-                        type: 'UPDATE_USERDATA', 
-                        userData: userData
-                    });
-
-                     //Update state
-                     await updateUserState({ 
-                        type: 'SIGN_IN', 
-                        token: result.data.token
-                    });
+                   
 
                     
 
