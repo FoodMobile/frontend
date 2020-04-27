@@ -15,6 +15,14 @@ import ScreenNames from '../screenNames'
 
 import TruckMaker from '../components/truckMarker'
 
+const colorList = [
+  Colors.red400,
+  Colors.green400,
+  Colors.blue400,
+  Colors.yellow400,
+  Colors.purple400
+]
+
 export default class GetMapPage extends React.Component {
   render() {
     
@@ -48,41 +56,22 @@ export default class GetMapPage extends React.Component {
           }}
           provider="google"
         >
-          {/* <TruckMaker 
-            latitude={35.8561671} 
-            longitude={-78.8441269}
-            color={Colors.red400}
-            name="truck"
-          />
 
-          <TruckMaker 
-            latitude={35.8561671} 
-            longitude={-78.8551270}
-            color={Colors.blue400}
-            name="truck"
-          />
-
-          <TruckMaker 
-            latitude={35.8501671} 
-            longitude={-78.8531270}
-            color={Colors.green400}
-            name="truck"
-          />
-
-          <TruckMaker 
-            latitude={35.8561671} 
-            longitude={-78.8419269}
-            color={Colors.yellow400}
-            name="truck"
-          />
-
-          <TruckMaker 
-            latitude={35.8501671} 
-            longitude={-78.8441269}
-            color={Colors.amber400}
-            name="truck"
-          />
-          */}
+          {
+            this.props.trucks.map((value,index)=> {
+              return (
+                <React.Fragment key={value.x+'-'+value.y+'-'+index}>
+                  <TruckMaker 
+                    latitude={value.y} 
+                    longitude={value.x}
+                    color={colorList[index%colorList.length]}
+                    name="truck"
+                  />
+                </React.Fragment>
+              )
+            })
+          }
+         
         </MapView>
 
         {/* <MapView style={styles.mapStyle} /> */}
