@@ -64,8 +64,8 @@ export default function LoginForm(props) {
           }
         },
         {
-          userName: '',
-          password: 'truck1',
+          userName: 'truck5',
+          password: 'truck5',
         }
     );
     

@@ -122,8 +122,8 @@ export default function Main(){
                     payloadGetLoggedInTruck.append("token",result.data.token)
                     const resGetLoggedInTruck = await axios.post(`${ip}${endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
 
-                    //console.log('==========',payloadGetLoggedInTruck)
-                    //console.log('RES FOR GET LOGGED IN TRUCK = ',resGetLoggedInTruck.data);
+                    // console.log('==========',payloadGetLoggedInTruck)
+                    // console.log('RES FOR GET LOGGED IN TRUCK = ',resGetLoggedInTruck.data);
 
                     userData.isDriver = resGetLoggedInTruck?.data?.success;
             

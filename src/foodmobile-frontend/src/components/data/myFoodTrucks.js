@@ -154,7 +154,7 @@ export default myFoodTrucks = [
         ]
     },
     {
-        name: 'Toilet Truckers',
+        name: 'Tortilla Truckers',
         description: 'Mediteranean food',
         icon: "https://media.gettyimages.com/photos/street-food-in-the-park-picture-id617880604?s=2048x2048",
         distance: 1,
@@ -194,7 +194,7 @@ export default myFoodTrucks = [
         ]
     },
     {
-        name: 'Corono Beer',
+        name: 'Caribbean Beer',
         description: 'Boston Lobster Rolls',
         icon: "https://media.gettyimages.com/photos/red-food-truck-picture-id931909448?s=2048x2048",
         distance: 200,

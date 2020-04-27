@@ -41,10 +41,7 @@ export default function FoodPreferences(props) {
     const [foodTypes,setFoodTypes] = useState({
         halal:true,
         vegan:false,
-        vegitarian:false,
-        poison:true,
-        roadkill:true,
-        someOtherShit:false
+        vegitarian:false
     })
 
     function updateFoodTypes(state){
@@ -66,9 +63,9 @@ export default function FoodPreferences(props) {
                     })
                 }        
             </List.Section>
-            <Text>
+            {/* <Text>
                         {JSON.stringify(allergies)}
-            </Text>
+            </Text> */}
             <Divider style={{padding:2,marginTop:10}}/>
             <List.Section>
                 <List.Subheader>Food Types</List.Subheader>
@@ -80,10 +77,10 @@ export default function FoodPreferences(props) {
                     })
                 }        
             </List.Section>
-            <Text>
+            {/* <Text>
                 {JSON.stringify(foodTypes)}
-            </Text>
-            <Divider style={{padding:2,marginTop:10}}/>
+            </Text> */}
+            {/* <Divider style={{padding:2,marginTop:10}}/>
             <List.Section>
                 <List.Subheader>Food Allergies</List.Subheader>
                 {
@@ -93,7 +90,7 @@ export default function FoodPreferences(props) {
                         )
                     })
                 }        
-            </List.Section>
+            </List.Section> */}
         </ScrollView>
     );
 }
