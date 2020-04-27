@@ -64,7 +64,7 @@ export default function LoginForm(props) {
           }
         },
         {
-          userName: 'truck1',
+          userName: '',
           password: 'truck1',
         }
     );
@@ -133,6 +133,7 @@ export default function LoginForm(props) {
           <TextInput
             label='Password'
             value={userNamePasswordValues.password}
+            secureTextEntry={true}
             onChangeText={
               text => {
                   updateLoginValues({

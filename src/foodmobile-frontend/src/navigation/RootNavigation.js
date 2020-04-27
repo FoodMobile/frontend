@@ -89,8 +89,8 @@ export class  RootNavigation extends React.Component {
                     payloadGetLoggedInTruck.append("token",token)
                     const resLoggedInTruck = await axios.post(`${this.context.ip}${this.context.endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
 
-                    console.log('==========================',resUserInfo.data)
-                    console.log('--------------------------',resLoggedInTruck.data)
+                    // console.log('==========================',resUserInfo.data)
+                    // console.log('--------------------------',resLoggedInTruck.data)
                     let userData = resUserInfo.data.data
                     userData.isDriver = resLoggedInTruck.data.success
 
