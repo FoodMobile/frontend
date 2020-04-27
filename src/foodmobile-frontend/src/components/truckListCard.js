@@ -4,20 +4,18 @@ import { Text,List,Checkbox,  Avatar, Button, Card, IconButton, Colors,Title, Pa
 //import {getThene} from '../context/styles'
 import PreferencesContext from '../context/context'
 import axios from 'axios'
+import ScreenNames from '../screenNames'
 
+const {
+       
+    viewMapTruck,
+   
+} = ScreenNames.stackPages
 async function getTruckMenu(url,guid,navigation) {
-    // let payloadGetMenu = new URLSearchParams();
-    // payloadGetMenu.append("truckGuid",guid)
     
-    // const resGetMenu = await (axios.post(
-    //   url, 
-    //   payloadGetMenu
-    // ))
-    // console.log(resGetMenu.data)
-    navigation.navigate('View Map Truck',{guid:guid})
-    console.log(guid)
-    // {truckId:truckId}
-    // alert(guid)
+    navigation.navigate(viewMapTruck.screenName,{guid:guid})
+    //console.log(guid,)
+  
 }
 
 
@@ -29,6 +27,10 @@ export default class TruckListCard extends React.Component {
         index,
         
     } = this.props
+
+    
+
+
     const {guid} = item
     return(
         
@@ -64,7 +66,7 @@ export default class TruckListCard extends React.Component {
                     getTruckMenu(
                         `${this.context.ip}${this.context.endpoints.menuForTruck}`,
                         guid,
-                        this)
+                        this.props.navigation)
                     //showMapTruck(this.props.navigation,item.id,viewMapTruck)
                 }}
                 >

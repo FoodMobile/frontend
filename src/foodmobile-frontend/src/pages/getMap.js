@@ -83,7 +83,7 @@ export default class GetMapPage extends React.Component {
             {this.props.trucks.map((item, index) => ( 
               <React.Fragment key = {`${item.name}-${index}`}>
                {/* <Text> {JSON.stringify(item)}</Text> */}
-                <TruckListCard item={item} styles={styles} index={index}/>
+                <TruckListCard item={item} styles={styles} index={index} {...this.props}/>
               </React.Fragment>  
               
             ))}

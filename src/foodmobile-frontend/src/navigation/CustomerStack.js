@@ -21,7 +21,7 @@ import AppbarWrapper from '../components/appBar/appBarWrapper'
 //Load the main tab that shows at bottom
 import MainTab from './tab/mainTab'
 import CreateTruck from '../pages/createTruck'
-
+import AddItem from '../pages/addItem'
 export default function CustomerStack(props) {
 
     const {
@@ -32,7 +32,8 @@ export default function CustomerStack(props) {
         findFoodTruckCompany,
         createCompany,
         editCompanyMenu,
-        addTruck
+        addTruck,
+        addItem
     } = ScreenNames.stackPages
     const {
         mainTabs
@@ -113,6 +114,14 @@ export default function CustomerStack(props) {
                 component={CreateTruck} 
                 options ={{
                     title:addTruck.title
+                }}  
+            />
+
+            <Stack.Screen 
+                name={addItem.screenName}
+                component={AddItem} 
+                options ={{
+                    title:addItem.title
                 }}  
             />
 

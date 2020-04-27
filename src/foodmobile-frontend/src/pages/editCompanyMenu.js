@@ -2,29 +2,48 @@ import * as React from 'react';
 import { 
     Button,Subheading,
     Divider, Text,DataTable,Title  ,
-    Modal, Portal, Provider , Dialog,Paragraph ,Colors,TextInput 
+    Modal, Portal, Provider , Dialog,Paragraph ,Colors,TextInput,ActivityIndicator 
 } from 'react-native-paper';
 import PreferencesContext from '../context/context'
 import { StyleSheet } from "react-native";
 import { View,ScrollView } from 'react-native';
-
+import axios from 'axios'
 import menuData from '../components/data/menu'
+import ScreenNames from '../screenNames'
+
+const {
+       
+    addItem,
+   
+} = ScreenNames.stackPages
 
 export default class EditCompanyMenu extends React.Component {
-    componentDidMount() {
-        //console.log('Mount')
-        // this.setState({
-        //     menu:menuData
-        // })
+    state = {
+        isLoading:true,
+        truckMenu:[]
     }
 
-    state = {
-        menu:menuData,
-        visibleEdit:false,
-        visibleDelete:false,
-        deletingIndex:0,
-        editingIndex:0
+    async componentDidMount() {
+        const {guid} = this.context.userState.userData
+        let payloadGetTruckMenu = new URLSearchParams();
+        payloadGetTruckMenu.append("truckGuid", guid)
+        const resGetTruckMenu = await axios.post(
+            `${this.context.ip}${this.context.endpoints.menuForTruck}`, 
+            payloadGetTruckMenu
+        )
+
+        this.setState({
+            truckMenu:resGetTruckMenu?.data?.data
+        })
+        console.log(this.state.truckMenu)
+
+        this.setState({
+            isLoading:false,
+            guid:guid
+        })
     }
+
+   
     editItem(index) {
         alert(`Edit item number ${index}`)
     }
@@ -46,6 +65,38 @@ export default class EditCompanyMenu extends React.Component {
 
     render() {
         
+        return (
+
+            <React.Fragment>
+            {
+                (!this.state.isLoading)?
+                    <ShowCurrentMenu menu={this.state.truckMenu} guid={this.state.guid} {...this.props}/>
+                :
+                    <ActivityIndicator animating={true} color={Colors.green800} size={100} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}/>
+            }
+            </React.Fragment>
+           
+            
+        )
+    }
+}
+
+class ShowCurrentMenu extends React.Component{
+
+    state = {
+        menu:this.props.menu,
+        visibleEdit:false,
+        visibleDelete:false,
+        deletingIndex:0,
+        editingIndex:0,
+        isLoading:true
+    }
+
+    _addItem() {
+        //alert(this.props.guid)
+        this.props.navigation.navigate(addItem.screenName)
+    }
+    render() {
         return (
             <React.Fragment>
                 <Title style={{textAlign: 'center',}}>Currernt Menu</Title>
@@ -75,20 +126,38 @@ export default class EditCompanyMenu extends React.Component {
                                         numeric 
                                         onPress={()=> this._showDeleteDialog(index)} 
                                     >
-                                         <Text style={{color:'#ff0000'}}> Delete</Text>
+                                        <Text style={{color:'#ff0000'}}> Delete</Text>
                                     </DataTable.Cell>
                                 </DataTable.Row>
                             )
                         })
                     }
 
+                    <DataTable.Row key = "additemKey">
+                        <DataTable.Cell >+</DataTable.Cell>
+                        <DataTable.Cell numeric></DataTable.Cell>
+                        <DataTable.Cell numeric></DataTable.Cell>
+                        <DataTable.Cell 
+                            numeric 
+                            onPress={()=>this._addItem()}
+                        >
+                            <Text style={{color:Colors.green400}}>+ Add</Text>
+                        </DataTable.Cell>
+                        <DataTable.Cell 
+                            numeric 
+                           
+                        >
+                            <Text style={{color:'#ff0000'}}></Text>
+                        </DataTable.Cell>
+                    </DataTable.Row>
+
                     
                 </DataTable>     
-               
+            
                 <Divider  style = {{padding:1}}/>
 
                 <View>
-                  
+                
                     <Portal>
                         <Dialog
                             visible={this.state.visibleEdit}
@@ -132,7 +201,7 @@ export default class EditCompanyMenu extends React.Component {
                         </Paragraph>
                     </Dialog.Content>
                     <Dialog.Actions >
-                       
+                    
                         <View style={{flex: 1, flexDirection: 'row',justifyContent: 'space-between'}}>
                             <Button color = "#00aa00" onPress={this._hideDeleteDialog}>Cancel</Button>
                             <Button color = "#ff0000" onPress={this.deleteItem}>Yes</Button>
@@ -141,8 +210,10 @@ export default class EditCompanyMenu extends React.Component {
                     </Dialog>
                 </Portal>
                 
-            </React.Fragment>
-            
+            </React.Fragment>   
         )
     }
 }
+
+ShowCurrentMenu.contextType = PreferencesContext;
+EditCompanyMenu.contextType = PreferencesContext;

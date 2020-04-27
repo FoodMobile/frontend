@@ -103,6 +103,7 @@ const createCompanyPage = new stackScreenData('Create Company', 'Create Company'
 
 const editCompanyMenuPage = new stackScreenData('Edit Menu', 'Edit Menu');
 const addTruckPage = new stackScreenData('Add Truck', 'Add Truck');
+const addItemPage = new stackScreenData('Add/Edit Item', 'Add/Edit Item');
 
 const ScreenNames = {
     mainTabs: {
@@ -133,7 +134,8 @@ const ScreenNames = {
         findFoodTruckCompany:findFoodTruckCompanyPage,
         createCompany:createCompanyPage,
         editCompanyMenu:editCompanyMenuPage,
-        addTruck:addTruckPage
+        addTruck:addTruckPage,
+        addItem:addItemPage
     }
     
 };
