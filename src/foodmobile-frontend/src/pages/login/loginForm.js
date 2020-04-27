@@ -64,8 +64,8 @@ export default function LoginForm(props) {
           }
         },
         {
-          userName: null,
-          password: null,
+          userName: 'truck4',
+          password: 'truck4',
         }
     );
     
@@ -79,16 +79,16 @@ export default function LoginForm(props) {
           password:userNamePasswordValues.password
         })
 
-        //Handle valid or invalid login
-        if(signInRes.status === 200) {
-          //alert(signInRes.status)
-          //Do nothing, page will auto switch cause of state change
-        } 
-        else {
-          if(signInRes.status === 400) {
-            alert(signInRes.message)
-          } 
-        }
+        // //Handle valid or invalid login
+        // if(signInRes.status === 200) {
+        //   //alert(signInRes.status)
+        //   //Do nothing, page will auto switch cause of state change
+        // } 
+        // else {
+        //   if(signInRes.status === 400) {
+        //     alert(signInRes.message)
+        //   } 
+        // }
         
         //console.log(userState,'----------')
       }
@@ -133,6 +133,7 @@ export default function LoginForm(props) {
           <TextInput
             label='Password'
             value={userNamePasswordValues.password}
+            secureTextEntry={true}
             onChangeText={
               text => {
                   updateLoginValues({

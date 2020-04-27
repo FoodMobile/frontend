@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "foodmobile",
-    "description": "Foodtruck app that shows trucks that give food that you can then using your hands consume for energy.",
+    "description": "A foodtruck app that allows users to see nearby foodtrucks based on preferences and allows foodtruck drivers to manage orders and see hotspots.",
     "slug": "foodmobile",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -12,7 +12,7 @@
     ],
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/appicon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

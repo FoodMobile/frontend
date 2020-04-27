@@ -21,6 +21,9 @@ import CustomerStack from './CustomerStack'
 import SigninStack from './Login'
 import Loading from '../../assets/loading.png'
 import Splash from '../../assets/splash.png'
+import axios from 'axios'
+import {decode as atob, encode as btoa} from 'base-64'
+
 function determineStack(userState) {
     //console.log('determine',userState)
     //if we still loading, show nothing
@@ -28,6 +31,7 @@ function determineStack(userState) {
         return (
         
             <View style={{ flex: 1 }}>
+                {/* <Text>{JSON.stringify(userState)}</Text> */}
                 <Image
                     source={Loading}
                     resizeMode='contain'
@@ -47,13 +51,9 @@ function determineStack(userState) {
 
     //If there is a token
     if(userState?.token) {
-        
-        if(userState?.token?.value) {
-            return <CustomerStack/>
-        } else {
-            return <SigninStack/>
-        }
-        
+        return <CustomerStack/>  
+    } else {
+        return <SigninStack/>
     }
     
 }
@@ -63,38 +63,97 @@ export class  RootNavigation extends React.Component {
     
     async componentDidMount() {    
         const token = JSON.parse(await getData('token','{}'))
-        
+       
         // "simulates checking token"
-        const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
-        const data = await res.json()
+        // const res = await fetch('https://jsonplaceholder.typicode.com/todos/1')
+        // const data = await res.json()
 
-        console.log("'Checked' token",data)
+        // console.log("'Checked' token",data)
         
         //if valid token
-        if(data.title) {
-            this.context.updateUserState({ 
-                type: 'RESTORE_TOKEN', token: token 
-            })
-        } else {
+        try {
+            if(token) {
+                //console.log( this.context.userState.userData)
+                //console.log(JSON.parse(atob(token.split('.')[1])))
+                const atobResult = JSON.parse(atob(token.split('.')[1]))
+                const username = atobResult.username
+                //console.log('DECODED TOKEN = ',atobResult)
+                try {
+                    // let payloadUserInfo = new URLSearchParams();
+                    // payloadUserInfo.append("username",username)
+    
+                    // //console.log('SENDING USERNAME = ',username)
+                    // const resUserInfo = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payloadUserInfo)
+
+                    // let payloadGetLoggedInTruck = new URLSearchParams();
+                    // payloadGetLoggedInTruck.append("token",token)
+                    // const resLoggedInTruck = await axios.post(`${this.context.ip}${this.context.endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
+
+                    // // console.log('==========================',resUserInfo.data)
+                    // // console.log('--------------------------',resLoggedInTruck.data)
+                    // let userData = resUserInfo.data.data
+                    // userData.isDriver = resLoggedInTruck.data.success
+
+                    // await this.context.updateUserState({ 
+                    //     type: 'UPDATE_USERDATA', 
+                    //     userData: userData
+                    // });
+
+                    // //console.log('~~~~~~~~~~~~~~~~~~~~~~~~',userData)
+                    
+                    const savedUsername = await getData('username','')
+                    const savedPassword = await getData('password','')
+
+                    if(savedUsername === '' || savedPassword === '') {
+
+                    } else {
+                        console.log('---AUTO LOGGING IN ---')
+                        this.context.signIn({
+                            userName:savedUsername,
+                            password:savedPassword
+                        })
+                        await this.context.updateUserState({ 
+                            type: 'RESTORE_TOKEN', token: token 
+                        })
+                    }
+                    
+    
+                } catch(error) {
+                    console.log(error)
+                    this.context.updateUserState({ 
+                        type: 'RESTORE_TOKEN', token: {} 
+                    })
+                }
+                
+            } else {
+                //if not valid token
+                this.context.updateUserState({ 
+                    type: 'RESTORE_TOKEN', token: {} 
+                })
+            }
+        } catch (error) {
             //if not valid token
             this.context.updateUserState({ 
                 type: 'RESTORE_TOKEN', token: {} 
             })
         }
         
+        
       
     }
 
     render() {
-        this.userState = this.context.userState
+        //this.userState = this.context.userState
+        // console.log("RENDER USERSTATE = ",this.context.userState)
         return (
             <NavigationContainer theme={this.props.theme}>
                 {/* If no user token,that means user needs to log in */}
                 
                 {
-                    determineStack(this.userState)
+                    determineStack(this.context.userState)
                 }
             </NavigationContainer>
+          
         );
     }
 

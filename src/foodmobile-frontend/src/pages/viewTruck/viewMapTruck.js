@@ -1,123 +1,118 @@
 import React, {useState} from 'react';
 import { View,ScrollView,SafeAreaView,FlatList,Image,StyleSheet  } from 'react-native';
 import { useScreens } from 'react-native-screens';
-import { List, Checkbox, DataTable ,Avatar, Button, Card, Title, Paragraph,TextInput,Text, IconButton,Colors } from 'react-native-paper';
+import { ActivityIndicator, List, Checkbox, DataTable ,Avatar, Button, Card, Title, Paragraph,TextInput,Text, IconButton,Colors } from 'react-native-paper';
 import myFoodTrucks from '../../components/data/myFoodTrucks'
 import { render } from 'react-dom';
-
+import PreferencesContext from '../../context/context'
+import axios from 'axios'
+import TruckMenu from '../../components/TruckMenu'
 const LeftContent = props => <Avatar.Icon {...props} icon="folder" />
 
 export default class ViewMapTruck extends React.Component {
     state = {
-        favorited: false
+        favorited: false,
+        isLoading:true,
+        truckMenu:undefined
+    }
+
+    async componentDidMount() {
+        //console.log(this.props.route.params,'---')
+        const {
+            guid:truckGuid
+        } = this.props.route.params
+
+        let payloadGetTruckMenu = new URLSearchParams();
+        payloadGetTruckMenu.append("truckGuid", truckGuid)
+        const resGetTruckMenu = await axios.post(
+            `${this.context.ip}${this.context.endpoints.menuForTruck}`, 
+            payloadGetTruckMenu
+        )
+
+        this.setState({
+            truckMenu:resGetTruckMenu?.data?.data
+        })
+        console.log('MENU',resGetTruckMenu?.data.data[0])
+        console.log('STATE',this.context.userState.userData)
+
+        this.setState({
+            isLoading:false
+        })
     }
 
     render() {
-        const {truckId } = this.props.route.params;
+        const {guid } = this.props.route.params;
 
-        const myTruck = (myFoodTrucks.filter(truck => truck.id == truckId))[0]
+       
 
-        function handleFav(This) {
-            This.setState({
-                favorited: !This.state.favorited
-            })
-        }
-        //console.log(myTruck)
         return (
-         
-            <ScrollView>
-                {/* <Title style={{marginLeft:10,marginRight:10,marginTop:10}}>Truck</Title> */}
-                <List.Section title="About Food Truck">
-                <Card style={{marginLeft:10,marginRight:10,marginTop:10}}>
-                    {/* <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} /> */}
-                    <Card.Content>
-                        <Title>{myTruck.name}</Title>
-                        <Paragraph style={{color:'dodgerblue'}}>{myTruck.description}</Paragraph>
-                        <Paragraph style={{color:'green'}}>{myTruck.distance} miles away</Paragraph>
-                    </Card.Content>
-                    <Card.Cover source={{ uri: myTruck.icon }} />
-                    <Card.Content>
-                        <Title>More about {myTruck.name}</Title>
-                        <Paragraph >{myTruck.longDesc}</Paragraph>
-                    </Card.Content>
-                    <Card.Actions>
-
-                    
-                    <Button 
-                        icon={this.state.favorited? "heart":"heart-outline"}
-                        mode="text" 
-                        onPress={()=>handleFav(this)} 
-                        color = {Colors.yellow700}   
-                    >
-                        Favorited
-                    </Button>
-                    <Button icon="cart-minus" mode="text" onPress={() => console.log(this.state.favorited )} color = {Colors.blue700}>
-                    Order Now
-                    </Button>
-                        
-                    </Card.Actions>
-                </Card>
-                </List.Section>
-
-                {/* <List.Section title="Accordions"> */}
-                    {/* <List.Accordion
-                    title="Uncontrolled Accordion"
-                    // left={props => <List.Icon {...props} icon="folder" />}
-                    >
-                        <List.Item title="First item" />
-                        <List.Item title="Second item" />
-                    </List.Accordion> */}
-
-                {/* </List.Section> */}
-
-                {/* <Title style={{marginLeft:10,marginRight:10,marginTop:10}}>Menu</Title> */}
-                <List.Section title="Menu">
-                <DataTable>
-                    <DataTable.Header>
-                    <DataTable.Title>Item</DataTable.Title>
-                    <DataTable.Title numeric>Calories</DataTable.Title>
-                    <DataTable.Title numeric>Fat</DataTable.Title>
-                    <DataTable.Title numeric>Price</DataTable.Title>
-                    </DataTable.Header>
-
-                    {myTruck.menu.map((menuItem, index) => ( 
-                        <DataTable.Row key = {menuItem+" "+index}>
-                            <DataTable.Cell onPress={()=>alert('This is a food, insert desc of food here')}>{menuItem.name}</DataTable.Cell>
-                            <DataTable.Cell numeric>{menuItem.cal}</DataTable.Cell>
-                            <DataTable.Cell numeric>{menuItem.fat}</DataTable.Cell>
-                            <DataTable.Cell numeric >
-                                <Text style={{color:Colors.green800}}>${menuItem.price}</Text>
-                            </DataTable.Cell>
-                        </DataTable.Row>  
-                    ))}
-
-                    {/* <DataTable.Row>
-                    <DataTable.Cell>Frozen yogurt</DataTable.Cell>
-                    <DataTable.Cell numeric>159</DataTable.Cell>
-                    <DataTable.Cell numeric>6.0</DataTable.Cell>
-                    </DataTable.Row>
-
-                    <DataTable.Row>
-                    <DataTable.Cell>Ice cream sandwich</DataTable.Cell>
-                    <DataTable.Cell numeric>237</DataTable.Cell>
-                    <DataTable.Cell numeric>8.0</DataTable.Cell>
-                    </DataTable.Row> */}
-
-                    {/* <DataTable.Pagination
-                    page={1}
-                    numberOfPages={3}
-                    onPageChange={(page) => { console.log(page); }}
-                    label="1-2 of 6"
-                    /> */}
-                </DataTable>
-                </List.Section>
-                
-                
-            </ScrollView>
-            
-        )
+            <React.Fragment>
+            {
+                (!this.state.isLoading)?
+                    <React.Fragment>
+                        <ScrollView>
+                            <TruckMenu menu = {this.state.truckMenu} guid={guid}/>
+                        </ScrollView>
+                    </React.Fragment> 
+                :
+                    <ActivityIndicator animating={true} color={Colors.green800} size={100} style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}/>
+            }
+            </React.Fragment>
+             
+           
+        );
+        
     }
 }
+
+// class TruckMenu extends React.Component{
+
+
+//     render() {
+//         const {
+//             menu,
+//             guid
+//         } = this.props
+
+//         return(
+//             <React.Fragment>
+//                 {
+//                     menu.length==0?
+//                     <Text>Truck {guid} has no menu</Text>
+//                     :
+//                     <React.Fragment>
+//                         <List.Section title="Menu">
+//                             <DataTable>
+//                                 <DataTable.Header>
+//                                 <DataTable.Title>Item</DataTable.Title>
+//                                 <DataTable.Title numeric>Has nuts?</DataTable.Title>
+//                                 <DataTable.Title numeric>Is Glueten Free?</DataTable.Title>
+//                                 <DataTable.Title numeric>Is Vegan?</DataTable.Title>
+//                                 <DataTable.Title numeric>Price</DataTable.Title>
+//                                 </DataTable.Header>
+
+//                                 {menu.map((menuItem, index) => ( 
+//                                     <DataTable.Row key = {menuItem.title+" "+index}>
+//                                         <DataTable.Cell onPress={()=>alert(menuItem.description)}>{menuItem.title}</DataTable.Cell>
+//                                         <DataTable.Cell numeric>{menuItem.containsNuts? "yes":"no"}</DataTable.Cell>
+//                                         <DataTable.Cell numeric>{menuItem.gluetenFree? "yes":"no"}</DataTable.Cell>
+//                                         <DataTable.Cell numeric>{menuItem.vegan? "yes":"no"}</DataTable.Cell>
+//                                         <DataTable.Cell numeric >
+//                                             <Text style={{color:Colors.green800}}>${menuItem.primaryPrice}</Text>
+//                                         </DataTable.Cell>
+//                                     </DataTable.Row>  
+//                                 ))}
+
+                            
+//                             </DataTable>
+//                         </List.Section>
+//                     </React.Fragment>
+//                 }
+//             </React.Fragment>
+            
+//         )
+//     }
+// }
 
 const styles = StyleSheet.create({
     stretch: {
@@ -126,3 +121,4 @@ const styles = StyleSheet.create({
         resizeMode: 'contain'
     }
 });
+ViewMapTruck.contextType = PreferencesContext;

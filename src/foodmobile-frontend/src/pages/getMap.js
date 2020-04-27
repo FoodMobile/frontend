@@ -1,5 +1,6 @@
 import React from 'react';
 import MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
 import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import Constants from 'expo-constants';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -11,6 +12,18 @@ import myFoodTrucks from '../components/data/myFoodTrucks'
 import ViewMapTruck from './viewTruck/viewMapTruck'
 
 import ScreenNames from '../screenNames'
+
+import TruckMaker from '../components/truckMarker'
+
+import TruckListCard from '../components/truckListCard'
+
+const colorList = [
+  Colors.red400,
+  Colors.green400,
+  Colors.blue400,
+  Colors.yellow400,
+  Colors.purple400
+]
 
 export default class GetMapPage extends React.Component {
   render() {
@@ -44,47 +57,35 @@ export default class GetMapPage extends React.Component {
             longitudeDelta: 0.00421,
           }}
           provider="google"
-        />
+        >
+
+          {
+            this.props.trucks.map((value,index)=> {
+              return (
+                <React.Fragment key={value.x+'-'+value.y+'-'+index}>
+                  <TruckMaker 
+                    latitude={value.y} 
+                    longitude={value.x}
+                    color={colorList[index%colorList.length]}
+                    name="truck"
+                  />
+                </React.Fragment>
+              )
+            })
+          }
+         
+        </MapView>
+
+        {/* <MapView style={styles.mapStyle} /> */}
         
         {/* list of trucks displayed on the map */}
         <ScrollView style={styles.scrollViewContainer}>
-              {myFoodTrucks.map((item, index) => ( 
+            {this.props.trucks.map((item, index) => ( 
+              <React.Fragment key = {`${item.name}-${index}`}>
+               {/* <Text> {JSON.stringify(item)}</Text> */}
+                <TruckListCard item={item} styles={styles} index={index} {...this.props}/>
+              </React.Fragment>  
               
-                <Card style = {this.context.theme=='light'?styles.truckItemContainer: styles.truckItemContainerDark} key = {`${item.name}-${index}`}>
-                  <Card.Title 
-                    title={item.name}
-                    subtitle={item.description} 
-                    key = {item.name}
-                    icon = {item.icon}
-                    left={
-                      (props) => 
-                      <Avatar.Image 
-                        {...props} 
-                        size={41} 
-                        source={{ uri: item.icon }} 
-                      />}
-                  />
-                  <Card.Content>
-                    {/* <Title>Card title</Title> */}
-                    <Paragraph>{item.distance} miles away</Paragraph>
-                  </Card.Content>
-                  {/* <Card.Cover source={{ uri: 'https://picsum.photos/700' }} /> */}
-                  <Card.Actions>
-                    <IconButton
-                      icon={ index%2 ==0? "heart-outline": "heart"}
-                      color={Colors.yellow600}
-                      size={25}
-                      onPress={() => console.log('Pressed')}
-                    />
-                    <Button 
-                      onPress={()=> {
-                        showMapTruck(this.props.navigation,item.id,viewMapTruck)
-                      }}
-                    >
-                      View
-                    </Button>
-                  </Card.Actions>
-                </Card>
             ))}
         </ScrollView>
       </React.Fragment>
@@ -119,8 +120,8 @@ const styles = StyleSheet.create({
     // flexWrap: 'wrap',
     width: Dimensions.get('window').width,
     // backgroundColor: '#ffe373', //YELLOW
-    backgroundColor: '#b5acae',
-    marginBottom: 30,
+    //backgroundColor: '#b5acae',
+    //marginBottom: 30,
   },
 
   scrollViewContainer: {
@@ -128,23 +129,25 @@ const styles = StyleSheet.create({
     // flexWrap: 'wrap',
     width: Dimensions.get('window').width,
     // backgroundColor: '#ffe373', //YELLOW
-    backgroundColor: '#b5acae',
-    marginBottom: 10,
+    //backgroundColor: '#b5acae',
+    //marginBottom: 10,
   },
   truckItemContainer: {
     //padding: 10,
     marginBottom: 1,
-    backgroundColor: '#d9f9b1', // lime green
+    backgroundColor: '#b3ffcc', // lime green
     //flex: 1,
     flexDirection: 'row',
+    borderRadius:0
     //alignItems: 'center',
  },
  truckItemContainerDark: {
   //padding: 10,
   marginBottom: 1,
-  backgroundColor: '#927BAE', // lime green
+  //backgroundColor: '#927BAE', // lime green
   //flex: 1,
   flexDirection: 'row',
+  borderRadius:0
   //alignItems: 'center',
 },
   separator: {

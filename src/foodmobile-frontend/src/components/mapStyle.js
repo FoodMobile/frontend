@@ -80,7 +80,7 @@ export default MapStyle=[
       "elementType": "geometry",
       "stylers": [
         {
-          "color": "#181818"
+          "color": "181818" //181818
         }
       ]
     },
@@ -125,7 +125,7 @@ export default MapStyle=[
       "elementType": "geometry",
       "stylers": [
         {
-          "color": "#d4af37" //373737
+          "color": "#3c3244" //orig :373737 ours: d4af37, ffc65a, 3c3244
         }
       ]
     },
@@ -134,7 +134,7 @@ export default MapStyle=[
       "elementType": "geometry",
       "stylers": [
         {
-          "color": "#3c3c3c" //3c3c3c
+          "color": "#3c3c46" //3c3c3c
         }
       ]
     },
@@ -143,7 +143,7 @@ export default MapStyle=[
       "elementType": "geometry",
       "stylers": [
         {
-          "color": "#4e4e4e"//4e4e4e
+          "color": "#4e4e4e" //4e4e4e
         }
       ]
     },
@@ -170,7 +170,7 @@ export default MapStyle=[
       "elementType": "geometry",
       "stylers": [
         {
-          "color": "#1e90ff"
+          "color": "#4f9bff" //1e90ff, #1479ff, 4f9bff
         }
       ]
     },
@@ -179,7 +179,7 @@ export default MapStyle=[
       "elementType": "labels.text.fill",
       "stylers": [
         {
-          "color": "#3d3d3d"
+          "color": "#76b1ff" //3d3d3d
         }
       ]
     }

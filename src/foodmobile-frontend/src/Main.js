@@ -14,6 +14,8 @@ import { useColorScheme } from 'react-native-appearance';
 
 import {RootNavigation} from './navigation/RootNavigation'
 import PreferencesContext from './context/context'
+import axios from 'axios'
+import {decode as atob, encode as btoa} from 'base-64'
 // import { set } from 'react-native-reanimated';
 
 //This function provides the theme of the app
@@ -53,16 +55,18 @@ export default function Main(){
                     ...prevState,
                     isLoading:action.isLoading
                 };
+            case 'UPDATE_USERDATA':
+                return {
+                    ...prevState,
+                    userData:action.userData
+                };
           }
         },
         {
           isLoading: true,
           isSignout: false,
-          token:{
-              value:undefined,
-              expDate:undefined,
-              assingDate:undefined
-          }
+          token:'',
+          userData:{}
         }
     );
     
@@ -93,65 +97,86 @@ export default function Main(){
             endpoints,
             theme,
             signIn: async data => {
-                // In a production app, we need to send some data (usually
-                // username, password) to server and get a token We will also
-                // need to handle errors if sign in failed After getting token,
-                // we need to persist the token using `AsyncStorage` In the
-                // example, we'll use a dummy token
 
-                // "simulates logging in"
-                try {
-                    console.log(`${ip}${endpoints.login}`)
+                let payload = new URLSearchParams();
+                payload.append("username",data.userName)
+                payload.append("password",data.password)
+                const userName = data.userName
+
+                await storeData(data.userName,'username')
+                await storeData(data.password,'password')
+
+                axios.post(`${ip}${endpoints.login}`, payload)
+                .then(async function (result) {
+                    //console.log('TOKEN GOT')
+                    //Store the token
+                    await storeData(JSON.stringify(result.data.token),'token')
+
                     
-                    let payload = new FormData();
-                    payload.append("username",data.userName)
-                    payload.append("password",data.password)
+                    let payloadUserInfo = new URLSearchParams();
+                    payloadUserInfo.append("username",userName)
+    
+                    //console.log('SENDING USERNAME = ',username)
+                    const responseUserInfo = await axios.post(`${ip}${endpoints.userInfo}`, payloadUserInfo)
+                    let userData = responseUserInfo.data.data
+                   
 
-                    const res = await fetch(`${ip}${endpoints.login}`, {
-                        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: payload
+                    let payloadGetLoggedInTruck = new URLSearchParams();
+                    payloadGetLoggedInTruck.append("token",result.data.token)
+                    const resGetLoggedInTruck = await axios.post(`${ip}${endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
+
+                    // console.log('==========',payloadGetLoggedInTruck)
+                    // console.log('RES FOR GET LOGGED IN TRUCK = ',resGetLoggedInTruck.data);
+
+                    userData.isDriver = resGetLoggedInTruck?.data?.success;
+            
+                    if(userData .isDriver) {
+                        let payLoadGetTruckGuid = new URLSearchParams();
+                        payLoadGetTruckGuid.append("username",userName)
+                        const resGetTruckGuid = await axios.post(`${ip}${endpoints.getTruckGuid}`, payLoadGetTruckGuid)
+                        
+                        //console.log("------------------------",resGetTruckGuid.data)
+                        userData.truckGuid = resGetTruckGuid.data.data.guid
+                    
+                    }
+                    //console.log('USER DATA ===',userData)
+
+                    await updateUserState({ 
+                        type: 'UPDATE_USERDATA', 
+                        userData: userData
                     });
 
-                    //const res = await fetch(`${ip}${endpoints.login}`)///todos/1
-                    const resData = await res.json()
-                    console.log(resData)
+                     //Update state
+                     await updateUserState({ 
+                        type: 'SIGN_IN', 
+                        token: result.data.token
+                    });
 
-                    if(resData.title) {
-                        const token = {
-                            value:`${data.userName}-${data.password}-token`,
-                            expDate:Date.now(),
-                            assingDate:Date.now()
-                        }
+                    
+
+                    // const atobResult = atob(result.data.token.split('.')[1])
+                    // await storeData(atobResult,'userData')
+
+                    // await updateUserState({ 
+                    //     type: 'UPDATE_USERDATA', 
+                    //     userData: JSON.parse(atobResult)
+                    // });
+
+                    // let userData = JSON.parse(atobResult)
+                    // userData.isDriver = resGetLoggedInTruck.data.sucess
+
+                    // await updateUserState({ 
+                    //     type: 'UPDATE_USERDATA', 
+                    //     userData: userData
+                    // });
+
                         
-                        //Store the token
-                        await storeData(JSON.stringify(token),'token')
-        
-                        //Update state
-                        await updateUserState({ 
-                            type: 'SIGN_IN', 
-                            token: token
-                        });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    alert(error)
+                });
     
-                        return {
-                            status:200,
-                            message:'Logged in'
-                        }
-                    } else {
-                        throw `invalid login - ${resData.title}`
-                    }
-                }
-                catch(err) {
-                    //failed login
-                    return {
-                        status:400,
-                        message:err
-                    }
-                }
-                
-               
             },
             signOut: async () => {
                 //remove saved token

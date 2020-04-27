@@ -40,30 +40,31 @@ let FAVORITES = [
 export default function FavPage({ navigation }) {
     const {myFavorites} =  ScreenNames.stackPages
     return (
-      <PaperProvider theme={DefaultTheme}>
+      // <PaperProvider theme={DefaultTheme}>
         <ScrollView style={styles.container}>
           {FAVORITES.map((favorite, index) => (
-            <>
+            <React.Fragment key = {favorite.key}>
             <View>
-            <List.Item
-              title={favorite.key}
-              style={{
-                
-              }}
-              right={props => <IconButton
-                icon={ index%0 ==0? "heart-outline": "heart"}
-                color={Colors.yellow600}
-                size={25}
-                onPress={() => console.log('Pressed')}
-              />}
-            />
-            
-            <Divider/>
+              <List.Item
+                title={favorite.key}
+                style={{
+                  
+                }}
+                key = {favorite.key}
+                right={props => <IconButton
+                  icon={ index%0 ==0? "heart-outline": "heart"}
+                  color={Colors.yellow600}
+                  size={25}
+                  onPress={() => console.log('Pressed')}
+                />}
+              />
+              
+              <Divider/>
             </View>
-            </>
+            </React.Fragment>
           ))}
         </ScrollView>
-      </PaperProvider>
+      // </PaperProvider>
         // <Stack.Navigator 
         //     // screenOptions={AppbarWrapper()}
         //     initialRouteName= {myFavorites.screenName}
@@ -84,7 +85,7 @@ export default function FavPage({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     height: Dimensions.get('window').height,
-    backgroundColor: '#f2f2ff',
+    //backgroundColor: '#ecf0f1',
   },
 });
   
