@@ -15,6 +15,8 @@ import ScreenNames from '../screenNames'
 
 import TruckMaker from '../components/truckMarker'
 
+import TruckListCard from '../components/truckListCard'
+
 const colorList = [
   Colors.red400,
   Colors.green400,
@@ -78,50 +80,11 @@ export default class GetMapPage extends React.Component {
         
         {/* list of trucks displayed on the map */}
         <ScrollView style={styles.scrollViewContainer}>
-              {myFoodTrucks.map((item, index) => ( 
+              {this.props.trucks.map((item, index) => ( 
+                  <React.Fragment key = {`${item.name}-${index}`}>
+                    <TruckListCard item={item} styles={styles} index={index}/>
+                  </React.Fragment>  
               
-                <Card style = {this.context.theme=='light'?styles.truckItemContainer: styles.truckItemContainerDark} key = {`${item.name}-${index}`}>
-                  <Card.Title 
-                    title={item.name}
-                    subtitle={item.description} 
-                    key = {item.name}
-                    icon = {item.icon}
-                    left={
-                      (props) => 
-                      <Avatar.Image 
-                        {...props} 
-                        size={41} 
-                        source={{ uri: item.icon }} 
-                      />}
-                  />
-                  <Card.Content style={{flex:1, flexDirection:'row',justifyContent:'space-between'}}>
-                    {/* <Title>Card title</Title> */}
-                    <Paragraph >{item.distance} miles away</Paragraph>
-
-                    <View style={{flexDirection:'row',marginTop:-10}}>
-                      <IconButton
-                        icon={ index%2 ==0? "heart-outline": "heart"}
-                        color={Colors.red200} //Colors.yellow600
-                        size={25}
-                        onPress={() => console.log('Pressed')}
-                      />
-                      <Button 
-                        style={{marginTop:5}}
-                        color={Colors.blue400}
-                        onPress={()=> {
-                          showMapTruck(this.props.navigation,item.id,viewMapTruck)
-                        }}
-                      >
-                        View
-                      </Button>
-                    </View>
-                    
-                  </Card.Content>
-                  {/* <Card.Cover source={{ uri: 'https://picsum.photos/700' }} /> */}
-                  {/* <Card.Actions>
-                    
-                  </Card.Actions> */}
-                </Card>
             ))}
         </ScrollView>
       </React.Fragment>

@@ -24,6 +24,8 @@ const PreferencesContext = React.createContext({
     getLoggedInTruck: '/bus/getloggedintruck',
 
     createItem: '/menu/createitem',
+    menuForTruck: '/menu/itemsfortruck',
+    getTruckGuid: '/bus/gettruckforusername',
     truckLocation: '/trucklocation'
   },
   token:undefined

@@ -38,7 +38,7 @@ export default class MapPage extends Component {
   
       let location = await Location.getCurrentPositionAsync({});
       this.setState({ location });
-      this.setState({ isGetting:'done' });
+      
 
        //console.log('LOCATION = ',location.coords)
 
@@ -46,20 +46,48 @@ export default class MapPage extends Component {
       
       try {
 
-        console.log(location.coords)
+        //console.log(location.coords)
        
         //Add truck location
-        // let payloadAddTruck = new URLSearchParams();
-        // payloadAddTruck.append("lat",35.8501671)
-        // payloadAddTruck.append("lon",-78.8441269)
-        // payloadAddTruck.append("token", this.context.userState.token)
+        let payloadAddTruck = new URLSearchParams();
 
-        // console.log(payloadAddTruck)
-        // const responseAddTrucks = await axios.post(
-        //   `${this.context.ip}${this.context.endpoints.truckLocation}`, 
-        //   payloadAddTruck
-        // )
-        // console.log('======= ADD TRUCKS? ======',responseAddTrucks.data)    
+        //console.log(this.context.userState.userData.username)
+        switch (this.context.userState.userData.username) {
+          case "truck1":
+            payloadAddTruck.append("lat",35.8501671)
+            payloadAddTruck.append("lon",-78.8441269)
+            break;
+          case "truck2":
+            payloadAddTruck.append("lat",35.8561671)
+            payloadAddTruck.append("lon",-78.8551270)
+            break; 
+              
+          case "truck3":
+            payloadAddTruck.append("lat",35.8501671)
+            payloadAddTruck.append("lon",-78.8531270)
+            break;
+
+          case "truck4":
+            payloadAddTruck.append("lat",35.8561671)
+            payloadAddTruck.append("lon",-78.8419269)
+            break;
+
+          case "truck5":
+            payloadAddTruck.append("lat",35.8529971)
+            payloadAddTruck.append("lon",-78.8441269)
+            break;
+          default:
+            break;
+        }
+
+        payloadAddTruck.append("token", this.context.userState.token)
+
+        //console.log(payloadAddTruck)
+        const responseAddTrucks = await axios.post(
+          `${this.context.ip}${this.context.endpoints.truckLocation}`, 
+          payloadAddTruck
+        )
+        //console.log('======= ADD TRUCKS? ======',responseAddTrucks.data)    
         
         //Get nearby trucks
         let payloadGetNearby = new URLSearchParams();
@@ -70,11 +98,33 @@ export default class MapPage extends Component {
           payloadGetNearby
         )
           
-        console.log('RESPONSE(MAP) = ',resGetNearbyTrucks.data)
+
+        //console.log('RESPONSE(MAP) = ',resGetNearbyTrucks.data)
         this.setState({ nearbyTrucks:resGetNearbyTrucks.data });
-        
+
+        this.state.nearbyTrucks.map(async (value,index)=>{
+
+          let payloadGetTruckGUID = new URLSearchParams();
+          payloadGetTruckGUID.append("username",value.username)
+          
+          const resGetTruckGuid = await axios.post(
+            `${this.context.ip}${this.context.endpoints.getTruckGuid}`, 
+            payloadGetTruckGUID
+          )
+          
+          let currState = this.state.nearbyTrucks
+
+          currState[index].guid = resGetTruckGuid.data.guid
+          this.setState({ nearbyTrucks:currState });
+
+        })
+
+        console.log(this.state.nearbyTrucks)
+        this.setState({ isGetting:'done' });
+       
       } catch(err) {
         console.log('======= BIG ERROR ======',err)
+        this.setState({ isGetting:'done' });
       }
 
      
