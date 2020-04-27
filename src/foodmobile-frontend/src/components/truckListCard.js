@@ -14,7 +14,8 @@ async function getTruckMenu(url,guid,navigation) {
     //   payloadGetMenu
     // ))
     // console.log(resGetMenu.data)
-    navigation.navigate('View Map Truck',{guid:guid})
+    // navigation.navigate('View Map Truck',{guid:guid})
+    console.log(guid)
     // {truckId:truckId}
     // alert(guid)
 }
@@ -60,7 +61,10 @@ export default class TruckListCard extends React.Component {
                 style={{marginTop:5}}
                 color={Colors.blue400}
                 onPress={()=> {
-                    getTruckMenu(`${this.context.ip}${this.context.endpoints.menuForTruck}`,guid,this.props.navigation)
+                    getTruckMenu(
+                        `${this.context.ip}${this.context.endpoints.menuForTruck}`,
+                        guid,
+                        this)
                     //showMapTruck(this.props.navigation,item.id,viewMapTruck)
                 }}
                 >
