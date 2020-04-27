@@ -80,10 +80,11 @@ export default class GetMapPage extends React.Component {
         
         {/* list of trucks displayed on the map */}
         <ScrollView style={styles.scrollViewContainer}>
-              {this.props.trucks.map((item, index) => ( 
-                  <React.Fragment key = {`${item.name}-${index}`}>
-                    <TruckListCard item={item} styles={styles} index={index}/>
-                  </React.Fragment>  
+            {this.props.trucks.map((item, index) => ( 
+              <React.Fragment key = {`${item.name}-${index}`}>
+               {/* <Text> {JSON.stringify(item)}</Text> */}
+                <TruckListCard item={item} styles={styles} index={index}/>
+              </React.Fragment>  
               
             ))}
         </ScrollView>

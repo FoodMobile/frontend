@@ -102,24 +102,36 @@ export default class MapPage extends Component {
         //console.log('RESPONSE(MAP) = ',resGetNearbyTrucks.data)
         this.setState({ nearbyTrucks:resGetNearbyTrucks.data });
 
+        let promiseAllList = []
         this.state.nearbyTrucks.map(async (value,index)=>{
 
           let payloadGetTruckGUID = new URLSearchParams();
           payloadGetTruckGUID.append("username",value.username)
           
-          const resGetTruckGuid = await axios.post(
+          promiseAllList.push(axios.post(
             `${this.context.ip}${this.context.endpoints.getTruckGuid}`, 
             payloadGetTruckGUID
-          )
-          
-          let currState = this.state.nearbyTrucks
-
-          currState[index].guid = resGetTruckGuid.data.guid
-          this.setState({ nearbyTrucks:currState });
-
+          ))
         })
 
-        console.log(this.state.nearbyTrucks)
+        
+        let currentState = this.state.nearbyTrucks
+        await Promise.all(promiseAllList).then(function(values) {
+          values.forEach((element,index) => {
+            //console.log(element.data.data.guid)
+
+            currentState[index].guid = element.data.data.guid
+            
+            //console.log('=======-----------------',currentState)
+          });
+        });
+
+      
+
+        console.log('============================ MENU',resGetMenu.data)
+
+        this.setState({ nearbyTrucks:currentState });
+        //console.log('=================',currentState)
         this.setState({ isGetting:'done' });
        
       } catch(err) {

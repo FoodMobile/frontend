@@ -3,14 +3,32 @@ import { StyleSheet, View, Dimensions, Image } from 'react-native';
 import { Text,List,Checkbox,  Avatar, Button, Card, IconButton, Colors,Title, Paragraph  } from 'react-native-paper';
 //import {getThene} from '../context/styles'
 import PreferencesContext from '../context/context'
+import axios from 'axios'
+
+async function getTruckMenu(url,guid,navigation) {
+    // let payloadGetMenu = new URLSearchParams();
+    // payloadGetMenu.append("truckGuid",guid)
+    
+    // const resGetMenu = await (axios.post(
+    //   url, 
+    //   payloadGetMenu
+    // ))
+    // console.log(resGetMenu.data)
+    navigation.navigate('View Map Truck',{guid:guid})
+    // {truckId:truckId}
+    // alert(guid)
+}
+
 
 export default class TruckListCard extends React.Component {
   render() {
     const {
         styles,
         item,
-        index
+        index,
+        
     } = this.props
+    const {guid} = item
     return(
         
         <Card style = {this.context.theme=='light'?styles.truckItemContainer: styles.truckItemContainerDark} >
@@ -42,6 +60,7 @@ export default class TruckListCard extends React.Component {
                 style={{marginTop:5}}
                 color={Colors.blue400}
                 onPress={()=> {
+                    getTruckMenu(`${this.context.ip}${this.context.endpoints.menuForTruck}`,guid,this.props.navigation)
                     //showMapTruck(this.props.navigation,item.id,viewMapTruck)
                 }}
                 >
