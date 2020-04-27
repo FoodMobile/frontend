@@ -14,7 +14,7 @@ async function getTruckMenu(url,guid,navigation) {
     //   payloadGetMenu
     // ))
     // console.log(resGetMenu.data)
-    // navigation.navigate('View Map Truck',{guid:guid})
+    navigation.navigate('View Map Truck',{guid:guid})
     console.log(guid)
     // {truckId:truckId}
     // alert(guid)

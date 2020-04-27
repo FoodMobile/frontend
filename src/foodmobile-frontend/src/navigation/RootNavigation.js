@@ -79,31 +79,44 @@ export class  RootNavigation extends React.Component {
                 const username = atobResult.username
                 //console.log('DECODED TOKEN = ',atobResult)
                 try {
-                    let payloadUserInfo = new URLSearchParams();
-                    payloadUserInfo.append("username",username)
+                    // let payloadUserInfo = new URLSearchParams();
+                    // payloadUserInfo.append("username",username)
     
-                    //console.log('SENDING USERNAME = ',username)
-                    const resUserInfo = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payloadUserInfo)
+                    // //console.log('SENDING USERNAME = ',username)
+                    // const resUserInfo = await axios.post(`${this.context.ip}${this.context.endpoints.userInfo}`, payloadUserInfo)
 
-                    let payloadGetLoggedInTruck = new URLSearchParams();
-                    payloadGetLoggedInTruck.append("token",token)
-                    const resLoggedInTruck = await axios.post(`${this.context.ip}${this.context.endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
+                    // let payloadGetLoggedInTruck = new URLSearchParams();
+                    // payloadGetLoggedInTruck.append("token",token)
+                    // const resLoggedInTruck = await axios.post(`${this.context.ip}${this.context.endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
 
-                    // console.log('==========================',resUserInfo.data)
-                    // console.log('--------------------------',resLoggedInTruck.data)
-                    let userData = resUserInfo.data.data
-                    userData.isDriver = resLoggedInTruck.data.success
+                    // // console.log('==========================',resUserInfo.data)
+                    // // console.log('--------------------------',resLoggedInTruck.data)
+                    // let userData = resUserInfo.data.data
+                    // userData.isDriver = resLoggedInTruck.data.success
 
-                    await this.context.updateUserState({ 
-                        type: 'UPDATE_USERDATA', 
-                        userData: userData
-                    });
+                    // await this.context.updateUserState({ 
+                    //     type: 'UPDATE_USERDATA', 
+                    //     userData: userData
+                    // });
 
-                    //console.log('~~~~~~~~~~~~~~~~~~~~~~~~',userData)
-    
-                    await this.context.updateUserState({ 
-                        type: 'RESTORE_TOKEN', token: token 
-                    })
+                    // //console.log('~~~~~~~~~~~~~~~~~~~~~~~~',userData)
+                    
+                    const savedUsername = await getData('username','')
+                    const savedPassword = await getData('password','')
+
+                    if(savedUsername === '' || savedPassword === '') {
+
+                    } else {
+                        console.log('---AUTO LOGGING IN ---')
+                        this.context.signIn({
+                            userName:savedUsername,
+                            password:savedPassword
+                        })
+                        await this.context.updateUserState({ 
+                            type: 'RESTORE_TOKEN', token: token 
+                        })
+                    }
+                    
     
                 } catch(error) {
                     console.log(error)

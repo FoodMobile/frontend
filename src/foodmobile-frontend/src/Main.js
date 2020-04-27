@@ -103,6 +103,9 @@ export default function Main(){
                 payload.append("password",data.password)
                 const userName = data.userName
 
+                await storeData(data.userName,'username')
+                await storeData(data.password,'password')
+
                 axios.post(`${ip}${endpoints.login}`, payload)
                 .then(async function (result) {
                     //console.log('TOKEN GOT')
