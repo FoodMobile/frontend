@@ -11,17 +11,17 @@ import axios from 'axios'
 export default class AddItem extends React.Component {
     
     state ={
-        ingredientList:'Co2,Water,Nuts',
-        description:'Soda is a cool new liquid u drink',
-        title:'Soda',
+        ingredientList:'',
+        description:'',
+        title:'',
         glutenFree:false,
         noGmo:false,
         cookedNearNuts:false,
         cookedNearShellfish:false,
         containsShellfish:false,
         vegan:false,
-        primaryPrice:'10',
-        fractionalPrice:'20'
+        primaryPrice:'0',
+        fractionalPrice:'0'
     }
 
     async componentDidMount() {
@@ -86,6 +86,13 @@ export default class AddItem extends React.Component {
                     Please enter the below information to add/edit a new item.
                     {/* {JSON.stringify(this.state)} */}
                 </Subheading >
+                <Title style={{textDecorationLine: 'underline'}}>Name of food</Title>
+                <Text>Whats your item called</Text>
+                <TextInput
+                    label='Food item'
+                    value={this.state.title}
+                    onChangeText={text => this.setState({ title:text })}
+                />
 
                 <Title style={{textDecorationLine: 'underline'}}>List of ingredients:</Title>
                 <Text>comma separated, no space between commas,</Text>

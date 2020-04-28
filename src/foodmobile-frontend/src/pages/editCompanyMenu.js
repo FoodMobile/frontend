@@ -114,7 +114,7 @@ class ShowCurrentMenu extends React.Component{
     render() {
         return (
             <React.Fragment>
-                <Title style={{textAlign: 'center',}}>Currernt Menu</Title>
+                <Title style={{textAlign: 'center',}}>Current Menu</Title>
                 <TruckMenu 
                     menu = {this.state.menu} 
                     guid={this.state.guid} 

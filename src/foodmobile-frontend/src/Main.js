@@ -38,6 +38,11 @@ export default function Main(){
                     isLoading:false,
                     token: action.token
                 };
+            case 'SET_LOADING':
+                return {
+                    ...prevState,
+                    isLoading: action.isLoading,
+                };
             case 'SIGN_IN':
                 return {
                     ...prevState,
@@ -108,73 +113,69 @@ export default function Main(){
 
                 axios.post(`${ip}${endpoints.login}`, payload)
                 .then(async function (result) {
-                    //console.log('TOKEN GOT')
-                    //Store the token
-                    await storeData(JSON.stringify(result.data.token),'token')
 
-                    
-                    let payloadUserInfo = new URLSearchParams();
-                    payloadUserInfo.append("username",userName)
-    
-                    //console.log('SENDING USERNAME = ',username)
-                    const responseUserInfo = await axios.post(`${ip}${endpoints.userInfo}`, payloadUserInfo)
-                    let userData = responseUserInfo.data.data
-                   
+                    if(result.data.success) {
+                         //console.log('TOKEN GOT')
+                        //Store the token
+                        await storeData(JSON.stringify(result.data.token),'token')
 
-                    let payloadGetLoggedInTruck = new URLSearchParams();
-                    payloadGetLoggedInTruck.append("token",result.data.token)
-                    const resGetLoggedInTruck = await axios.post(`${ip}${endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
-
-                    // console.log('==========',payloadGetLoggedInTruck)
-                    // console.log('RES FOR GET LOGGED IN TRUCK = ',resGetLoggedInTruck.data);
-
-                    userData.isDriver = resGetLoggedInTruck?.data?.success;
-            
-                    if(userData .isDriver) {
-                        let payLoadGetTruckGuid = new URLSearchParams();
-                        payLoadGetTruckGuid.append("username",userName)
-                        const resGetTruckGuid = await axios.post(`${ip}${endpoints.getTruckGuid}`, payLoadGetTruckGuid)
                         
-                        //console.log("------------------------",resGetTruckGuid.data)
-                        userData.truckGuid = resGetTruckGuid.data.data.guid
+                        let payloadUserInfo = new URLSearchParams();
+                        payloadUserInfo.append("username",userName)
+        
+                        //console.log('SENDING USERNAME = ',username)
+                        const responseUserInfo = await axios.post(`${ip}${endpoints.userInfo}`, payloadUserInfo)
+                        let userData = responseUserInfo?.data?.data
                     
+
+                        let payloadGetLoggedInTruck = new URLSearchParams();
+                        payloadGetLoggedInTruck.append("token",result.data.token)
+                        const resGetLoggedInTruck = await axios.post(`${ip}${endpoints.getLoggedInTruck}`, payloadGetLoggedInTruck)
+
+                        // console.log('==========',payloadGetLoggedInTruck)
+                        // console.log('RES FOR GET LOGGED IN TRUCK = ',resGetLoggedInTruck.data);
+
+                        userData.isDriver = resGetLoggedInTruck?.data?.success;
+                
+                        if(userData .isDriver) {
+                            let payLoadGetTruckGuid = new URLSearchParams();
+                            payLoadGetTruckGuid.append("username",userName)
+                            const resGetTruckGuid = await axios.post(`${ip}${endpoints.getTruckGuid}`, payLoadGetTruckGuid)
+                            
+                            //console.log("------------------------",resGetTruckGuid.data)
+                            userData.truckGuid = resGetTruckGuid.data.data.guid
+                        
+                        }
+                        //console.log('USER DATA ===',userData)
+
+                        await updateUserState({ 
+                            type: 'UPDATE_USERDATA', 
+                            userData: userData
+                        });
+
+                        //Update state
+                        await updateUserState({ 
+                            type: 'SIGN_IN', 
+                            token: result.data.token
+                        });
+                    } else {
+                        alert(result.data.errorMessage)
+                        await updateUserState({ 
+                            type: 'SET_LOADING', 
+                            isLoading: false
+                        });
                     }
-                    //console.log('USER DATA ===',userData)
-
-                    await updateUserState({ 
-                        type: 'UPDATE_USERDATA', 
-                        userData: userData
-                    });
-
-                     //Update state
-                     await updateUserState({ 
-                        type: 'SIGN_IN', 
-                        token: result.data.token
-                    });
-
-                    
-
-                    // const atobResult = atob(result.data.token.split('.')[1])
-                    // await storeData(atobResult,'userData')
-
-                    // await updateUserState({ 
-                    //     type: 'UPDATE_USERDATA', 
-                    //     userData: JSON.parse(atobResult)
-                    // });
-
-                    // let userData = JSON.parse(atobResult)
-                    // userData.isDriver = resGetLoggedInTruck.data.sucess
-
-                    // await updateUserState({ 
-                    //     type: 'UPDATE_USERDATA', 
-                    //     userData: userData
-                    // });
+                   
 
                         
                 })
-                .catch(function (error) {
+                .catch(async function (error) {
                     console.log(error);
                     alert(error)
+                    await updateUserState({ 
+                        type: 'SET_LOADING', 
+                        isLoading: false
+                    });
                 });
     
             },

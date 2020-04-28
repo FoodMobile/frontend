@@ -15,16 +15,19 @@ export default class TruckMenu extends React.Component{
             <React.Fragment>
                 {
                     menu.length==0?
-                    <Text>Truck {guid} has no menu</Text>
+                    <React.Fragment>
+                        <Text>Truck {guid} has no menu</Text>
+                        <Button onPress={()=>this.props.addfnc()}>Add items</Button>
+                    </React.Fragment>
                     :
                     <React.Fragment>
-                        <List.Section title={`Menu for ${guid}`}>
+                        <List.Section title={`Menu`}>
                             <DataTable>
                                 <DataTable.Header>
                                 <DataTable.Title>Item</DataTable.Title>
-                                <DataTable.Title numeric>Has nuts?</DataTable.Title>
-                                <DataTable.Title numeric>Is Glueten Free?</DataTable.Title>
-                                <DataTable.Title numeric>Is Vegan?</DataTable.Title>
+                                <DataTable.Title numeric>Nuts</DataTable.Title>
+                                <DataTable.Title numeric>Gluten</DataTable.Title>
+                                <DataTable.Title numeric>Vegan</DataTable.Title>
                                 <DataTable.Title numeric>Price</DataTable.Title>
                                 </DataTable.Header>
 
