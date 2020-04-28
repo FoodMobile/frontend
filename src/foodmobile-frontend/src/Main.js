@@ -38,6 +38,11 @@ export default function Main(){
                     isLoading:false,
                     token: action.token
                 };
+            case 'SET_LOADING':
+                return {
+                    ...prevState,
+                    isLoading: action.isLoading,
+                };
             case 'SIGN_IN':
                 return {
                     ...prevState,
@@ -155,32 +160,22 @@ export default function Main(){
                         });
                     } else {
                         alert(result.data.errorMessage)
+                        await updateUserState({ 
+                            type: 'SET_LOADING', 
+                            isLoading: false
+                        });
                     }
                    
 
-                    
-
-                    // const atobResult = atob(result.data.token.split('.')[1])
-                    // await storeData(atobResult,'userData')
-
-                    // await updateUserState({ 
-                    //     type: 'UPDATE_USERDATA', 
-                    //     userData: JSON.parse(atobResult)
-                    // });
-
-                    // let userData = JSON.parse(atobResult)
-                    // userData.isDriver = resGetLoggedInTruck.data.sucess
-
-                    // await updateUserState({ 
-                    //     type: 'UPDATE_USERDATA', 
-                    //     userData: userData
-                    // });
-
                         
                 })
-                .catch(function (error) {
+                .catch(async function (error) {
                     console.log(error);
                     alert(error)
+                    await updateUserState({ 
+                        type: 'SET_LOADING', 
+                        isLoading: false
+                    });
                 });
     
             },
